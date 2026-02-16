@@ -1,0 +1,45 @@
+{
+  "aurora_system": {
+    "purpose": []
+  },
+  "particle_universe": {
+    "purpose": []
+  },
+  "asteroids_sim": {
+    "purpose": [
+      "purpose_score",
+      "purpose_blocks_left",
+      "purpose_i0..i3 (engine stats)"
+    ]
+  },
+  "breakout_field": {
+    "purpose": [
+      "purpose_score",
+      "purpose_blocks_left"
+    ]
+  },
+  "territory_control": {
+    "purpose": [
+      "purpose_f0..f3 (audio-derived as used in fixture)"
+    ]
+  },
+  "audio_arena": {
+    "purpose": [
+      "purpose_f0",
+      "purpose_f1"
+    ]
+  },
+  "spectrum_ecosystem": {
+    "purpose": [
+      "purpose_f0..f3 optional (audio routing)"
+    ]
+  },
+  "living_playground": {
+    "purpose": [
+      "purpose_f0",
+      "purpose_f1",
+      "purpose_f2",
+      "purpose_f3"
+    ]
+  }
+}

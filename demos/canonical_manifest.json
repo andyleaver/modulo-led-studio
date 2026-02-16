@@ -1,0 +1,66 @@
+[
+  {
+    "key": "aurora_system",
+    "name": "Aurora System",
+    "category": "Visual Systems",
+    "featured": true,
+    "fixture": "demo_aurora_system.json",
+    "description": "Smooth evolving aurora field. Visual-quality baseline."
+  },
+  {
+    "key": "particle_universe",
+    "name": "Particle Universe",
+    "category": "Physics Systems",
+    "featured": true,
+    "fixture": "demo_particle_universe.json",
+    "description": "Gravity-driven blobs/particles. Continuous physics-style motion."
+  },
+  {
+    "key": "asteroids_sim",
+    "name": "Asteroids Simulation",
+    "category": "Stateful Sims",
+    "featured": true,
+    "fixture": "demo_asteroids_simulation.json",
+    "description": "Autonomous asteroids + shots + collisions, with purpose stats."
+  },
+  {
+    "key": "breakout_field",
+    "name": "Breakout Field",
+    "category": "Stateful Sims",
+    "featured": false,
+    "fixture": "demo_breakout_field.json",
+    "description": "Autonomous breakout-like field: blocks, ball, health, score (audio optional)."
+  },
+  {
+    "key": "territory_control",
+    "name": "Territory Control",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_territory_control.json",
+    "description": "Left vs right stereo influences competing territory waves."
+  },
+  {
+    "key": "audio_arena",
+    "name": "Audio Arena",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_audio_arena.json",
+    "description": "Audio \u2192 purpose \u2192 mods: stereo energy drives dominance + particles."
+  },
+  {
+    "key": "spectrum_ecosystem",
+    "name": "Spectrum Ecosystem",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_spectrum_ecosystem.json",
+    "description": "14-band stereo particles: each band behaves like its own species."
+  },
+  {
+    "key": "living_playground",
+    "name": "Living System Playground",
+    "category": "Capstone",
+    "featured": false,
+    "fixture": "demo_living_system_playground.json",
+    "description": "Layered system: Aurora + Spectrum + Purpose bars. Full pipeline showcase."
+  }
+]

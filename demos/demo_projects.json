@@ -1,0 +1,511 @@
+[
+  {
+    "name": "Aurora System",
+    "description": "Smooth evolving aurora field. Visual-quality baseline.",
+    "category": "Visual Systems",
+    "featured": true,
+    "fixture": "demo_aurora_system.json",
+    "project": {
+      "name": "aurora_demo",
+      "layout": {
+        "shape": "strip",
+        "num_leds": 60,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "aurora",
+          "effect": "aurora",
+          "params": {
+            "color": [
+              80,
+              255,
+              200
+            ],
+            "brightness": 1.0,
+            "speed": 0.9,
+            "width": 0.55,
+            "softness": 0.7
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "debug_purpose_serial": false
+      }
+    }
+  },
+  {
+    "name": "Particle Universe",
+    "description": "Gravity-driven blobs/particles. Continuous physics-style motion.",
+    "category": "Physics Systems",
+    "featured": true,
+    "fixture": "demo_particle_universe.json",
+    "project": {
+      "name": "gravity_blobs_demo",
+      "layout": {
+        "shape": "strip",
+        "num_leds": 80,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "gravity_blobs",
+          "effect": "gravity_blobs",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.65,
+            "softness": 0.55,
+            "width": 0.35
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "debug_purpose_serial": false
+      }
+    }
+  },
+  {
+    "name": "Asteroids Simulation",
+    "description": "Autonomous asteroids + shots + collisions, with purpose stats.",
+    "category": "Stateful Sims",
+    "featured": true,
+    "fixture": "demo_asteroids_simulation.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Asteroids Lite",
+          "effect": "asteroids_lite_purpose",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "width": 0.22,
+            "softness": 0.35,
+            "density": 0.65,
+            "seed": 1337,
+            "opacity": 1.0
+          },
+          "mods": []
+        }
+      ],
+      "purpose_labels": {
+        "purpose_f0": "health",
+        "purpose_f1": "ammo",
+        "purpose_f2": "shield",
+        "purpose_i0": "score"
+      },
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.05,
+        "meter": "stereo14",
+        "autoconnect": false
+      }
+    }
+  },
+  {
+    "name": "Breakout Field",
+    "description": "Autonomous breakout-like field: blocks, ball, health, score (audio optional).",
+    "category": "Stateful Sims",
+    "featured": false,
+    "fixture": "demo_breakout_field.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Breakout Field",
+          "effect": "breakout_lite",
+          "params": {
+            "color": "#00ffff",
+            "color2": "#ff00ff",
+            "bg": "#202020",
+            "width": 0.18,
+            "speed": 1.0,
+            "density": 0.55,
+            "softness": 0.45,
+            "opacity": 1.0
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "kick",
+              "target": "speed",
+              "amount": 0.75,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "bass",
+              "target": "density",
+              "amount": 0.35,
+              "bias": 0.0,
+              "curve": "linear"
+            }
+          ]
+        }
+      ],
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.06,
+        "meter": "stereo14",
+        "autoconnect": false
+      },
+      "purpose_labels": {
+        "purpose_score": "score",
+        "purpose_blocks_left": "blocks_left"
+      }
+    }
+  },
+  {
+    "name": "Territory Control",
+    "description": "Left vs right stereo influences competing territory waves.",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_territory_control.json",
+    "project": {
+      "schema_version": 13,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 300,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Spectral DNA (14)",
+          "effect": "spectral_dna_helix_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "softness": 0.35,
+            "density": 0.55,
+            "width": 0.35,
+            "opacity": 1.0
+          },
+          "mods": []
+        },
+        {
+          "enabled": true,
+          "name": "Dual Vortex (Stereo)",
+          "effect": "stereo_dual_vortex",
+          "params": {
+            "brightness": 0.95,
+            "speed": 1.0,
+            "softness": 0.4,
+            "density": 0.6,
+            "width": 0.3,
+            "opacity": 0.85
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "active_layer": 0,
+      "export_audio": {
+        "use_spectrum_shield": true,
+        "reset_pin": 5,
+        "strobe_pin": 4,
+        "left_pin": "A0",
+        "right_pin": "A1"
+      },
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.05,
+        "meter": "stereo14",
+        "autoconnect": false
+      }
+    }
+  },
+  {
+    "name": "Audio Arena",
+    "description": "Audio \u2192 purpose \u2192 mods: stereo energy drives dominance + particles.",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_audio_arena.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "audio_routes": [
+        {
+          "source": "energy_l",
+          "target": "purpose_f0",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "energy_r",
+          "target": "purpose_f1",
+          "scale": 1.0,
+          "mode": "add"
+        }
+      ],
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Stereo Particles",
+          "effect": "frequency_particles_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.75,
+            "softness": 0.35,
+            "opacity": 1.0
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "purpose_f0",
+              "target": "speed",
+              "amount": 0.6,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "purpose_f1",
+              "target": "density",
+              "amount": 0.4,
+              "bias": 0.0,
+              "curve": "linear"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "name": "Dominance Meter",
+          "effect": "purpose_meter",
+          "params": {
+            "opacity": 0.75,
+            "brightness": 1.0,
+            "bg": "#000000",
+            "color": "#00ff00",
+            "color2": "#ff0000"
+          },
+          "mods": []
+        }
+      ],
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.06,
+        "meter": "stereo14",
+        "autoconnect": false
+      },
+      "purpose_labels": {
+        "purpose_f0": "energy_L",
+        "purpose_f1": "energy_R"
+      }
+    }
+  },
+  {
+    "name": "Spectrum Ecosystem",
+    "description": "14-band stereo particles: each band behaves like its own species.",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_spectrum_ecosystem.json",
+    "project": {
+      "name": "frequency_particles_14_demo",
+      "layout": {
+        "shape": "strip",
+        "num_leds": 180,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "frequency_particles_14",
+          "effect": "frequency_particles_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.55,
+            "softness": 0.45,
+            "width": 0.35
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "debug_purpose_serial": false
+      }
+    }
+  },
+  {
+    "name": "Living System Playground",
+    "description": "Layered system: Aurora + Spectrum + Purpose bars. Full pipeline showcase.",
+    "category": "Capstone",
+    "featured": false,
+    "fixture": "demo_living_system_playground.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "audio_routes": [
+        {
+          "source": "bass",
+          "target": "purpose_f0",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "mid",
+          "target": "purpose_f1",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "high",
+          "target": "purpose_f2",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "kick",
+          "target": "purpose_f3",
+          "scale": 1.0,
+          "mode": "add"
+        }
+      ],
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Aurora Base",
+          "effect": "aurora",
+          "params": {
+            "brightness": 0.9,
+            "speed": 0.7,
+            "width": 0.35,
+            "softness": 0.4,
+            "density": 0.6,
+            "opacity": 0.85
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "purpose_f0",
+              "target": "width",
+              "amount": 0.35,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "purpose_f1",
+              "target": "speed",
+              "amount": 0.7,
+              "bias": 0.0,
+              "curve": "linear"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "name": "Spectrum Particles",
+          "effect": "frequency_particles_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.7,
+            "softness": 0.35,
+            "opacity": 0.9
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "purpose_f2",
+              "target": "density",
+              "amount": 0.6,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "purpose_f3",
+              "target": "brightness",
+              "amount": 0.35,
+              "bias": 0.1,
+              "curve": "linear"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "name": "Purpose Bars",
+          "effect": "purpose_bar",
+          "params": {
+            "opacity": 0.85,
+            "brightness": 1.0,
+            "bg": "#000000",
+            "color": "#00ffff",
+            "color2": "#ff00ff"
+          },
+          "mods": []
+        }
+      ],
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.06,
+        "meter": "stereo14",
+        "autoconnect": false
+      },
+      "purpose_labels": {
+        "purpose_f0": "bass",
+        "purpose_f1": "mid",
+        "purpose_f2": "high",
+        "purpose_f3": "kick"
+      }
+    }
+  }
+]

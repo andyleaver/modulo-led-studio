@@ -1,0 +1,32 @@
+{
+  "arch": "arm",
+  "capabilities": {
+    "audio_backends": [
+      "none"
+    ],
+    "defaults": {
+      "audio_backend": "none",
+      "led_backend": "fastled"
+    },
+    "led_backends": [
+      "fastled"
+    ],
+    "supports_matrix": false,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": false,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": true
+  },
+  "default_fps": 60,
+  "description": "Placeholder target pack. Parity/capability gating works; emitting is intentionally blocked until backend is added.",
+  "emitter_module": "export.targets.teensy41_fastled.emitter",
+  "flash_limit_bytes": 8388608,
+  "id": "teensy41_fastled",
+  "max_leds_recommended": 8000,
+  "name": "Teensy 4.1 (FastLED) [placeholder]",
+  "placeholder": true,
+  "ram_limit_bytes": 1048576,
+  "toolchain": "platformio"
+}

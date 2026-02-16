@@ -1,0 +1,118 @@
+{
+  "arch": "esp32",
+  "audio_backends": [
+    "MSGEQ7",
+    "none"
+  ],
+  "capabilities": {
+    "allowed_data_pins": [
+      "5",
+      "18",
+      "19",
+      "21",
+      "22",
+      "23"
+    ],
+    "allowed_msgeq7_left_pins": [
+      "36",
+      "39",
+      "34",
+      "35"
+    ],
+    "allowed_msgeq7_reset_pins": [
+      "16",
+      "17",
+      "4",
+      "2"
+    ],
+    "allowed_msgeq7_right_pins": [
+      "39",
+      "36",
+      "35",
+      "34"
+    ],
+    "allowed_msgeq7_strobe_pins": [
+      "17",
+      "16",
+      "27",
+      "26"
+    ],
+    "audio_backends": [
+      "msgeq7"
+    ],
+    "defaults": {
+      "audio_backend": "msgeq7",
+      "data_pin": "5",
+      "led_backend": "fastled",
+      "msgeq7_left_pin": "36",
+      "msgeq7_reset_pin": "16",
+      "msgeq7_right_pin": "39",
+      "msgeq7_strobe_pin": "17"
+    },
+    "led_backends": [
+      "fastled"
+    ],
+    "supports_matrix": false,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": true,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": true
+  },
+  "color_orders": [
+    "GRB",
+    "RGB",
+    "BRG"
+  ],
+  "default_audio_backend": "MSGEQ7",
+  "default_brightness": "255",
+  "default_color_order": "GRB",
+  "default_data_pin": "5",
+  "default_fps": 60,
+  "default_led_backend": "FastLED",
+  "default_led_type": "WS2812B",
+  "default_msgeq7_left_pin": "34",
+  "default_msgeq7_reset_pin": "5",
+  "default_msgeq7_right_pin": "35",
+  "default_msgeq7_strobe_pin": "4",
+  "defaults": {
+    "data_pin": "5",
+    "msgeq7_left_pin": "36",
+    "msgeq7_reset_pin": "16",
+    "msgeq7_right_pin": "39",
+    "msgeq7_strobe_pin": "17"
+  },
+  "description": "Experimental scaffold target. Reuses current generator; validate pins/libraries.",
+  "emitter_module": "export.targets.esp32_fastled_msgeq7.emitter",
+  "id": "esp32_fastled_msgeq7",
+  "led_backends": [
+    "FastLED",
+    "NeoPixelBus"
+  ],
+  "led_types": [
+    "WS2812B",
+    "SK6812",
+    "APA102"
+  ],
+  "max_leds_recommended": 1500,
+  "meta": {
+    "default_brightness": 255,
+    "default_color_order": "GRB",
+    "default_data_pin": "5",
+    "default_led_type": "WS2812B",
+    "default_msgeq7_left_pin": "34",
+    "default_msgeq7_reset_pin": "25",
+    "default_msgeq7_right_pin": "35",
+    "default_msgeq7_strobe_pin": "26"
+  },
+  "name": "ESP32 (FastLED + MSGEQ7) [Scaffold]",
+  "note": "Scaffold: export parity is best-effort; large layer stacks/postfx may need tuning.",
+  "platformio": {
+    "board": "esp32dev",
+    "framework": "arduino",
+    "platform": "espressif32"
+  },
+  "ram_limit_bytes": 320000,
+  "toolchain": "arduino"
+}

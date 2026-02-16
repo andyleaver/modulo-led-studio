@@ -1,0 +1,46 @@
+{
+  "capabilities": {
+    "audio_backends": [
+      "msgeq7"
+    ],
+    "defaults": {
+      "audio_backend": "msgeq7",
+      "data_pin": "5",
+      "led_backend": "neopixelbus",
+      "msgeq7_left_pin": "34",
+      "msgeq7_reset_pin": "5",
+      "msgeq7_right_pin": "35",
+      "msgeq7_strobe_pin": "4"
+    },
+    "led_backends": [
+      "neopixelbus"
+    ],
+    "supports_matrix": false,
+    "supports_modulation_export": false,
+    "supports_modulation_runtime": false,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": true
+  },
+  "defaults": {
+    "data_pin": "5",
+    "msgeq7_left_pin": "34",
+    "msgeq7_reset_pin": "5",
+    "msgeq7_right_pin": "35",
+    "msgeq7_strobe_pin": "4"
+  },
+  "emitter_module": "export.targets.esp32_neopixelbus_msgeq7.emitter",
+  "id": "esp32_neopixelbus_msgeq7",
+  "name": "ESP32 (FastLED + MSGEQ7) [MVP]",
+  "placeholder": false,
+  "platformio": {
+    "board": "esp32dev",
+    "framework": "arduino",
+    "lib_deps": [
+      "fastled/FastLED@^3.6.0",
+      "makuna/NeoPixelBus@^2.7.0"
+    ],
+    "platform": "espressif32"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": 6,
+  "name": "Stress Test Project",
+  "layout": {
+    "shape": "cells",
+    "type": "strip",
+    "count": 60,
+    "num_leds": 60,
+    "led_pin": 6,
+    "matrix_w": 24,
+    "matrix_h": 24,
+    "serpentine": false,
+    "flip_x": false,
+    "flip_y": false,
+    "rotate": 0,
+    "matrix_serpentine": false,
+    "matrix_flip_x": false,
+    "matrix_flip_y": false,
+    "matrix_rotate": 0
+  },
+  "ui": {
+    "target_mask": null,
+    "showcase_id": "brain_life_ant",
+    "showcase_title": "Brain + Life + Ant",
+    "showcase_export_blocked": true,
+    "showcase_export_preview_only_count": 0,
+    "showcase_export_blocked_reasons": [
+      "Layer 1: brians_brain \u2014 Export not yet supported for Brian's Brain (preview only for now).",
+      "Layer 2: game_of_life \u2014 Export not yet supported for Game of Life (preview only for now).",
+      "Layer 3: langtons_ant \u2014 Export not yet supported for Langton's Ant (preview only for now)."
+    ],
+    "selected_layer": 0
+  },
+  "zones": {},
+  "groups": {},
+  "masks": {},
+  "signals": {},
+  "variables": {
+    "number": {},
+    "toggle": {}
+  },
+  "rules_v6": [],
+  "layers": [
+    {
+      "enabled": true,
+      "uid": "2fe6fcd3-bf23-459c-a6ce-01e6595b3426",
+      "__uid": "2fe6fcd3-bf23-459c-a6ce-01e6595b3426",
+      "name": "Brain",
+      "behavior": "brians_brain",
+      "opacity": 0.25,
+      "blend_mode": "over",
+      "target_kind": "all",
+      "target_ref": 0,
+      "params": {},
+      "modulotors": [],
+      "operators": [
+        {
+          "type": "brians_brain",
+          "params": {},
+          "enabled": true
+        }
+      ],
+      "id": "4ce06fa9049c45209183bf20d32de5c0",
+      "debug_color": [
+        230,
+        57,
+        70
+      ]
+    },
+    {
+      "enabled": true,
+      "uid": "2aa43f0e-c28c-4c6e-a006-ca0bcaa9d24a",
+      "__uid": "2aa43f0e-c28c-4c6e-a006-ca0bcaa9d24a",
+      "name": "Life",
+      "behavior": "game_of_life",
+      "opacity": 0.35,
+      "blend_mode": "over",
+      "target_kind": "all",
+      "target_ref": 0,
+      "params": {
+        "color": [
+          0,
+          255,
+          0
+        ]
+      },
+      "modulotors": [],
+      "operators": [
+        {
+          "type": "game_of_life",
+          "params": {},
+          "enabled": true
+        }
+      ],
+      "id": "550225502f2b486d9594044df8820413",
+      "debug_color": [
+        241,
+        250,
+        238
+      ]
+    },
+    {
+      "enabled": true,
+      "uid": "a6299710-b63e-4053-b131-6188cc7dec93",
+      "__uid": "a6299710-b63e-4053-b131-6188cc7dec93",
+      "name": "Ant",
+      "behavior": "langtons_ant",
+      "opacity": 1.0,
+      "blend_mode": "add",
+      "target_kind": "all",
+      "target_ref": 0,
+      "params": {
+        "color": [
+          255,
+          60,
+          0
+        ]
+      },
+      "modulotors": [],
+      "operators": [
+        {
+          "type": "langtons_ant",
+          "params": {},
+          "enabled": true
+        }
+      ],
+      "id": "d633df5a713047269ee7b0cbd9c75898",
+      "debug_color": [
+        29,
+        53,
+        87
+      ]
+    }
+  ],
+  "operators": []
+}

@@ -1,0 +1,67 @@
+{
+  "arch": "esp8266",
+  "audio_backends": [
+    "none"
+  ],
+  "capabilities": {
+    "audio_backends": [
+      "none"
+    ],
+    "defaults": {
+      "audio_backend": "none",
+      "led_backend": "fastled"
+    },
+    "led_backends": [
+      "fastled"
+    ],
+    "supports_matrix": false,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": false,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": true
+  },
+  "color_orders": [
+    "GRB",
+    "RGB",
+    "BRG"
+  ],
+  "default_audio_backend": "none",
+  "default_brightness": "255",
+  "default_color_order": "GRB",
+  "default_data_pin": "2",
+  "default_fps": 60,
+  "default_led_backend": "FastLED",
+  "default_led_type": "WS2812B",
+  "default_msgeq7_left_pin": "A0",
+  "default_msgeq7_reset_pin": "5",
+  "default_msgeq7_right_pin": "A1",
+  "default_msgeq7_strobe_pin": "4",
+  "description": "ESP8266 scaffold target. Audio sources exported as 0.",
+  "emitter_module": "export.targets.esp8266_fastled_noneaudio.emitter",
+  "id": "esp8266_fastled_noneaudio",
+  "led_backends": [
+    "FastLED"
+  ],
+  "led_types": [
+    "WS2812B",
+    "SK6812",
+    "APA102"
+  ],
+  "max_leds_recommended": 600,
+  "meta": {
+    "default_brightness": 255,
+    "default_color_order": "GRB",
+    "default_data_pin": "D4",
+    "default_led_type": "WS2812B"
+  },
+  "name": "ESP8266 (FastLED, no audio) [Scaffold]",
+  "platformio": {
+    "board": "nodemcuv2",
+    "framework": "arduino",
+    "platform": "espressif8266"
+  },
+  "ram_limit_bytes": 80000,
+  "toolchain": "arduino"
+}

@@ -1,0 +1,69 @@
+{
+  "arch": "avr",
+  "audio_backends": [
+    "MSGEQ7",
+    "none"
+  ],
+  "capabilities": {
+    "audio_backends": [
+      "none"
+    ],
+    "defaults": {
+      "audio_backend": "none",
+      "led_backend": "fastled"
+    },
+    "led_backends": [
+      "fastled"
+    ],
+    "supports_matrix": false,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": false,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": true
+  },
+  "color_orders": [
+    "GRB",
+    "RGB",
+    "BRG"
+  ],
+  "default_brightness": "255",
+  "default_color_order": "GRB",
+  "default_data_pin": "6",
+  "default_fps": 60,
+  "default_led_type": "WS2812B",
+  "default_msgeq7_left_pin": "A0",
+  "default_msgeq7_reset_pin": "5",
+  "default_msgeq7_right_pin": "A1",
+  "default_msgeq7_strobe_pin": "4",
+  "description": "AVR profile limited to FastLED backend only.",
+  "emitter_module": "export.targets.arduino_avr_fastled_only.emitter",
+  "id": "arduino_avr_fastled_only",
+  "led_backends": [
+    "FastLED"
+  ],
+  "led_types": [
+    "WS2812B",
+    "SK6812",
+    "APA102"
+  ],
+  "max_leds_hard": 3000,
+  "max_leds_recommended": 1500,
+  "meta": {
+    "default_brightness": 255,
+    "default_color_order": "GRB",
+    "default_data_pin": "6",
+    "default_led_type": "WS2812B",
+    "default_msgeq7_left_pin": "A0",
+    "default_msgeq7_reset_pin": "5",
+    "default_msgeq7_right_pin": "A1",
+    "default_msgeq7_strobe_pin": "4"
+  },
+  "name": "Arduino AVR FastLED-only",
+  "ram_limit_bytes": 8192,
+  "supports_platformio": false,
+  "supports_streaming": false,
+  "supports_wifi": false,
+  "toolchain": "arduino"
+}
