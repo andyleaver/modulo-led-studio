@@ -1,0 +1,41 @@
+{
+  "arch": "esp32",
+  "audio_backends": [
+    "none"
+  ],
+  "capabilities": {
+    "supports_matrix": true,
+    "supports_strip": false,
+    "defaults": {
+      "hub75_panel_res_x": "64",
+      "hub75_panel_res_y": "32",
+      "hub75_chain": "1",
+      "hub75_num_rows": "1",
+      "hub75_num_cols": "1",
+      "hub75_brightness": "96",
+      "hub75_use_gamma": "0",
+      "hub75_gamma": "2.2f",
+      "hub75_color_order": "0",
+      "hub75_debug_mode": "0",
+      "hub75_double_buffer": "1",
+      "hub75_pinset": "0",
+      "matrix_rotate": "0",
+      "matrix_flip_x": "0",
+      "matrix_flip_y": "0",
+      "hub75_virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+      "wifi_enable": "0",
+      "wifi_ssid": "",
+      "wifi_password": "",
+      "wifi_hostname": "modulo-hub75"
+    }
+  },
+  "id": "esp32_hub75_i2sdma_grid_noneaudio",
+  "name": "ESP32 HUB75 Matrix Grid (I2S-DMA) [Experimental]",
+  "emitter_module": "export.targets.esp32_hub75_i2sdma_grid_noneaudio.emitter",
+  "description": "ESP32 HUB75 (I2S-DMA) multi-panel grid using VirtualMatrixPanel (cols x rows). No-audio.",
+  "led_backends": [
+    "HUB75"
+  ],
+  "experimental_stable": true,
+  "hub75_backend_version": "v0.1"
+}

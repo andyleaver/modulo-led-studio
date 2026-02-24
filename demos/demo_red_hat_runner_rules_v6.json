@@ -1,0 +1,109 @@
+{
+  "name": "red_hat_runner_rules_v6",
+  "layout": {
+    "shape": "matrix",
+    "mw": 64,
+    "mh": 32,
+    "width": 64,
+    "height": 32,
+    "num_leds": 2048,
+    "led_pin": 6,
+    "serpentine": false,
+    "matrix_serpentine": false,
+    "flip_x": false,
+    "matrix_flip_x": false,
+    "flip_y": false,
+    "matrix_flip_y": false,
+    "rotate": 0,
+    "matrix_rotate": 0
+  },
+  "layers": [
+    {
+      "enabled": true,
+      "name": "Red Hat Runner",
+      "effect": "red_hat_runner",
+      "params": {
+        "speed": 1.0,
+        "brightness": 1.0,
+        "jump_now": 0.0,
+        "gravity": 140.0,
+        "jump_v": -70.0
+      },
+      "mods": []
+    }
+  ],
+  "groups": [],
+  "zones": [],
+  "postfx": [],
+  "export": {
+    "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+    "led_backend": "hub75",
+    "audio_backend": "none",
+    "hw": {
+      "matrix": {
+        "width": 64,
+        "height": 32,
+        "rotate": 0,
+        "flip_x": 0,
+        "flip_y": 0
+      }
+    },
+    "hub75": {
+      "panel_res_x": 64,
+      "panel_res_y": 32,
+      "num_cols": 1,
+      "num_rows": 1,
+      "chain": 1,
+      "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+      "brightness": 96,
+      "use_gamma": 0,
+      "gamma": "2.2f",
+      "color_order": 0,
+      "debug_mode": 0
+    }
+  },
+  "ui": {
+    "export_hub75_mapping_preset": "Default (no rotate/flip)",
+    "active_layer": 0
+  },
+  "rules_v6": [
+    {
+      "id": "rh_clear",
+      "enabled": true,
+      "name": "00_clear_jump_now",
+      "trigger": "tick",
+      "when": {
+        "signal": "audio.energy"
+      },
+      "action": {
+        "kind": "set_layer_param",
+        "layer": 0,
+        "param": "jump_now",
+        "expr": {
+          "src": "const",
+          "const": 0.0
+        },
+        "conflict": "last"
+      }
+    },
+    {
+      "id": "rh_min",
+      "enabled": true,
+      "name": "10_minute_jump",
+      "trigger": "rising",
+      "when": {
+        "signal": "vars.number.clock.minute_changed"
+      },
+      "action": {
+        "kind": "set_layer_param",
+        "layer": 0,
+        "param": "jump_now",
+        "expr": {
+          "src": "const",
+          "const": 1.0
+        },
+        "conflict": "last"
+      }
+    }
+  ]
+}

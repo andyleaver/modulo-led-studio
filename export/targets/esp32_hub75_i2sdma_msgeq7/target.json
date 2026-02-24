@@ -1,0 +1,78 @@
+{
+  "arch": "esp32",
+  "audio_backends": [
+    "msgeq7",
+    "none"
+  ],
+  "capabilities": {
+    "allowed_msgeq7_left_pins": [
+      "36",
+      "39",
+      "34",
+      "35"
+    ],
+    "allowed_msgeq7_reset_pins": [
+      "16",
+      "17",
+      "4",
+      "2"
+    ],
+    "allowed_msgeq7_right_pins": [
+      "39",
+      "36",
+      "35",
+      "34"
+    ],
+    "allowed_msgeq7_strobe_pins": [
+      "17",
+      "16",
+      "27",
+      "26"
+    ],
+    "audio_backends": [
+      "msgeq7",
+      "none"
+    ],
+    "defaults": {
+      "hub75_brightness": "96",
+      "hub75_chain": "1",
+      "hub75_color_order": "0",
+      "hub75_debug_mode": "0",
+      "hub75_double_buffer": "1",
+      "hub75_gamma": "2.2f",
+      "hub75_num_cols": "1",
+      "hub75_num_rows": "1",
+      "hub75_panel_res_x": "64",
+      "hub75_panel_res_y": "32",
+      "hub75_pinset": "0",
+      "hub75_use_gamma": "0",
+      "matrix_flip_x": "0",
+      "matrix_flip_y": "0",
+      "matrix_rotate": "0",
+      "msgeq7_left_pin": "34",
+      "msgeq7_reset_pin": "5",
+      "msgeq7_right_pin": "35",
+      "msgeq7_strobe_pin": "4",
+      "wifi_enable": "0",
+      "wifi_ssid": "",
+      "wifi_password": "",
+      "wifi_hostname": "modulo-hub75"
+    },
+    "supports_matrix": true,
+    "supports_strip": false
+  },
+  "default_audio_backend": "msgeq7",
+  "default_msgeq7_left_pin": "34",
+  "default_msgeq7_reset_pin": "5",
+  "default_msgeq7_right_pin": "35",
+  "default_msgeq7_strobe_pin": "4",
+  "description": "ESP32 HUB75 RGB matrix via I2S-DMA with MSGEQ7 spectrum input (export).",
+  "emitter_module": "export.targets.esp32_hub75_i2sdma_msgeq7.emitter",
+  "experimental_stable": true,
+  "hub75_backend_version": "v0.1",
+  "id": "esp32_hub75_i2sdma_msgeq7",
+  "led_backends": [
+    "HUB75"
+  ],
+  "name": "ESP32 HUB75 Matrix (I2S-DMA + MSGEQ7) [Experimental]"
+}

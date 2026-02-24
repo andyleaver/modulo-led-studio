@@ -1,0 +1,13 @@
+{
+  "presets": {
+    "common_uno_esp32_pico": {
+      "arduino_uno_fastled_noneaudio": "arduino:avr:uno",
+      "esp32_hub75_i2sdma_noneaudio": "esp32:esp32:esp32",
+      "rp2040_fastled_noneaudio": "rp2040:rp2040:rpipico"
+    }
+  },
+  "notes": {
+    "esp32": "Third-party core; may require adding Espressif Boards Manager URL in arduino-cli config before core install.",
+    "rp2040": "Core depends on which RP2040 package you use; adjust to match your environment."
+  }
+}

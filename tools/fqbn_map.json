@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "note": "Map Modulo target_id => arduino-cli FQBN for compile sanity. Edit to match your installed cores.",
+  "mappings": {
+    "arduino_uno_fastled_noneaudio": "arduino:avr:uno",
+    "arduino_nano_fastled_noneaudio": "arduino:avr:nano",
+    "arduino_mega_fastled_noneaudio": "arduino:avr:mega",
+    "teensy40_fastled_noneaudio": "teensy:avr:teensy40",
+    "rp2040_fastled_noneaudio": "rp2040:rp2040:rpipico"
+  }
+}

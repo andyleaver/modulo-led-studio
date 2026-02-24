@@ -1,0 +1,775 @@
+target,behavior,result,errors,warnings
+arduino_avr_fastled_msgeq7,asteroids_game,ok,,
+arduino_avr_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+arduino_avr_fastled_msgeq7,audio_meter,ok,,
+arduino_avr_fastled_msgeq7,audio_routed_zones,ok,,
+arduino_avr_fastled_msgeq7,audio_zone_eq,ok,,
+arduino_avr_fastled_msgeq7,aurora,ok,,
+arduino_avr_fastled_msgeq7,beat_strobe,ok,,
+arduino_avr_fastled_msgeq7,blocks_ball_game_ino,ok,,
+arduino_avr_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+arduino_avr_fastled_msgeq7,bpm,ok,,
+arduino_avr_fastled_msgeq7,bpm_pulse_train,ok,,
+arduino_avr_fastled_msgeq7,breakout_game,ok,,
+arduino_avr_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+arduino_avr_fastled_msgeq7,call_response,ok,,
+arduino_avr_fastled_msgeq7,chase,ok,,
+arduino_avr_fastled_msgeq7,color_wipe,ok,,
+arduino_avr_fastled_msgeq7,comet_storm,ok,,
+arduino_avr_fastled_msgeq7,confetti,ok,,
+arduino_avr_fastled_msgeq7,crystal_shards,ok,,
+arduino_avr_fastled_msgeq7,cylon,ok,,
+arduino_avr_fastled_msgeq7,demo_asteroids,ok,,
+arduino_avr_fastled_msgeq7,demo_breakout,ok,,
+arduino_avr_fastled_msgeq7,dna_helix,ok,,
+arduino_avr_fastled_msgeq7,electric_web,ok,,
+arduino_avr_fastled_msgeq7,explosion,ok,,
+arduino_avr_fastled_msgeq7,fade,ok,,
+arduino_avr_fastled_msgeq7,fire,ok,,
+arduino_avr_fastled_msgeq7,fireworks,ok,,
+arduino_avr_fastled_msgeq7,force_particles,ok,,
+arduino_avr_fastled_msgeq7,fractal_flame,ok,,
+arduino_avr_fastled_msgeq7,frequency_particles_14,ok,,
+arduino_avr_fastled_msgeq7,game_of_life,ok,,
+arduino_avr_fastled_msgeq7,glitch_datamosh,ok,,
+arduino_avr_fastled_msgeq7,gradient,ok,,
+arduino_avr_fastled_msgeq7,gravity_blobs,ok,,
+arduino_avr_fastled_msgeq7,hyperspace,ok,,
+arduino_avr_fastled_msgeq7,impact_ripples,ok,,
+arduino_avr_fastled_msgeq7,juggle,ok,,
+arduino_avr_fastled_msgeq7,kaleidoscope,ok,,
+arduino_avr_fastled_msgeq7,kick_burst,ok,,
+arduino_avr_fastled_msgeq7,lightning,ok,,
+arduino_avr_fastled_msgeq7,liquid_metal,ok,,
+arduino_avr_fastled_msgeq7,meteor,ok,,
+arduino_avr_fastled_msgeq7,msgeq7_reactive_ino,ok,,
+arduino_avr_fastled_msgeq7,msgeq7_visualizer_575,ok,,
+arduino_avr_fastled_msgeq7,neon_city,ok,,
+arduino_avr_fastled_msgeq7,noise,ok,,
+arduino_avr_fastled_msgeq7,plasma_lattice,ok,,
+arduino_avr_fastled_msgeq7,portal,ok,,
+arduino_avr_fastled_msgeq7,pulse,ok,,
+arduino_avr_fastled_msgeq7,purpose_autoplay,ok,,
+arduino_avr_fastled_msgeq7,purpose_bar,ok,,
+arduino_avr_fastled_msgeq7,purpose_meter,ok,,
+arduino_avr_fastled_msgeq7,rainbow,ok,,
+arduino_avr_fastled_msgeq7,rainbow_wipe,ok,,
+arduino_avr_fastled_msgeq7,reaction_diffusion,ok,,
+arduino_avr_fastled_msgeq7,ripple,ok,,
+arduino_avr_fastled_msgeq7,scanner,ok,,
+arduino_avr_fastled_msgeq7,section_morph_palette,ok,,
+arduino_avr_fastled_msgeq7,shock_chain,ok,,
+arduino_avr_fastled_msgeq7,shooter_game_ino,ok,,
+arduino_avr_fastled_msgeq7,sinelon,ok,,
+arduino_avr_fastled_msgeq7,snake_game,ok,,
+arduino_avr_fastled_msgeq7,snake_game_ino,ok,,
+arduino_avr_fastled_msgeq7,snare_spark,ok,,
+arduino_avr_fastled_msgeq7,solid,ok,,
+arduino_avr_fastled_msgeq7,sparkle,ok,,
+arduino_avr_fastled_msgeq7,spectral_dna_helix_14,ok,,
+arduino_avr_fastled_msgeq7,spectral_kaleidoscope_audio,ok,,
+arduino_avr_fastled_msgeq7,spectral_ripples_14,ok,,
+arduino_avr_fastled_msgeq7,spectral_wave,ok,,
+arduino_avr_fastled_msgeq7,spectrum_bars_stereo,ok,,
+arduino_avr_fastled_msgeq7,starfield,ok,,
+arduino_avr_fastled_msgeq7,stereo_call_response,ok,,
+arduino_avr_fastled_msgeq7,stereo_dual_vortex,ok,,
+arduino_avr_fastled_msgeq7,stereo_energy_field,ok,,
+arduino_avr_fastled_msgeq7,strobe,ok,,
+arduino_avr_fastled_msgeq7,sweep,ok,,
+arduino_avr_fastled_msgeq7,theater_chase,ok,,
+arduino_avr_fastled_msgeq7,tunnel,ok,,
+arduino_avr_fastled_msgeq7,twinkle,ok,,
+arduino_avr_fastled_msgeq7,volumetric_fog,ok,,
+arduino_avr_fastled_msgeq7,vortex_particles,ok,,
+arduino_avr_fastled_msgeq7,wave,ok,,
+arduino_avr_fastled_msgeq7,wipe,ok,,
+arduino_avr_matrix_fastled_msgeq7,asteroids_game,ok,,
+arduino_avr_matrix_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+arduino_avr_matrix_fastled_msgeq7,audio_meter,ok,,
+arduino_avr_matrix_fastled_msgeq7,audio_routed_zones,ok,,
+arduino_avr_matrix_fastled_msgeq7,audio_zone_eq,ok,,
+arduino_avr_matrix_fastled_msgeq7,aurora,ok,,
+arduino_avr_matrix_fastled_msgeq7,beat_strobe,ok,,
+arduino_avr_matrix_fastled_msgeq7,blocks_ball_game_ino,ok,,
+arduino_avr_matrix_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+arduino_avr_matrix_fastled_msgeq7,bpm,ok,,
+arduino_avr_matrix_fastled_msgeq7,bpm_pulse_train,ok,,
+arduino_avr_matrix_fastled_msgeq7,breakout_game,ok,,
+arduino_avr_matrix_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+arduino_avr_matrix_fastled_msgeq7,call_response,ok,,
+arduino_avr_matrix_fastled_msgeq7,chase,ok,,
+arduino_avr_matrix_fastled_msgeq7,color_wipe,ok,,
+arduino_avr_matrix_fastled_msgeq7,comet_storm,ok,,
+arduino_avr_matrix_fastled_msgeq7,confetti,ok,,
+arduino_avr_matrix_fastled_msgeq7,crystal_shards,ok,,
+arduino_avr_matrix_fastled_msgeq7,cylon,ok,,
+arduino_avr_matrix_fastled_msgeq7,demo_asteroids,ok,,
+arduino_avr_matrix_fastled_msgeq7,demo_breakout,ok,,
+arduino_avr_matrix_fastled_msgeq7,dna_helix,ok,,
+arduino_avr_matrix_fastled_msgeq7,electric_web,ok,,
+arduino_avr_matrix_fastled_msgeq7,explosion,ok,,
+arduino_avr_matrix_fastled_msgeq7,fade,ok,,
+arduino_avr_matrix_fastled_msgeq7,fire,ok,,
+arduino_avr_matrix_fastled_msgeq7,fireworks,ok,,
+arduino_avr_matrix_fastled_msgeq7,force_particles,ok,,
+arduino_avr_matrix_fastled_msgeq7,fractal_flame,ok,,
+arduino_avr_matrix_fastled_msgeq7,frequency_particles_14,ok,,
+arduino_avr_matrix_fastled_msgeq7,game_of_life,ok,,
+arduino_avr_matrix_fastled_msgeq7,glitch_datamosh,ok,,
+arduino_avr_matrix_fastled_msgeq7,gradient,ok,,
+arduino_avr_matrix_fastled_msgeq7,gravity_blobs,ok,,
+arduino_avr_matrix_fastled_msgeq7,hyperspace,ok,,
+arduino_avr_matrix_fastled_msgeq7,impact_ripples,ok,,
+arduino_avr_matrix_fastled_msgeq7,juggle,ok,,
+arduino_avr_matrix_fastled_msgeq7,kaleidoscope,ok,,
+arduino_avr_matrix_fastled_msgeq7,kick_burst,ok,,
+arduino_avr_matrix_fastled_msgeq7,lightning,ok,,
+arduino_avr_matrix_fastled_msgeq7,liquid_metal,ok,,
+arduino_avr_matrix_fastled_msgeq7,meteor,ok,,
+arduino_avr_matrix_fastled_msgeq7,msgeq7_reactive_ino,ok,,
+arduino_avr_matrix_fastled_msgeq7,msgeq7_visualizer_575,ok,,
+arduino_avr_matrix_fastled_msgeq7,neon_city,ok,,
+arduino_avr_matrix_fastled_msgeq7,noise,ok,,
+arduino_avr_matrix_fastled_msgeq7,plasma_lattice,ok,,
+arduino_avr_matrix_fastled_msgeq7,portal,ok,,
+arduino_avr_matrix_fastled_msgeq7,pulse,ok,,
+arduino_avr_matrix_fastled_msgeq7,purpose_autoplay,ok,,
+arduino_avr_matrix_fastled_msgeq7,purpose_bar,ok,,
+arduino_avr_matrix_fastled_msgeq7,purpose_meter,ok,,
+arduino_avr_matrix_fastled_msgeq7,rainbow,ok,,
+arduino_avr_matrix_fastled_msgeq7,rainbow_wipe,ok,,
+arduino_avr_matrix_fastled_msgeq7,reaction_diffusion,ok,,
+arduino_avr_matrix_fastled_msgeq7,ripple,ok,,
+arduino_avr_matrix_fastled_msgeq7,scanner,ok,,
+arduino_avr_matrix_fastled_msgeq7,section_morph_palette,ok,,
+arduino_avr_matrix_fastled_msgeq7,shock_chain,ok,,
+arduino_avr_matrix_fastled_msgeq7,shooter_game_ino,ok,,
+arduino_avr_matrix_fastled_msgeq7,sinelon,ok,,
+arduino_avr_matrix_fastled_msgeq7,snake_game,ok,,
+arduino_avr_matrix_fastled_msgeq7,snake_game_ino,ok,,
+arduino_avr_matrix_fastled_msgeq7,snare_spark,ok,,
+arduino_avr_matrix_fastled_msgeq7,solid,ok,,
+arduino_avr_matrix_fastled_msgeq7,sparkle,ok,,
+arduino_avr_matrix_fastled_msgeq7,spectral_dna_helix_14,ok,,
+arduino_avr_matrix_fastled_msgeq7,spectral_kaleidoscope_audio,ok,,
+arduino_avr_matrix_fastled_msgeq7,spectral_ripples_14,ok,,
+arduino_avr_matrix_fastled_msgeq7,spectral_wave,ok,,
+arduino_avr_matrix_fastled_msgeq7,spectrum_bars_stereo,ok,,
+arduino_avr_matrix_fastled_msgeq7,starfield,ok,,
+arduino_avr_matrix_fastled_msgeq7,stereo_call_response,ok,,
+arduino_avr_matrix_fastled_msgeq7,stereo_dual_vortex,ok,,
+arduino_avr_matrix_fastled_msgeq7,stereo_energy_field,ok,,
+arduino_avr_matrix_fastled_msgeq7,strobe,ok,,
+arduino_avr_matrix_fastled_msgeq7,sweep,ok,,
+arduino_avr_matrix_fastled_msgeq7,theater_chase,ok,,
+arduino_avr_matrix_fastled_msgeq7,tunnel,ok,,
+arduino_avr_matrix_fastled_msgeq7,twinkle,ok,,
+arduino_avr_matrix_fastled_msgeq7,volumetric_fog,ok,,
+arduino_avr_matrix_fastled_msgeq7,vortex_particles,ok,,
+arduino_avr_matrix_fastled_msgeq7,wave,ok,,
+arduino_avr_matrix_fastled_msgeq7,wipe,ok,,
+arduino_avr_fastled_noaudio,asteroids_game,ok,,
+arduino_avr_fastled_noaudio,asteroids_lite,preview-only,Not yet classified for export,
+arduino_avr_fastled_noaudio,audio_meter,ok,,
+arduino_avr_fastled_noaudio,audio_routed_zones,ok,,
+arduino_avr_fastled_noaudio,audio_zone_eq,ok,,
+arduino_avr_fastled_noaudio,aurora,ok,,
+arduino_avr_fastled_noaudio,beat_strobe,ok,,
+arduino_avr_fastled_noaudio,blocks_ball_game_ino,ok,,
+arduino_avr_fastled_noaudio,bouncer,preview-only,Not yet classified for export,
+arduino_avr_fastled_noaudio,bpm,ok,,
+arduino_avr_fastled_noaudio,bpm_pulse_train,ok,,
+arduino_avr_fastled_noaudio,breakout_game,ok,,
+arduino_avr_fastled_noaudio,breakout_lite,preview-only,Not yet classified for export,
+arduino_avr_fastled_noaudio,call_response,ok,,
+arduino_avr_fastled_noaudio,chase,ok,,
+arduino_avr_fastled_noaudio,color_wipe,ok,,
+arduino_avr_fastled_noaudio,comet_storm,ok,,
+arduino_avr_fastled_noaudio,confetti,ok,,
+arduino_avr_fastled_noaudio,crystal_shards,ok,,
+arduino_avr_fastled_noaudio,cylon,ok,,
+arduino_avr_fastled_noaudio,demo_asteroids,ok,,
+arduino_avr_fastled_noaudio,demo_breakout,ok,,
+arduino_avr_fastled_noaudio,dna_helix,ok,,
+arduino_avr_fastled_noaudio,electric_web,ok,,
+arduino_avr_fastled_noaudio,explosion,ok,,
+arduino_avr_fastled_noaudio,fade,ok,,
+arduino_avr_fastled_noaudio,fire,ok,,
+arduino_avr_fastled_noaudio,fireworks,ok,,
+arduino_avr_fastled_noaudio,force_particles,ok,,
+arduino_avr_fastled_noaudio,fractal_flame,ok,,
+arduino_avr_fastled_noaudio,frequency_particles_14,ok,,
+arduino_avr_fastled_noaudio,game_of_life,ok,,
+arduino_avr_fastled_noaudio,glitch_datamosh,ok,,
+arduino_avr_fastled_noaudio,gradient,ok,,
+arduino_avr_fastled_noaudio,gravity_blobs,ok,,
+arduino_avr_fastled_noaudio,hyperspace,ok,,
+arduino_avr_fastled_noaudio,impact_ripples,ok,,
+arduino_avr_fastled_noaudio,juggle,ok,,
+arduino_avr_fastled_noaudio,kaleidoscope,ok,,
+arduino_avr_fastled_noaudio,kick_burst,ok,,
+arduino_avr_fastled_noaudio,lightning,ok,,
+arduino_avr_fastled_noaudio,liquid_metal,ok,,
+arduino_avr_fastled_noaudio,meteor,ok,,
+arduino_avr_fastled_noaudio,msgeq7_reactive_ino,ok,,
+arduino_avr_fastled_noaudio,msgeq7_visualizer_575,ok,,
+arduino_avr_fastled_noaudio,neon_city,ok,,
+arduino_avr_fastled_noaudio,noise,ok,,
+arduino_avr_fastled_noaudio,plasma_lattice,ok,,
+arduino_avr_fastled_noaudio,portal,ok,,
+arduino_avr_fastled_noaudio,pulse,ok,,
+arduino_avr_fastled_noaudio,purpose_autoplay,ok,,
+arduino_avr_fastled_noaudio,purpose_bar,ok,,
+arduino_avr_fastled_noaudio,purpose_meter,ok,,
+arduino_avr_fastled_noaudio,rainbow,ok,,
+arduino_avr_fastled_noaudio,rainbow_wipe,ok,,
+arduino_avr_fastled_noaudio,reaction_diffusion,ok,,
+arduino_avr_fastled_noaudio,ripple,ok,,
+arduino_avr_fastled_noaudio,scanner,ok,,
+arduino_avr_fastled_noaudio,section_morph_palette,ok,,
+arduino_avr_fastled_noaudio,shock_chain,ok,,
+arduino_avr_fastled_noaudio,shooter_game_ino,ok,,
+arduino_avr_fastled_noaudio,sinelon,ok,,
+arduino_avr_fastled_noaudio,snake_game,ok,,
+arduino_avr_fastled_noaudio,snake_game_ino,ok,,
+arduino_avr_fastled_noaudio,snare_spark,ok,,
+arduino_avr_fastled_noaudio,solid,ok,,
+arduino_avr_fastled_noaudio,sparkle,ok,,
+arduino_avr_fastled_noaudio,spectral_dna_helix_14,ok,,
+arduino_avr_fastled_noaudio,spectral_kaleidoscope_audio,ok,,
+arduino_avr_fastled_noaudio,spectral_ripples_14,ok,,
+arduino_avr_fastled_noaudio,spectral_wave,ok,,
+arduino_avr_fastled_noaudio,spectrum_bars_stereo,ok,,
+arduino_avr_fastled_noaudio,starfield,ok,,
+arduino_avr_fastled_noaudio,stereo_call_response,ok,,
+arduino_avr_fastled_noaudio,stereo_dual_vortex,ok,,
+arduino_avr_fastled_noaudio,stereo_energy_field,ok,,
+arduino_avr_fastled_noaudio,strobe,ok,,
+arduino_avr_fastled_noaudio,sweep,ok,,
+arduino_avr_fastled_noaudio,theater_chase,ok,,
+arduino_avr_fastled_noaudio,tunnel,ok,,
+arduino_avr_fastled_noaudio,twinkle,ok,,
+arduino_avr_fastled_noaudio,volumetric_fog,ok,,
+arduino_avr_fastled_noaudio,vortex_particles,ok,,
+arduino_avr_fastled_noaudio,wave,ok,,
+arduino_avr_fastled_noaudio,wipe,ok,,
+arduino_avr_fastled_only,asteroids_game,ok,,
+arduino_avr_fastled_only,asteroids_lite,preview-only,Not yet classified for export,
+arduino_avr_fastled_only,audio_meter,ok,,
+arduino_avr_fastled_only,audio_routed_zones,ok,,
+arduino_avr_fastled_only,audio_zone_eq,ok,,
+arduino_avr_fastled_only,aurora,ok,,
+arduino_avr_fastled_only,beat_strobe,ok,,
+arduino_avr_fastled_only,blocks_ball_game_ino,ok,,
+arduino_avr_fastled_only,bouncer,preview-only,Not yet classified for export,
+arduino_avr_fastled_only,bpm,ok,,
+arduino_avr_fastled_only,bpm_pulse_train,ok,,
+arduino_avr_fastled_only,breakout_game,ok,,
+arduino_avr_fastled_only,breakout_lite,preview-only,Not yet classified for export,
+arduino_avr_fastled_only,call_response,ok,,
+arduino_avr_fastled_only,chase,ok,,
+arduino_avr_fastled_only,color_wipe,ok,,
+arduino_avr_fastled_only,comet_storm,ok,,
+arduino_avr_fastled_only,confetti,ok,,
+arduino_avr_fastled_only,crystal_shards,ok,,
+arduino_avr_fastled_only,cylon,ok,,
+arduino_avr_fastled_only,demo_asteroids,ok,,
+arduino_avr_fastled_only,demo_breakout,ok,,
+arduino_avr_fastled_only,dna_helix,ok,,
+arduino_avr_fastled_only,electric_web,ok,,
+arduino_avr_fastled_only,explosion,ok,,
+arduino_avr_fastled_only,fade,ok,,
+arduino_avr_fastled_only,fire,ok,,
+arduino_avr_fastled_only,fireworks,ok,,
+arduino_avr_fastled_only,force_particles,ok,,
+arduino_avr_fastled_only,fractal_flame,ok,,
+arduino_avr_fastled_only,frequency_particles_14,ok,,
+arduino_avr_fastled_only,game_of_life,ok,,
+arduino_avr_fastled_only,glitch_datamosh,ok,,
+arduino_avr_fastled_only,gradient,ok,,
+arduino_avr_fastled_only,gravity_blobs,ok,,
+arduino_avr_fastled_only,hyperspace,ok,,
+arduino_avr_fastled_only,impact_ripples,ok,,
+arduino_avr_fastled_only,juggle,ok,,
+arduino_avr_fastled_only,kaleidoscope,ok,,
+arduino_avr_fastled_only,kick_burst,ok,,
+arduino_avr_fastled_only,lightning,ok,,
+arduino_avr_fastled_only,liquid_metal,ok,,
+arduino_avr_fastled_only,meteor,ok,,
+arduino_avr_fastled_only,msgeq7_reactive_ino,ok,,
+arduino_avr_fastled_only,msgeq7_visualizer_575,ok,,
+arduino_avr_fastled_only,neon_city,ok,,
+arduino_avr_fastled_only,noise,ok,,
+arduino_avr_fastled_only,plasma_lattice,ok,,
+arduino_avr_fastled_only,portal,ok,,
+arduino_avr_fastled_only,pulse,ok,,
+arduino_avr_fastled_only,purpose_autoplay,ok,,
+arduino_avr_fastled_only,purpose_bar,ok,,
+arduino_avr_fastled_only,purpose_meter,ok,,
+arduino_avr_fastled_only,rainbow,ok,,
+arduino_avr_fastled_only,rainbow_wipe,ok,,
+arduino_avr_fastled_only,reaction_diffusion,ok,,
+arduino_avr_fastled_only,ripple,ok,,
+arduino_avr_fastled_only,scanner,ok,,
+arduino_avr_fastled_only,section_morph_palette,ok,,
+arduino_avr_fastled_only,shock_chain,ok,,
+arduino_avr_fastled_only,shooter_game_ino,ok,,
+arduino_avr_fastled_only,sinelon,ok,,
+arduino_avr_fastled_only,snake_game,ok,,
+arduino_avr_fastled_only,snake_game_ino,ok,,
+arduino_avr_fastled_only,snare_spark,ok,,
+arduino_avr_fastled_only,solid,ok,,
+arduino_avr_fastled_only,sparkle,ok,,
+arduino_avr_fastled_only,spectral_dna_helix_14,ok,,
+arduino_avr_fastled_only,spectral_kaleidoscope_audio,ok,,
+arduino_avr_fastled_only,spectral_ripples_14,ok,,
+arduino_avr_fastled_only,spectral_wave,ok,,
+arduino_avr_fastled_only,spectrum_bars_stereo,ok,,
+arduino_avr_fastled_only,starfield,ok,,
+arduino_avr_fastled_only,stereo_call_response,ok,,
+arduino_avr_fastled_only,stereo_dual_vortex,ok,,
+arduino_avr_fastled_only,stereo_energy_field,ok,,
+arduino_avr_fastled_only,strobe,ok,,
+arduino_avr_fastled_only,sweep,ok,,
+arduino_avr_fastled_only,theater_chase,ok,,
+arduino_avr_fastled_only,tunnel,ok,,
+arduino_avr_fastled_only,twinkle,ok,,
+arduino_avr_fastled_only,volumetric_fog,ok,,
+arduino_avr_fastled_only,vortex_particles,ok,,
+arduino_avr_fastled_only,wave,ok,,
+arduino_avr_fastled_only,wipe,ok,,
+arduino_mega_fastled_msgeq7,asteroids_game,ok,,
+arduino_mega_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+arduino_mega_fastled_msgeq7,audio_meter,ok,,
+arduino_mega_fastled_msgeq7,audio_routed_zones,ok,,
+arduino_mega_fastled_msgeq7,audio_zone_eq,ok,,
+arduino_mega_fastled_msgeq7,aurora,ok,,
+arduino_mega_fastled_msgeq7,beat_strobe,ok,,
+arduino_mega_fastled_msgeq7,blocks_ball_game_ino,ok,,
+arduino_mega_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+arduino_mega_fastled_msgeq7,bpm,ok,,
+arduino_mega_fastled_msgeq7,bpm_pulse_train,ok,,
+arduino_mega_fastled_msgeq7,breakout_game,ok,,
+arduino_mega_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+arduino_mega_fastled_msgeq7,call_response,ok,,
+arduino_mega_fastled_msgeq7,chase,ok,,
+arduino_mega_fastled_msgeq7,color_wipe,ok,,
+arduino_mega_fastled_msgeq7,comet_storm,ok,,
+arduino_mega_fastled_msgeq7,confetti,ok,,
+arduino_mega_fastled_msgeq7,crystal_shards,ok,,
+arduino_mega_fastled_msgeq7,cylon,ok,,
+arduino_mega_fastled_msgeq7,demo_asteroids,ok,,
+arduino_mega_fastled_msgeq7,demo_breakout,ok,,
+arduino_mega_fastled_msgeq7,dna_helix,ok,,
+arduino_mega_fastled_msgeq7,electric_web,ok,,
+arduino_mega_fastled_msgeq7,explosion,ok,,
+arduino_mega_fastled_msgeq7,fade,ok,,
+arduino_mega_fastled_msgeq7,fire,ok,,
+arduino_mega_fastled_msgeq7,fireworks,ok,,
+arduino_mega_fastled_msgeq7,force_particles,ok,,
+arduino_mega_fastled_msgeq7,fractal_flame,ok,,
+arduino_mega_fastled_msgeq7,frequency_particles_14,ok,,
+arduino_mega_fastled_msgeq7,game_of_life,ok,,
+arduino_mega_fastled_msgeq7,glitch_datamosh,ok,,
+arduino_mega_fastled_msgeq7,gradient,ok,,
+arduino_mega_fastled_msgeq7,gravity_blobs,ok,,
+arduino_mega_fastled_msgeq7,hyperspace,ok,,
+arduino_mega_fastled_msgeq7,impact_ripples,ok,,
+arduino_mega_fastled_msgeq7,juggle,ok,,
+arduino_mega_fastled_msgeq7,kaleidoscope,ok,,
+arduino_mega_fastled_msgeq7,kick_burst,ok,,
+arduino_mega_fastled_msgeq7,lightning,ok,,
+arduino_mega_fastled_msgeq7,liquid_metal,ok,,
+arduino_mega_fastled_msgeq7,meteor,ok,,
+arduino_mega_fastled_msgeq7,msgeq7_reactive_ino,ok,,
+arduino_mega_fastled_msgeq7,msgeq7_visualizer_575,ok,,
+arduino_mega_fastled_msgeq7,neon_city,ok,,
+arduino_mega_fastled_msgeq7,noise,ok,,
+arduino_mega_fastled_msgeq7,plasma_lattice,ok,,
+arduino_mega_fastled_msgeq7,portal,ok,,
+arduino_mega_fastled_msgeq7,pulse,ok,,
+arduino_mega_fastled_msgeq7,purpose_autoplay,ok,,
+arduino_mega_fastled_msgeq7,purpose_bar,ok,,
+arduino_mega_fastled_msgeq7,purpose_meter,ok,,
+arduino_mega_fastled_msgeq7,rainbow,ok,,
+arduino_mega_fastled_msgeq7,rainbow_wipe,ok,,
+arduino_mega_fastled_msgeq7,reaction_diffusion,ok,,
+arduino_mega_fastled_msgeq7,ripple,ok,,
+arduino_mega_fastled_msgeq7,scanner,ok,,
+arduino_mega_fastled_msgeq7,section_morph_palette,ok,,
+arduino_mega_fastled_msgeq7,shock_chain,ok,,
+arduino_mega_fastled_msgeq7,shooter_game_ino,ok,,
+arduino_mega_fastled_msgeq7,sinelon,ok,,
+arduino_mega_fastled_msgeq7,snake_game,ok,,
+arduino_mega_fastled_msgeq7,snake_game_ino,ok,,
+arduino_mega_fastled_msgeq7,snare_spark,ok,,
+arduino_mega_fastled_msgeq7,solid,ok,,
+arduino_mega_fastled_msgeq7,sparkle,ok,,
+arduino_mega_fastled_msgeq7,spectral_dna_helix_14,ok,,
+arduino_mega_fastled_msgeq7,spectral_kaleidoscope_audio,ok,,
+arduino_mega_fastled_msgeq7,spectral_ripples_14,ok,,
+arduino_mega_fastled_msgeq7,spectral_wave,ok,,
+arduino_mega_fastled_msgeq7,spectrum_bars_stereo,ok,,
+arduino_mega_fastled_msgeq7,starfield,ok,,
+arduino_mega_fastled_msgeq7,stereo_call_response,ok,,
+arduino_mega_fastled_msgeq7,stereo_dual_vortex,ok,,
+arduino_mega_fastled_msgeq7,stereo_energy_field,ok,,
+arduino_mega_fastled_msgeq7,strobe,ok,,
+arduino_mega_fastled_msgeq7,sweep,ok,,
+arduino_mega_fastled_msgeq7,theater_chase,ok,,
+arduino_mega_fastled_msgeq7,tunnel,ok,,
+arduino_mega_fastled_msgeq7,twinkle,ok,,
+arduino_mega_fastled_msgeq7,volumetric_fog,ok,,
+arduino_mega_fastled_msgeq7,vortex_particles,ok,,
+arduino_mega_fastled_msgeq7,wave,ok,,
+arduino_mega_fastled_msgeq7,wipe,ok,,
+arduino_mega_pio_fastled_msgeq7,asteroids_game,ok,,
+arduino_mega_pio_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+arduino_mega_pio_fastled_msgeq7,audio_meter,ok,,
+arduino_mega_pio_fastled_msgeq7,audio_routed_zones,ok,,
+arduino_mega_pio_fastled_msgeq7,audio_zone_eq,ok,,
+arduino_mega_pio_fastled_msgeq7,aurora,ok,,
+arduino_mega_pio_fastled_msgeq7,beat_strobe,ok,,
+arduino_mega_pio_fastled_msgeq7,blocks_ball_game_ino,ok,,
+arduino_mega_pio_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+arduino_mega_pio_fastled_msgeq7,bpm,ok,,
+arduino_mega_pio_fastled_msgeq7,bpm_pulse_train,ok,,
+arduino_mega_pio_fastled_msgeq7,breakout_game,ok,,
+arduino_mega_pio_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+arduino_mega_pio_fastled_msgeq7,call_response,ok,,
+arduino_mega_pio_fastled_msgeq7,chase,ok,,
+arduino_mega_pio_fastled_msgeq7,color_wipe,ok,,
+arduino_mega_pio_fastled_msgeq7,comet_storm,ok,,
+arduino_mega_pio_fastled_msgeq7,confetti,ok,,
+arduino_mega_pio_fastled_msgeq7,crystal_shards,ok,,
+arduino_mega_pio_fastled_msgeq7,cylon,ok,,
+arduino_mega_pio_fastled_msgeq7,demo_asteroids,ok,,
+arduino_mega_pio_fastled_msgeq7,demo_breakout,ok,,
+arduino_mega_pio_fastled_msgeq7,dna_helix,ok,,
+arduino_mega_pio_fastled_msgeq7,electric_web,ok,,
+arduino_mega_pio_fastled_msgeq7,explosion,ok,,
+arduino_mega_pio_fastled_msgeq7,fade,ok,,
+arduino_mega_pio_fastled_msgeq7,fire,ok,,
+arduino_mega_pio_fastled_msgeq7,fireworks,ok,,
+arduino_mega_pio_fastled_msgeq7,force_particles,ok,,
+arduino_mega_pio_fastled_msgeq7,fractal_flame,ok,,
+arduino_mega_pio_fastled_msgeq7,frequency_particles_14,ok,,
+arduino_mega_pio_fastled_msgeq7,game_of_life,ok,,
+arduino_mega_pio_fastled_msgeq7,glitch_datamosh,ok,,
+arduino_mega_pio_fastled_msgeq7,gradient,ok,,
+arduino_mega_pio_fastled_msgeq7,gravity_blobs,ok,,
+arduino_mega_pio_fastled_msgeq7,hyperspace,ok,,
+arduino_mega_pio_fastled_msgeq7,impact_ripples,ok,,
+arduino_mega_pio_fastled_msgeq7,juggle,ok,,
+arduino_mega_pio_fastled_msgeq7,kaleidoscope,ok,,
+arduino_mega_pio_fastled_msgeq7,kick_burst,ok,,
+arduino_mega_pio_fastled_msgeq7,lightning,ok,,
+arduino_mega_pio_fastled_msgeq7,liquid_metal,ok,,
+arduino_mega_pio_fastled_msgeq7,meteor,ok,,
+arduino_mega_pio_fastled_msgeq7,msgeq7_reactive_ino,ok,,
+arduino_mega_pio_fastled_msgeq7,msgeq7_visualizer_575,ok,,
+arduino_mega_pio_fastled_msgeq7,neon_city,ok,,
+arduino_mega_pio_fastled_msgeq7,noise,ok,,
+arduino_mega_pio_fastled_msgeq7,plasma_lattice,ok,,
+arduino_mega_pio_fastled_msgeq7,portal,ok,,
+arduino_mega_pio_fastled_msgeq7,pulse,ok,,
+arduino_mega_pio_fastled_msgeq7,purpose_autoplay,ok,,
+arduino_mega_pio_fastled_msgeq7,purpose_bar,ok,,
+arduino_mega_pio_fastled_msgeq7,purpose_meter,ok,,
+arduino_mega_pio_fastled_msgeq7,rainbow,ok,,
+arduino_mega_pio_fastled_msgeq7,rainbow_wipe,ok,,
+arduino_mega_pio_fastled_msgeq7,reaction_diffusion,ok,,
+arduino_mega_pio_fastled_msgeq7,ripple,ok,,
+arduino_mega_pio_fastled_msgeq7,scanner,ok,,
+arduino_mega_pio_fastled_msgeq7,section_morph_palette,ok,,
+arduino_mega_pio_fastled_msgeq7,shock_chain,ok,,
+arduino_mega_pio_fastled_msgeq7,shooter_game_ino,ok,,
+arduino_mega_pio_fastled_msgeq7,sinelon,ok,,
+arduino_mega_pio_fastled_msgeq7,snake_game,ok,,
+arduino_mega_pio_fastled_msgeq7,snake_game_ino,ok,,
+arduino_mega_pio_fastled_msgeq7,snare_spark,ok,,
+arduino_mega_pio_fastled_msgeq7,solid,ok,,
+arduino_mega_pio_fastled_msgeq7,sparkle,ok,,
+arduino_mega_pio_fastled_msgeq7,spectral_dna_helix_14,ok,,
+arduino_mega_pio_fastled_msgeq7,spectral_kaleidoscope_audio,ok,,
+arduino_mega_pio_fastled_msgeq7,spectral_ripples_14,ok,,
+arduino_mega_pio_fastled_msgeq7,spectral_wave,ok,,
+arduino_mega_pio_fastled_msgeq7,spectrum_bars_stereo,ok,,
+arduino_mega_pio_fastled_msgeq7,starfield,ok,,
+arduino_mega_pio_fastled_msgeq7,stereo_call_response,ok,,
+arduino_mega_pio_fastled_msgeq7,stereo_dual_vortex,ok,,
+arduino_mega_pio_fastled_msgeq7,stereo_energy_field,ok,,
+arduino_mega_pio_fastled_msgeq7,strobe,ok,,
+arduino_mega_pio_fastled_msgeq7,sweep,ok,,
+arduino_mega_pio_fastled_msgeq7,theater_chase,ok,,
+arduino_mega_pio_fastled_msgeq7,tunnel,ok,,
+arduino_mega_pio_fastled_msgeq7,twinkle,ok,,
+arduino_mega_pio_fastled_msgeq7,volumetric_fog,ok,,
+arduino_mega_pio_fastled_msgeq7,vortex_particles,ok,,
+arduino_mega_pio_fastled_msgeq7,wave,ok,,
+arduino_mega_pio_fastled_msgeq7,wipe,ok,,
+arduino_uno_fastled_msgeq7,asteroids_game,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+arduino_uno_fastled_msgeq7,audio_meter,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,audio_routed_zones,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,audio_zone_eq,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,aurora,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,beat_strobe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,blocks_ball_game_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+arduino_uno_fastled_msgeq7,bpm,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,bpm_pulse_train,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,breakout_game,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+arduino_uno_fastled_msgeq7,call_response,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,chase,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,color_wipe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,comet_storm,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,confetti,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,crystal_shards,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,cylon,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,demo_asteroids,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,demo_breakout,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,dna_helix,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,electric_web,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,explosion,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,fade,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,fire,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,fireworks,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,force_particles,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,fractal_flame,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,frequency_particles_14,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,game_of_life,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,glitch_datamosh,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,gradient,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,gravity_blobs,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,hyperspace,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,impact_ripples,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,juggle,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,kaleidoscope,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,kick_burst,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,lightning,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,liquid_metal,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,meteor,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,msgeq7_reactive_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,msgeq7_visualizer_575,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,neon_city,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,noise,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,plasma_lattice,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,portal,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,pulse,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,purpose_autoplay,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,purpose_bar,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,purpose_meter,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,rainbow,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,rainbow_wipe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,reaction_diffusion,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,ripple,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,scanner,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,section_morph_palette,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,shock_chain,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,shooter_game_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,sinelon,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,snake_game,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,snake_game_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,snare_spark,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,solid,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,sparkle,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,spectral_dna_helix_14,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,spectral_kaleidoscope_audio,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,spectral_ripples_14,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,spectral_wave,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,spectrum_bars_stereo,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,starfield,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,stereo_call_response,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,stereo_dual_vortex,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,stereo_energy_field,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,strobe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,sweep,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,theater_chase,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,tunnel,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,twinkle,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,volumetric_fog,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,vortex_particles,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,wave,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_fastled_msgeq7,wipe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,asteroids_game,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+arduino_uno_pio_fastled_msgeq7,audio_meter,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,audio_routed_zones,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,audio_zone_eq,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,aurora,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,beat_strobe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,blocks_ball_game_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+arduino_uno_pio_fastled_msgeq7,bpm,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,bpm_pulse_train,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,breakout_game,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+arduino_uno_pio_fastled_msgeq7,call_response,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,chase,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,color_wipe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,comet_storm,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,confetti,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,crystal_shards,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,cylon,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,demo_asteroids,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,demo_breakout,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,dna_helix,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,electric_web,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,explosion,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,fade,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,fire,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,fireworks,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,force_particles,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,fractal_flame,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,frequency_particles_14,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,game_of_life,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,glitch_datamosh,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,gradient,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,gravity_blobs,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,hyperspace,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,impact_ripples,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,juggle,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,kaleidoscope,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,kick_burst,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,lightning,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,liquid_metal,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,meteor,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,msgeq7_reactive_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,msgeq7_visualizer_575,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,neon_city,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,noise,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,plasma_lattice,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,portal,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,pulse,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,purpose_autoplay,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,purpose_bar,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,purpose_meter,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,rainbow,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,rainbow_wipe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,reaction_diffusion,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,ripple,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,scanner,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,section_morph_palette,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,shock_chain,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,shooter_game_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,sinelon,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,snake_game,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,snake_game_ino,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,snare_spark,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,solid,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,sparkle,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,spectral_dna_helix_14,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,spectral_kaleidoscope_audio,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,spectral_ripples_14,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,spectral_wave,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,spectrum_bars_stereo,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,starfield,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,stereo_call_response,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,stereo_dual_vortex,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,stereo_energy_field,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,strobe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,sweep,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,theater_chase,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,tunnel,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,twinkle,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,volumetric_fog,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,vortex_particles,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,wave,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+arduino_uno_pio_fastled_msgeq7,wipe,warn,,Estimated RAM 2560 bytes > limit 2048 bytes. Reduce LEDs/layers or choose a higher-RAM target.
+esp32_neopixelbus_msgeq7,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+esp32_fastled_msgeq7,asteroids_game,ok,,
+esp32_fastled_msgeq7,asteroids_lite,preview-only,Not yet classified for export,
+esp32_fastled_msgeq7,audio_meter,ok,,
+esp32_fastled_msgeq7,audio_routed_zones,ok,,
+esp32_fastled_msgeq7,audio_zone_eq,ok,,
+esp32_fastled_msgeq7,aurora,ok,,
+esp32_fastled_msgeq7,beat_strobe,ok,,
+esp32_fastled_msgeq7,blocks_ball_game_ino,ok,,
+esp32_fastled_msgeq7,bouncer,preview-only,Not yet classified for export,
+esp32_fastled_msgeq7,bpm,ok,,
+esp32_fastled_msgeq7,bpm_pulse_train,ok,,
+esp32_fastled_msgeq7,breakout_game,ok,,
+esp32_fastled_msgeq7,breakout_lite,preview-only,Not yet classified for export,
+esp32_fastled_msgeq7,call_response,ok,,
+esp32_fastled_msgeq7,chase,ok,,
+esp32_fastled_msgeq7,color_wipe,ok,,
+esp32_fastled_msgeq7,comet_storm,ok,,
+esp32_fastled_msgeq7,confetti,ok,,
+esp32_fastled_msgeq7,crystal_shards,ok,,
+esp32_fastled_msgeq7,cylon,ok,,
+esp32_fastled_msgeq7,demo_asteroids,ok,,
+esp32_fastled_msgeq7,demo_breakout,ok,,
+esp32_fastled_msgeq7,dna_helix,ok,,
+esp32_fastled_msgeq7,electric_web,ok,,
+esp32_fastled_msgeq7,explosion,ok,,
+esp32_fastled_msgeq7,fade,ok,,
+esp32_fastled_msgeq7,fire,ok,,
+esp32_fastled_msgeq7,fireworks,ok,,
+esp32_fastled_msgeq7,force_particles,ok,,
+esp32_fastled_msgeq7,fractal_flame,ok,,
+esp32_fastled_msgeq7,frequency_particles_14,ok,,
+esp32_fastled_msgeq7,game_of_life,ok,,
+esp32_fastled_msgeq7,glitch_datamosh,ok,,
+esp32_fastled_msgeq7,gradient,ok,,
+esp32_fastled_msgeq7,gravity_blobs,ok,,
+esp32_fastled_msgeq7,hyperspace,ok,,
+esp32_fastled_msgeq7,impact_ripples,ok,,
+esp32_fastled_msgeq7,juggle,ok,,
+esp32_fastled_msgeq7,kaleidoscope,ok,,
+esp32_fastled_msgeq7,kick_burst,ok,,
+esp32_fastled_msgeq7,lightning,ok,,
+esp32_fastled_msgeq7,liquid_metal,ok,,
+esp32_fastled_msgeq7,meteor,ok,,
+esp32_fastled_msgeq7,msgeq7_reactive_ino,ok,,
+esp32_fastled_msgeq7,msgeq7_visualizer_575,ok,,
+esp32_fastled_msgeq7,neon_city,ok,,
+esp32_fastled_msgeq7,noise,ok,,
+esp32_fastled_msgeq7,plasma_lattice,ok,,
+esp32_fastled_msgeq7,portal,ok,,
+esp32_fastled_msgeq7,pulse,ok,,
+esp32_fastled_msgeq7,purpose_autoplay,ok,,
+esp32_fastled_msgeq7,purpose_bar,ok,,
+esp32_fastled_msgeq7,purpose_meter,ok,,
+esp32_fastled_msgeq7,rainbow,ok,,
+esp32_fastled_msgeq7,rainbow_wipe,ok,,
+esp32_fastled_msgeq7,reaction_diffusion,ok,,
+esp32_fastled_msgeq7,ripple,ok,,
+esp32_fastled_msgeq7,scanner,ok,,
+esp32_fastled_msgeq7,section_morph_palette,ok,,
+esp32_fastled_msgeq7,shock_chain,ok,,
+esp32_fastled_msgeq7,shooter_game_ino,ok,,
+esp32_fastled_msgeq7,sinelon,ok,,
+esp32_fastled_msgeq7,snake_game,ok,,
+esp32_fastled_msgeq7,snake_game_ino,ok,,
+esp32_fastled_msgeq7,snare_spark,ok,,
+esp32_fastled_msgeq7,solid,ok,,
+esp32_fastled_msgeq7,sparkle,ok,,
+esp32_fastled_msgeq7,spectral_dna_helix_14,ok,,
+esp32_fastled_msgeq7,spectral_kaleidoscope_audio,ok,,
+esp32_fastled_msgeq7,spectral_ripples_14,ok,,
+esp32_fastled_msgeq7,spectral_wave,ok,,
+esp32_fastled_msgeq7,spectrum_bars_stereo,ok,,
+esp32_fastled_msgeq7,starfield,ok,,
+esp32_fastled_msgeq7,stereo_call_response,ok,,
+esp32_fastled_msgeq7,stereo_dual_vortex,ok,,
+esp32_fastled_msgeq7,stereo_energy_field,ok,,
+esp32_fastled_msgeq7,strobe,ok,,
+esp32_fastled_msgeq7,sweep,ok,,
+esp32_fastled_msgeq7,theater_chase,ok,,
+esp32_fastled_msgeq7,tunnel,ok,,
+esp32_fastled_msgeq7,twinkle,ok,,
+esp32_fastled_msgeq7,volumetric_fog,ok,,
+esp32_fastled_msgeq7,vortex_particles,ok,,
+esp32_fastled_msgeq7,wave,ok,,
+esp32_fastled_msgeq7,wipe,ok,,
+esp32_hub75_i2sdma_msgeq7,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+esp8266_fastled_noneaudio,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+rp2040_fastled_noneaudio,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+rp2040_pico_fastled_msgeq7,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+stm32_fastled_noneaudio,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+teensy40_fastled_msgeq7,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+teensy41_fastled,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],
+teensy41_fastled_noneaudio,*,ERR,Failed to load target pack: Target pack 'esp32_hub75_i2sdma_grid_noneaudio' is missing required keys in target.json: ['emitter_module'],

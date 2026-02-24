@@ -1,0 +1,74 @@
+[
+  {
+    "key": "red_hat_runner_rules_v6",
+    "name": "Red Hat Runner (Rules)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_red_hat_runner_rules_v6.json",
+    "description": "Stateful runner driven by Rules V6 (minute-change jump)."
+  },
+  {
+    "key": "hub75_tilemap_runner_rules_v6",
+    "name": "HUB75 Tilemap Runner (Rules)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_rules_v6.json",
+    "description": "Tilemap + sprites with Rules V6 driving behaviour (minute-change jump trigger)."
+  },
+  {
+    "key": "hub75_tilemap_runner",
+    "name": "HUB75 Tilemap Runner",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner.json",
+    "description": "Baseline tilemap runner scene on HUB75 (sprites + scrolling)."
+  },
+  {
+    "key": "hub75_tilemap_runner_2x2",
+    "name": "HUB75 Multi-Panel Tilemap Runner (2\u00d72)",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_tilemap_runner_2x2.json",
+    "description": "Multi-panel mapping example (2\u00d72 panels)."
+  },
+  {
+    "key": "hub75_tilemap_runner_clock",
+    "name": "HUB75 Tilemap Runner (Clock Trigger)",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_tilemap_runner_clock.json",
+    "description": "Clock-driven trigger example (minute jump)."
+  },
+  {
+    "key": "hub75_wifi_ntp_sanity",
+    "name": "HUB75 WiFi + NTP Sanity",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_wifi_ntp_sanity.json",
+    "description": "Connectivity sanity check for WiFi + NTP on HUB75 targets."
+  },
+  {
+    "key": "hub75_wifi_ntp_clockdot",
+    "name": "HUB75 WiFi + NTP Clock Dot",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_wifi_ntp_clockdot.json",
+    "description": "Clock overlay dot driven by NTP time."
+  },
+  {
+    "key": "hub75_hw_validation_clockdot",
+    "name": "HUB75 HW Validation (Solid + Clock Dot)",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_hw_validation_clockdot.json",
+    "description": "Minimal validation: solid fill + clock dot overlay."
+  },
+  {
+    "key": "hub75_hw_mapping_diagnostics",
+    "name": "HUB75 Mapping Diagnostics",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_hw_mapping_diagnostics.json",
+    "description": "Corner markers + gradients to validate orientation/mapping/serpentine."
+  }
+]

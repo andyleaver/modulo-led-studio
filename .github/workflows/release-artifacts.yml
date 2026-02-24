@@ -1,0 +1,47 @@
+name: release-artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run release gate (CI)
+        run: |
+          chmod +x RUN_RELEASE_GATE.sh
+          ./RUN_RELEASE_GATE.sh --ci
+
+      - name: Pack artifacts
+        if: always()
+        run: |
+          REF_NAME="${GITHUB_REF_NAME:-manual}"
+          mkdir -p release_upload
+          zip -r "release_upload/modulo-artifacts-${REF_NAME}.zip" artifacts
+
+      - name: Upload workflow artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: modulo-artifacts-${{ github.ref_name }}
+          path: release_upload/
+
+      - name: Create GitHub Release and attach artifacts
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release_upload/*.zip
+          generate_release_notes: true

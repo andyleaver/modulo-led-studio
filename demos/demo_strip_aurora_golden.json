@@ -1,0 +1,32 @@
+{
+  "name": "strip_aurora_golden",
+  "layout": {
+    "shape": "strip",
+    "num_leds": 60,
+    "led_pin": 6
+  },
+  "layers": [
+    {
+      "enabled": true,
+      "name": "aurora",
+      "effect": "aurora",
+      "params": {
+        "color": [80, 255, 200],
+        "brightness": 1.0,
+        "speed": 0.9,
+        "width": 0.55,
+        "softness": 0.7
+      },
+      "mods": []
+    }
+  ],
+  "groups": [],
+  "zones": [],
+  "postfx": [],
+  "export": {
+    "target_id": "arduino_avr_fastled_noaudio",
+    "led_backend": "fastled",
+    "audio_backend": "none",
+    "debug_purpose_serial": false
+  }
+}
