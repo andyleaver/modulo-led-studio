@@ -1,0 +1,6 @@
+{
+  "platformio": "6.1.*",
+  "arduino_cli": ">=0.35.0",
+  "python": ">=3.10",
+  "notes": "Pin these in CI for reproducible gates. platformio can be installed via pip. arduino-cli can be installed from official releases."
+}

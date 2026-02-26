@@ -1,0 +1,22 @@
+target,name,arch,led_backends,audio_backends,supports_strip,supports_matrix,supports_wifi,supports_platformio,supports_rules,supports_audio,effects_preview_ok,effects_export_ok
+arduino_avr_fastled_msgeq7,Arduino AVR (FastLED + MSGEQ7),avr,fastled,msgeq7,True,True,False,False,True,True,77,72
+arduino_avr_fastled_noaudio,Arduino AVR FastLED (No Audio),avr,fastled,none,True,True,False,False,True,False,67,62
+arduino_avr_fastled_only,Arduino AVR FastLED-only,avr,fastled,none,True,True,False,False,True,False,67,62
+arduino_avr_matrix_fastled_msgeq7,Arduino AVR (Matrix-capable) FastLED + MSGEQ7,avr,fastled,msgeq7,True,True,False,False,True,True,77,72
+arduino_mega_fastled_msgeq7,Arduino Mega (FastLED + MSGEQ7),avr,fastled,msgeq7,True,True,False,False,True,True,77,72
+arduino_mega_pio_fastled_msgeq7,Arduino Mega (PlatformIO + FastLED + MSGEQ7),avr,fastled,msgeq7,True,True,False,True,True,True,77,72
+arduino_uno_fastled_msgeq7,Arduino Uno (FastLED + MSGEQ7),avr,fastled,msgeq7,True,True,False,False,True,True,77,72
+arduino_uno_pio_fastled_msgeq7,Arduino Uno (PlatformIO + FastLED + MSGEQ7),avr,fastled,msgeq7,True,True,False,True,True,True,77,72
+esp32_fastled_msgeq7,ESP32 (FastLED + MSGEQ7) [Scaffold],esp32,fastled,msgeq7,True,True,False,False,True,True,77,72
+esp32_hub75_i2sdma_grid_noneaudio,ESP32 HUB75 Matrix Grid (I2S-DMA) [Experimental],esp32,,,False,True,False,False,False,False,67,62
+esp32_hub75_i2sdma_msgeq7,ESP32 HUB75 Matrix (I2S-DMA + MSGEQ7) [Experimental],esp32,,"msgeq7,none",False,True,False,False,False,True,77,72
+esp32_hub75_i2sdma_noneaudio,ESP32 HUB75 Matrix (I2S-DMA) [Experimental],esp32,,,False,True,False,False,False,False,67,62
+esp32_hub75_matrix_noneaudio,ESP32 HUB75 Matrix (I2S-DMA) [Experimental],esp32,hub75,none,False,True,False,False,True,False,67,62
+esp32_neopixelbus_msgeq7,ESP32 (FastLED + MSGEQ7) [MVP],,neopixelbus,msgeq7,True,True,False,False,True,True,77,72
+esp8266_fastled_noneaudio,"ESP8266 (FastLED, no audio) [Scaffold]",esp8266,fastled,none,True,True,False,False,True,False,67,62
+rp2040_fastled_noneaudio,"RP2040 (FastLED, no audio) [Scaffold]",rp2040,fastled,none,True,True,False,False,True,False,67,62
+rp2040_pico_fastled_msgeq7,RP2040 Pico (FastLED + MSGEQ7) [MVP],,fastled,msgeq7,True,True,False,False,True,True,77,72
+stm32_fastled_noneaudio,"STM32 (FastLED, no audio) [Scaffold]",stm32,fastled,none,True,True,False,False,True,False,67,62
+teensy40_fastled_msgeq7,Teensy 4.0 (FastLED + MSGEQ7),,fastled,msgeq7,True,True,False,False,True,True,77,72
+teensy41_fastled,Teensy 4.1 (FastLED) [placeholder],arm,fastled,none,True,True,False,False,True,False,67,62
+teensy41_fastled_noneaudio,"Teensy 4.1 (FastLED, no audio) [Scaffold]",teensy,fastled,none,True,True,False,False,True,False,67,62

@@ -1,0 +1,56 @@
+{
+  "name": "hub75_hw_mapping_diagnostics",
+  "layout": {
+    "shape": "matrix",
+    "mw": 128,
+    "mh": 64,
+    "width": 128,
+    "height": 64,
+    "num_leds": 8192,
+    "led_pin": 6
+  },
+  "layers": [
+    {
+      "enabled": true,
+      "name": "mapping_diag",
+      "effect": "mapping_diagnostics",
+      "params": {
+        "brightness": 1.0,
+        "marker": 6,
+        "panel_w": 64,
+        "panel_h": 32
+      },
+      "mods": []
+    }
+  ],
+  "groups": [],
+  "zones": [],
+  "postfx": [],
+  "export": {
+    "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+    "led_backend": "hub75",
+    "audio_backend": "none",
+    "hw": {
+      "matrix": {
+        "width": 128,
+        "height": 64,
+        "rotate": 0,
+        "flip_x": 0,
+        "flip_y": 0
+      }
+    },
+    "hub75": {
+      "panel_res_x": 64,
+      "panel_res_y": 32,
+      "num_cols": 2,
+      "num_rows": 2,
+      "chain": 4,
+      "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+      "brightness": 96,
+      "use_gamma": 0,
+      "gamma": "2.2f",
+      "color_order": 0,
+      "debug_mode": 0
+    }
+  }
+}

@@ -1,0 +1,130 @@
+[
+  {
+    "key": "hub75_mario_flagship",
+    "name": "Mario-Style HUB75 Clock (Flagship: Layers + Rules)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_mariobros_flagship.json",
+    "description": "Flagship Mario-style clock rebuilt as independent layers (sky/clouds/hill/bush/ground/blocks+time/mario) for live toggling + rules-driven events."
+  },
+  {
+    "key": "hub75_mariobros_clockface",
+    "name": "HUB75 Mario Bros Clockface (Upstream-style)",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_mariobros_clockface.json",
+    "description": "Upstream-style Mario Bros clockface look (sky/ground/hills/clouds/blocks + time transitions). Preview-only for now; credit: jnthas/mariobros-clock (MIT)."
+  },
+  {
+    "key": "hub75_tilemap_runner",
+    "name": "HUB75 Tilemap Runner",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner.json",
+    "description": "Matrix-native scrolling tilemap + 8x8 runner sprite (Mario-clock vibe)."
+  },
+  {
+    "key": "hub75_tilemap_runner_2x2",
+    "name": "HUB75 Multi-Panel Tilemap Runner (128x64)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_2x2.json",
+    "description": "2x2 chained 64x32 panels (128x64). Tilemap scroll + runner sprite. Includes periodic jump trigger (simulated minute tick)."
+  },
+  {
+    "key": "hub75_tilemap_runner_clock",
+    "name": "HUB75 Tilemap Runner (Clock Minute Jump)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_clock.json",
+    "description": "Tilemap runner with minute-change jump using preview real-time clock."
+  },
+  {
+    "key": "aurora_system",
+    "name": "Aurora System",
+    "category": "Visual Systems",
+    "featured": true,
+    "fixture": "demo_aurora_system.json",
+    "description": "Smooth evolving aurora field. Visual-quality baseline."
+  },
+  {
+    "key": "particle_universe",
+    "name": "Particle Universe",
+    "category": "Physics Systems",
+    "featured": true,
+    "fixture": "demo_particle_universe.json",
+    "description": "Gravity-driven blobs/particles. Continuous physics-style motion."
+  },
+  {
+    "key": "asteroids_sim",
+    "name": "Asteroids Simulation",
+    "category": "Stateful Sims",
+    "featured": true,
+    "fixture": "demo_asteroids_simulation.json",
+    "description": "Autonomous asteroids + shots + collisions, with purpose stats."
+  },
+  {
+    "key": "breakout_field",
+    "name": "Breakout Field",
+    "category": "Stateful Sims",
+    "featured": false,
+    "fixture": "demo_breakout_field.json",
+    "description": "Autonomous breakout-like field: blocks, ball, health, score (audio optional)."
+  },
+  {
+    "key": "territory_control",
+    "name": "Territory Control",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_territory_control.json",
+    "description": "Left vs right stereo influences competing territory waves."
+  },
+  {
+    "key": "audio_arena",
+    "name": "Audio Arena",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_audio_arena.json",
+    "description": "Audio \u2192 purpose \u2192 mods: stereo energy drives dominance + particles."
+  },
+  {
+    "key": "spectrum_ecosystem",
+    "name": "Spectrum Ecosystem",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_spectrum_ecosystem.json",
+    "description": "14-band stereo particles: each band behaves like its own species."
+  },
+  {
+    "key": "living_playground",
+    "name": "Living System Playground",
+    "category": "Capstone",
+    "featured": false,
+    "fixture": "demo_living_system_playground.json",
+    "description": "Layered system: Aurora + Spectrum + Purpose bars. Full pipeline showcase."
+  },
+  {
+    "key": "hub75_wifi_ntp_sanity",
+    "name": "HUB75 WiFi + NTP Sanity",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_wifi_ntp_sanity.json",
+    "description": "Exports with WiFi Web Update + /info time endpoint + NTP enabled. Use this to verify WiFi, OTA, and correct local time before more complex clock effects."
+  },
+  {
+    "key": "hub75_hw_validation_clockdot",
+    "name": "HUB75 HW Validation (Solid + Clock Dot)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_hw_validation_clockdot.json",
+    "description": "Minimal hardware validation: solid background + seconds dot. Confirms mapping + NTP time on real panels fast."
+  },
+  {
+    "key": "hub75_hw_mapping_diagnostics",
+    "name": "HUB75 HW Mapping Diagnostics (Corners + Gradients)",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_hw_mapping_diagnostics.json",
+    "description": "Corner markers + gradients + panel grid lines to validate rotation/flip/panel order quickly on HUB75 hardware."
+  }
+]

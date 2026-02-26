@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtualenv
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Modulo runtime outputs
+out/
+logs/
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Packaging
+*.zip
+.github/workflows/

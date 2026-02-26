@@ -1,0 +1,71 @@
+{
+  "arch": "esp32",
+  "audio_backends": [
+    "none"
+  ],
+  "capabilities": {
+    "allowed_data_pins": [],
+    "audio_backends": [
+      "none"
+    ],
+    "defaults": {
+      "audio_backend": "none",
+      "led_backend": "hub75",
+      "wifi_enable": "0",
+      "wifi_ssid": "",
+      "wifi_password": "",
+      "wifi_hostname": "modulo-hub75"
+    },
+    "led_backends": [
+      "hub75"
+    ],
+    "supports_matrix": true,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": true,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": false
+  },
+  "color_orders": [
+    "GRB",
+    "RGB",
+    "BRG"
+  ],
+  "default_audio_backend": "none",
+  "default_brightness": "96",
+  "default_color_order": "GRB",
+  "default_data_pin": "5",
+  "default_fps": 60,
+  "default_led_backend": "HUB75",
+  "default_led_type": "WS2812B",
+  "default_msgeq7_left_pin": "34",
+  "default_msgeq7_reset_pin": "16",
+  "default_msgeq7_right_pin": "35",
+  "default_msgeq7_strobe_pin": "17",
+  "default_hub75_panel_res_x": 64,
+  "default_hub75_panel_res_y": 32,
+  "default_hub75_chain": 1,
+  "default_hub75_brightness": 96,
+  "default_hub75_use_gamma": 0,
+  "default_hub75_gamma": "2.2f",
+  "id": "esp32_hub75_matrix_noneaudio",
+  "name": "ESP32 HUB75 Matrix (I2S-DMA) [Experimental]",
+  "emitter_module": "export.targets.esp32_hub75_matrix_noneaudio.emitter",
+  "default_hub75_color_order": "0",
+  "hub75_color_orders": [
+    "RGB",
+    "GRB",
+    "BRG",
+    "RBG",
+    "GBR",
+    "BGR"
+  ],
+  "hub75_backend_version": "v0.1",
+  "status": "experimental_stable",
+  "default_hub75_debug_mode": 0,
+  "notes": [
+    "HUB75 export backend is export-only; preview unchanged.",
+    "Experimental but stable v0.1 baseline."
+  ]
+}

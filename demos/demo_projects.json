@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Red Hat Runner (Rules)",
+    "description": "Stateful runner driven by Rules V6 (minute-change jump).",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_red_hat_runner_rules_v6.json"
+  },
+  {
+    "name": "HUB75 Tilemap Runner (Rules)",
+    "description": "Tilemap + sprites with Rules V6 driving behaviour (minute-change jump trigger).",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_rules_v6.json"
+  },
+  {
+    "name": "HUB75 Tilemap Runner",
+    "description": "Baseline tilemap runner scene on HUB75 (sprites + scrolling).",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner.json"
+  },
+  {
+    "name": "HUB75 Multi-Panel Tilemap Runner (2\u00d72)",
+    "description": "Multi-panel mapping example (2\u00d72 panels).",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_tilemap_runner_2x2.json"
+  },
+  {
+    "name": "HUB75 Tilemap Runner (Clock Trigger)",
+    "description": "Clock-driven trigger example (minute jump).",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_tilemap_runner_clock.json"
+  },
+  {
+    "name": "HUB75 WiFi + NTP Sanity",
+    "description": "Connectivity sanity check for WiFi + NTP on HUB75 targets.",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_wifi_ntp_sanity.json"
+  },
+  {
+    "name": "HUB75 WiFi + NTP Clock Dot",
+    "description": "Clock overlay dot driven by NTP time.",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_wifi_ntp_clockdot.json"
+  },
+  {
+    "name": "HUB75 HW Validation (Solid + Clock Dot)",
+    "description": "Minimal validation: solid fill + clock dot overlay.",
+    "category": "Matrix / HUB75",
+    "featured": false,
+    "fixture": "demo_hub75_hw_validation_clockdot.json"
+  },
+  {
+    "name": "HUB75 Mapping Diagnostics",
+    "description": "Corner markers + gradients to validate orientation/mapping/serpentine.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_hw_mapping_diagnostics.json"
+  }
+]

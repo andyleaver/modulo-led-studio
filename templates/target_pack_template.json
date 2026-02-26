@@ -1,0 +1,44 @@
+{
+  "id": "my_new_target_id",
+  "name": "My New Target",
+  "arch": "esp32",
+  "description": "Describe what this target pack is for.",
+  "emitter_module": "emitters/arduino_layerstack_emitter.py",
+  "toolchain": {
+    "kind": "platformio",
+    "platform": "espressif32",
+    "board": "esp32dev",
+    "framework": "arduino"
+  },
+  "capabilities": {
+    "defaults": {
+      "led_backend": "fastled",
+      "audio_backend": "none"
+    },
+    "led_backends": [
+      "fastled"
+    ],
+    "audio_backends": [
+      "none"
+    ],
+    "supports_matrix": true,
+    "supports_matrix_serpentine": true,
+    "allowed_matrix_origins": [
+      "tl",
+      "tr",
+      "bl",
+      "br"
+    ],
+    "supports_postfx_runtime": true,
+    "supports_operators_runtime": true,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": false
+  },
+  "supports_platformio": true,
+  "supports_wifi": true,
+  "supports_streaming": false,
+  "meta": {
+    "vendor": "",
+    "notes": ""
+  }
+}

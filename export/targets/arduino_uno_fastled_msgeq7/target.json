@@ -1,0 +1,111 @@
+{
+  "arch": "avr",
+  "audio_backends": [
+    "MSGEQ7",
+    "none"
+  ],
+  "capabilities": {
+    "allowed_data_pins": [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "6"
+    ],
+    "allowed_matrix_origins": [
+      "tl",
+      "tr",
+      "bl",
+      "br"
+    ],
+    "allowed_msgeq7_left_pins": [
+      "A0"
+    ],
+    "allowed_msgeq7_reset_pins": [
+      "5"
+    ],
+    "allowed_msgeq7_right_pins": [
+      "A1"
+    ],
+    "allowed_msgeq7_strobe_pins": [
+      "4"
+    ],
+    "audio_backends": [
+      "msgeq7"
+    ],
+    "defaults": {
+      "audio_backend": "msgeq7",
+      "data_pin": "6",
+      "led_backend": "fastled",
+      "msgeq7_left_pin": "A0",
+      "msgeq7_reset_pin": "5",
+      "msgeq7_right_pin": "A1",
+      "msgeq7_strobe_pin": "4"
+    },
+    "led_backends": [
+      "fastled"
+    ],
+    "supports_matrix": true,
+    "supports_matrix_serpentine": true,
+    "supports_modulation_export": true,
+    "supports_modulation_runtime": true,
+    "supports_operators_runtime": true,
+    "supports_postfx_runtime": true,
+    "supports_rules_runtime": true,
+    "supports_strip": true
+  },
+  "color_orders": [
+    "GRB",
+    "RGB",
+    "BRG"
+  ],
+  "default_brightness": "255",
+  "default_color_order": "GRB",
+  "default_data_pin": "6",
+  "default_fps": 60,
+  "default_led_type": "WS2812B",
+  "defaults": {
+    "data_pin": "6",
+    "msgeq7_left_pin": "A0",
+    "msgeq7_reset_pin": "5",
+    "msgeq7_right_pin": "A1",
+    "msgeq7_strobe_pin": "4"
+  },
+  "description": "Arduino Uno (FastLED + MSGEQ7) target pack.",
+  "emitter_module": "export.targets.arduino_uno_fastled_msgeq7.emitter",
+  "id": "arduino_uno_fastled_msgeq7",
+  "led_backends": [
+    "FastLED"
+  ],
+  "led_types": [
+    "WS2812B",
+    "SK6812"
+  ],
+  "max_leds_hard": 500,
+  "max_leds_recommended": 300,
+  "meta": {
+    "default_brightness": 255,
+    "default_color_order": "GRB",
+    "default_data_pin": "6",
+    "default_led_type": "WS2812B",
+    "default_msgeq7_left_pin": "A0",
+    "default_msgeq7_reset_pin": "5",
+    "default_msgeq7_right_pin": "A1",
+    "default_msgeq7_strobe_pin": "4"
+  },
+  "name": "Arduino Uno (FastLED + MSGEQ7)",
+  "ram_limit_bytes": 2048,
+  "supports_arduino_ino": true,
+  "supports_platformio": false,
+  "supports_streaming": false,
+  "supports_wifi": false,
+  "toolchain": "arduino"
+}

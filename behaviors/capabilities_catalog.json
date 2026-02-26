@@ -1,0 +1,861 @@
+{
+  "effects": {
+    "ambient_dashboard": {
+      "cost": "light",
+      "preview_only": true,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Ambient Dashboard",
+      "ui_category": "showcase"
+    },
+    "asteroids_game": {
+      "deprecated": true,
+      "hidden": true,
+      "requires_audio": false,
+      "shipped": false,
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Asteroids (Game)"
+    },
+    "asteroids_lite": {
+      "cost": "medium",
+      "deprecated": true,
+      "hidden": true,
+      "requires": [
+        "purpose",
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "audio_meter": {
+      "cost": "light",
+      "preview_only": true,
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "ui_category": "utility"
+    },
+    "audio_routed_zones": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "audio_zone_eq": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "aurora": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "beat_strobe": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "blocks_ball_game_ino": {
+      "hidden": false,
+      "requires_audio": false,
+      "shipped": true,
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "boids_swarm": {
+      "cost": "medium",
+      "preview_only": true,
+      "requires": [
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Boids Swarm",
+      "ui_category": "showcase"
+    },
+    "bouncer": {
+      "cost": "medium",
+      "requires": [
+        "state"
+      ],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "bpm": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "bpm_pulse_train": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "breakout_game": {
+      "deprecated": true,
+      "hidden": true,
+      "requires_audio": false,
+      "shipped": false,
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Breakout (Game)"
+    },
+    "breakout_lite": {
+      "cost": "medium",
+      "deprecated": true,
+      "hidden": true,
+      "requires": [
+        "purpose",
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "ca_module": {
+      "cost": "medium",
+      "preview_only": true,
+      "requires": [
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "CA Module"
+    },
+    "call_response": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "chase": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "color_wipe": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "comet_storm": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "confetti": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "crystal_shards": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "cylon": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "demo_asteroids": {
+      "deprecated": true,
+      "hidden": true,
+      "requires_audio": false,
+      "shipped": false,
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Asteroids (Demo)"
+    },
+    "demo_breakout": {
+      "deprecated": true,
+      "hidden": true,
+      "requires_audio": false,
+      "shipped": false,
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Breakout (Demo)"
+    },
+    "dna_helix": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "electric_web": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "explosion": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "fade": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "fire": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "fireworks": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "force_particles": {
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "fractal_flame": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "frequency_particles_14": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "fsm_phases": {
+      "export": true,
+      "notes": "Narrative phase tint overlay (implemented via write_the_loop pathway).",
+      "preview": true,
+      "shipped": true
+    },
+    "game_of_life": {
+      "cost": "medium",
+      "requires": [
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Game of Life"
+    },
+    "glitch_datamosh": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "gradient": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "gravity_blobs": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "hyperspace": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "impact_ripples": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "juggle": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "kaleidoscope": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "kick_burst": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "lightning": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "liquid_metal": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": false
+    },
+    "memory_heatmap": {
+      "cost": "light",
+      "preview_only": true,
+      "requires": [
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Memory Heatmap",
+      "ui_category": "utility"
+    },
+    "meteor": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "msgeq7_reactive_ino": {
+      "hidden": false,
+      "requires_audio": true,
+      "shipped": true,
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "msgeq7_visualizer_575": {
+      "deprecated": false,
+      "hidden": false,
+      "requires_audio": true,
+      "shipped": true,
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "MSGEQ7 Visualizer (575)"
+    },
+    "neon_city": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "noise": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "plasma_lattice": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "portal": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "predator_prey": {
+      "cost": "medium",
+      "preview_only": true,
+      "requires": [
+        "state"
+      ],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Predator / Prey",
+      "ui_category": "showcase"
+    },
+    "pulse": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "purpose_autoplay": {
+      "cost": "medium",
+      "requires": [
+        "purpose"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "purpose_bar": {
+      "cost": "medium",
+      "requires": [
+        "purpose"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "purpose_meter": {
+      "cost": "medium",
+      "requires": [
+        "purpose"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "rainbow": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "rainbow_wipe": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "reaction_diffusion": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "ripple": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "scanner": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": false
+    },
+    "section_morph_palette": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": false
+    },
+    "shock_chain": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "shooter_game_ino": {
+      "hidden": false,
+      "requires_audio": false,
+      "shipped": true,
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "sinelon": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "snake_game": {
+      "deprecated": true,
+      "hidden": true,
+      "requires_audio": false,
+      "shipped": false,
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Snake (Game)"
+    },
+    "snake_game_ino": {
+      "hidden": false,
+      "requires_audio": false,
+      "shipped": true,
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "snare_spark": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "solid": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "solid_green_era": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "Green LED (Era)",
+      "ui_category": "era"
+    },
+    "solid_red_1962": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1962 Red LED",
+      "ui_category": "era"
+    },
+    "solid_yellow_1972": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1972 Yellow LED",
+      "ui_category": "era"
+    },
+    "pulse_red_1980s": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1980s Pulse (Red)",
+      "ui_category": "era"
+    },
+    "pulse_yellow_1980s": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1980s Pulse (Yellow)",
+      "ui_category": "era"
+    },
+    "pulse_green_1980s": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1980s Pulse (Green)",
+      "ui_category": "era"
+    },
+    "sparkle": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "spectral_dna_helix_14": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "spectral_kaleidoscope_audio": {
+      "cost": "medium",
+      "requires": [
+        "audio"
+      ],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "spectral_ripples_14": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "spectral_wave": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "spectrum_bars_stereo": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "starfield": {
+      "cost": "heavy",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "stereo_call_response": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "stereo_dual_vortex": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": false
+    },
+    "stereo_energy_field": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "strobe": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "sweep": {
+      "supports_matrix": true,
+      "supports_strip": false
+    },
+    "theater_chase": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "tunnel": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "twinkle": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "volumetric_fog": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "vortex_particles": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "wave": {
+      "cost": "medium",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    },
+    "wipe": {
+      "cost": "light",
+      "requires": [],
+      "requires_audio": false,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true
+    }
+  },
+  "version": 1
+}

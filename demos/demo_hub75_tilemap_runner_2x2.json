@@ -1,0 +1,74 @@
+{
+  "name": "hub75_tilemap_runner_2x2",
+  "layout": {
+    "shape": "matrix",
+    "mw": 128,
+    "mh": 64,
+    "width": 128,
+    "height": 64,
+    "num_leds": 8192,
+    "led_pin": 6
+  },
+  "layers": [
+    {
+      "enabled": true,
+      "name": "tilemap_runner_2x2",
+      "effect": "tilemap_sprite",
+      "params": {
+        "speed": 1.0,
+        "brightness": 1.0,
+        "color": [
+          220,
+          40,
+          40
+        ],
+        "jump_period_s": 10.0,
+        "jump_height": 12.0,
+        "jump_duration_s": 0.45,
+        "tilemap_map": [
+          "....BB..QQ....BB....BB..QQ....BB....BB..QQ....BB....",
+          "....BB..........BB......BB..........BB......BB......",
+          "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+          "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+        ],
+        "tilemap_legend": {
+          "B": "brick",
+          "Q": "question",
+          "G": "grass",
+          ".": "sky"
+        }
+      },
+      "mods": []
+    }
+  ],
+  "groups": [],
+  "zones": [],
+  "postfx": [],
+  "export": {
+    "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+    "led_backend": "hub75",
+    "audio_backend": "none",
+    "hw": {
+      "matrix": {
+        "width": 128,
+        "height": 64,
+        "rotate": 0,
+        "flip_x": 0,
+        "flip_y": 0
+      }
+    },
+    "hub75": {
+      "panel_res_x": 64,
+      "panel_res_y": 32,
+      "num_cols": 2,
+      "num_rows": 2,
+      "chain": 4,
+      "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+      "brightness": 96,
+      "use_gamma": 0,
+      "gamma": "2.2f",
+      "color_order": 0,
+      "debug_mode": 0
+    }
+  }
+}

@@ -1,0 +1,1466 @@
+[
+  {
+    "name": "Mario-Style HUB75 Clock (Flagship: Layers + Rules)",
+    "description": "Flagship showcase: upstream-style Mario clock look rebuilt as real Modulo layers you can toggle/reorder/blend.\n\nCredits: inspired by jnthas/mariobros-clock (MIT). See THIRD_PARTY_NOTICES.md.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_mariobros_flagship.json",
+    "project": {
+      "name": "HUB75 Mario Bros Flagship (Layers + Rules)",
+      "layout": {
+        "shape": "cells",
+        "type": "cells",
+        "mw": 64,
+        "mh": 64,
+        "width": 64,
+        "height": 64,
+        "num_leds": 4096,
+        "led_pin": 6,
+        "matrix_serpentine": false,
+        "serpentine": false,
+        "matrix_flip_x": false,
+        "matrix_flip_y": false,
+        "matrix_rotate": 0
+      },
+      "layers": [
+        {
+          "uid": "L0",
+          "__uid": "L0",
+          "id": "L0",
+          "name": "Sky",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "normal",
+          "params": {
+            "part": "sky"
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "sky"
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#6ec6ff"
+        },
+        {
+          "uid": "L1",
+          "__uid": "L1",
+          "id": "L1",
+          "name": "Clouds",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "add",
+          "params": {
+            "part": "clouds",
+            "scroll_speed": 10.0
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "clouds",
+                "scroll_speed": 10.0
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#ffffff"
+        },
+        {
+          "uid": "L2",
+          "__uid": "L2",
+          "id": "L2",
+          "name": "Hill",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "add",
+          "params": {
+            "part": "hill",
+            "scroll_speed": 10.0
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "hill",
+                "scroll_speed": 10.0
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#7bd67b"
+        },
+        {
+          "uid": "L3",
+          "__uid": "L3",
+          "id": "L3",
+          "name": "Bush",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "add",
+          "params": {
+            "part": "bush",
+            "scroll_speed": 10.0
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "bush",
+                "scroll_speed": 10.0
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#3fa93f"
+        },
+        {
+          "uid": "L4",
+          "__uid": "L4",
+          "id": "L4",
+          "name": "Ground",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "add",
+          "params": {
+            "part": "ground",
+            "scroll_speed": 10.0
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "ground",
+                "scroll_speed": 10.0
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#b37700"
+        },
+        {
+          "uid": "L5",
+          "__uid": "L5",
+          "id": "L5",
+          "name": "Blocks + Time",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "normal",
+          "params": {
+            "part": "blocks_time"
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "blocks_time"
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#ffcc00"
+        },
+        {
+          "uid": "L6",
+          "__uid": "L6",
+          "id": "L6",
+          "name": "Mario",
+          "enabled": true,
+          "effect": "mariobros_scene_layer",
+          "behavior": "mariobros_scene_layer",
+          "opacity": 1,
+          "blend_mode": "add",
+          "params": {
+            "part": "mario",
+            "run_speed": 18.0,
+            "jump_height": 14.0,
+            "jump_on_minute": true
+          },
+          "operators": [
+            {
+              "type": "mariobros_scene_layer",
+              "enabled": true,
+              "params": {
+                "part": "mario",
+                "run_speed": 18.0,
+                "jump_height": 14.0,
+                "jump_on_minute": true
+              }
+            }
+          ],
+          "mods": [],
+          "modulotors": [],
+          "debug_color": "#ff4444"
+        }
+      ],
+      "active_layer": 6,
+      "masks": {},
+      "zones": {},
+      "groups": {},
+      "rules_v6": [],
+      "variables": {
+        "demo_audio_enabled": true,
+        "event_star_enabled": true
+      },
+      "postfx": {},
+      "ui": {}
+    }
+  },
+  {
+    "name": "HUB75 Tilemap Runner",
+    "description": "Matrix-native scrolling tilemap + 8x8 runner sprite. Designed for HUB75 panels; works in preview on any matrix layout.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner.json",
+    "project": {
+      "name": "hub75_tilemap_runner",
+      "layout": {
+        "shape": "matrix",
+        "mw": 64,
+        "mh": 32,
+        "width": 64,
+        "height": 32,
+        "num_leds": 2048,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "tilemap_runner",
+          "effect": "tilemap_sprite",
+          "params": {
+            "speed": 1.0,
+            "brightness": 1.0,
+            "color": [
+              220,
+              40,
+              40
+            ],
+            "tilemap_map": [
+              "....BB..QQ....BB....",
+              "....BB..........BB..",
+              "GGGGGGGGGGGGGGGGGGGG",
+              "GGGGGGGGGGGGGGGGGGGG"
+            ],
+            "tilemap_legend": {
+              "B": "brick",
+              "Q": "question",
+              "G": "grass",
+              ".": "sky"
+            }
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 64,
+            "height": 32,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 1,
+          "num_rows": 1,
+          "chain": 1,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0
+        }
+      }
+    }
+  },
+  {
+    "name": "HUB75 Multi-Panel Tilemap Runner (128x64)",
+    "description": "2x2 chained 64x32 panels (128x64). Tilemap scroll + runner sprite. Includes periodic jump trigger (simulated minute tick).",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_2x2.json",
+    "project": {
+      "name": "hub75_tilemap_runner_2x2",
+      "layout": {
+        "shape": "matrix",
+        "mw": 128,
+        "mh": 64,
+        "width": 128,
+        "height": 64,
+        "num_leds": 8192,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "tilemap_runner_2x2",
+          "effect": "tilemap_sprite",
+          "params": {
+            "speed": 1.0,
+            "brightness": 1.0,
+            "color": [
+              220,
+              40,
+              40
+            ],
+            "jump_period_s": 10.0,
+            "jump_height": 12.0,
+            "jump_duration_s": 0.45,
+            "tilemap_map": [
+              "....BB..QQ....BB....BB..QQ....BB....BB..QQ....BB....",
+              "....BB..........BB......BB..........BB......BB......",
+              "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+              "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+            ],
+            "tilemap_legend": {
+              "B": "brick",
+              "Q": "question",
+              "G": "grass",
+              ".": "sky"
+            }
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 128,
+            "height": 64,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 2,
+          "num_rows": 2,
+          "chain": 4,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0
+        }
+      }
+    }
+  },
+  {
+    "name": "HUB75 Tilemap Runner (Clock Minute Jump)",
+    "description": "Tilemap scroll + runner sprite. Uses real-time clock minute change in preview to trigger jump (falls back to periodic trigger if no clock).",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_clock.json",
+    "project": {
+      "name": "hub75_tilemap_runner_clock",
+      "layout": {
+        "shape": "matrix",
+        "mw": 64,
+        "mh": 32,
+        "width": 64,
+        "height": 32,
+        "num_leds": 2048,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "tilemap_runner",
+          "effect": "tilemap_sprite",
+          "params": {
+            "speed": 1.0,
+            "brightness": 1.0,
+            "color": [
+              220,
+              40,
+              40
+            ],
+            "tilemap_map": [
+              "....BB..QQ....BB....",
+              "....BB..........BB..",
+              "GGGGGGGGGGGGGGGGGGGG",
+              "GGGGGGGGGGGGGGGGGGGG"
+            ],
+            "tilemap_legend": {
+              "B": "brick",
+              "Q": "question",
+              "G": "grass",
+              ".": "sky"
+            },
+            "jump_period_s": 0.0,
+            "jump_on_minute": 1,
+            "jump_height": 10.0,
+            "jump_duration_s": 0.5
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 64,
+            "height": 32,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 1,
+          "num_rows": 1,
+          "chain": 1,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0
+        }
+      },
+      "ui": {
+        "export_hub75_mapping_preset": "Default (no rotate/flip)"
+      }
+    }
+  },
+  {
+    "name": "HUB75 Tilemap Runner (Rules V6 Minute Jump)",
+    "description": "Uses Rules V6 (rising edge on clock.minute_changed) to pulse a layer param (jump_now). Demonstrates Mario-clock-style rule-driven animation.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_tilemap_runner_rules_v6.json",
+    "project": {
+      "name": "hub75_tilemap_runner_rules_v6",
+      "layout": {
+        "shape": "matrix",
+        "mw": 64,
+        "mh": 32,
+        "width": 64,
+        "height": 32,
+        "num_leds": 2048,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "tilemap_runner",
+          "effect": "tilemap_sprite",
+          "params": {
+            "speed": 1.0,
+            "brightness": 1.0,
+            "color": [
+              220,
+              40,
+              40
+            ],
+            "tilemap_map": [
+              "....BB..QQ....BB....",
+              "....BB..........BB..",
+              "GGGGGGGGGGGGGGGGGGGG",
+              "GGGGGGGGGGGGGGGGGGGG"
+            ],
+            "tilemap_legend": {
+              "B": "brick",
+              "Q": "question",
+              "G": "grass",
+              ".": "sky"
+            },
+            "jump_period_s": 0.0,
+            "jump_on_minute": 0,
+            "jump_height": 10.0,
+            "jump_duration_s": 0.5,
+            "jump_now": 0.0
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 64,
+            "height": 32,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 1,
+          "num_rows": 1,
+          "chain": 1,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0
+        }
+      },
+      "ui": {
+        "export_hub75_mapping_preset": "Default (no rotate/flip)",
+        "active_layer": 0
+      },
+      "rules_v6": [
+        {
+          "id": "63ea3f40",
+          "enabled": true,
+          "name": "00_clear_jump_now",
+          "trigger": "tick",
+          "when": {
+            "signal": "audio.energy"
+          },
+          "action": {
+            "kind": "set_layer_param",
+            "layer": 0,
+            "param": "jump_now",
+            "expr": {
+              "src": "const",
+              "const": 0.0
+            },
+            "conflict": "last"
+          }
+        },
+        {
+          "id": "d1223897",
+          "enabled": true,
+          "name": "10_minute_jump",
+          "trigger": "rising",
+          "when": {
+            "signal": "vars.number.clock.minute_changed"
+          },
+          "action": {
+            "kind": "set_layer_param",
+            "layer": 0,
+            "param": "jump_now",
+            "expr": {
+              "src": "const",
+              "const": 1.0
+            },
+            "conflict": "last"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "Aurora System",
+    "description": "Smooth evolving aurora field. Visual-quality baseline.",
+    "category": "Visual Systems",
+    "featured": true,
+    "fixture": "demo_aurora_system.json",
+    "project": {
+      "name": "aurora_demo",
+      "layout": {
+        "shape": "strip",
+        "num_leds": 60,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "aurora",
+          "effect": "aurora",
+          "params": {
+            "color": [
+              80,
+              255,
+              200
+            ],
+            "brightness": 1.0,
+            "speed": 0.9,
+            "width": 0.55,
+            "softness": 0.7
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "debug_purpose_serial": false
+      }
+    }
+  },
+  {
+    "name": "Particle Universe",
+    "description": "Gravity-driven blobs/particles. Continuous physics-style motion.",
+    "category": "Physics Systems",
+    "featured": true,
+    "fixture": "demo_particle_universe.json",
+    "project": {
+      "name": "gravity_blobs_demo",
+      "layout": {
+        "shape": "strip",
+        "num_leds": 80,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "gravity_blobs",
+          "effect": "gravity_blobs",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.65,
+            "softness": 0.55,
+            "width": 0.35
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "debug_purpose_serial": false
+      }
+    }
+  },
+  {
+    "name": "Asteroids Simulation",
+    "description": "Autonomous asteroids + shots + collisions, with purpose stats.",
+    "category": "Stateful Sims",
+    "featured": true,
+    "fixture": "demo_asteroids_simulation.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Asteroids Lite",
+          "effect": "asteroids_lite_purpose",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "width": 0.22,
+            "softness": 0.35,
+            "density": 0.65,
+            "seed": 1337,
+            "opacity": 1.0
+          },
+          "mods": []
+        }
+      ],
+      "purpose_labels": {
+        "purpose_f0": "health",
+        "purpose_f1": "ammo",
+        "purpose_f2": "shield",
+        "purpose_i0": "score"
+      },
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.05,
+        "meter": "stereo14",
+        "autoconnect": false
+      }
+    }
+  },
+  {
+    "name": "Breakout Field",
+    "description": "Autonomous breakout-like field: blocks, ball, health, score (audio optional).",
+    "category": "Stateful Sims",
+    "featured": false,
+    "fixture": "demo_breakout_field.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Breakout Field",
+          "effect": "breakout_lite",
+          "params": {
+            "color": "#00ffff",
+            "color2": "#ff00ff",
+            "bg": "#202020",
+            "width": 0.18,
+            "speed": 1.0,
+            "density": 0.55,
+            "softness": 0.45,
+            "opacity": 1.0
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "kick",
+              "target": "speed",
+              "amount": 0.75,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "bass",
+              "target": "density",
+              "amount": 0.35,
+              "bias": 0.0,
+              "curve": "linear"
+            }
+          ]
+        }
+      ],
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.06,
+        "meter": "stereo14",
+        "autoconnect": false
+      },
+      "purpose_labels": {
+        "purpose_score": "score",
+        "purpose_blocks_left": "blocks_left"
+      }
+    }
+  },
+  {
+    "name": "Territory Control",
+    "description": "Left vs right stereo influences competing territory waves.",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_territory_control.json",
+    "project": {
+      "schema_version": 13,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 300,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Spectral DNA (14)",
+          "effect": "spectral_dna_helix_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "softness": 0.35,
+            "density": 0.55,
+            "width": 0.35,
+            "opacity": 1.0
+          },
+          "mods": []
+        },
+        {
+          "enabled": true,
+          "name": "Dual Vortex (Stereo)",
+          "effect": "stereo_dual_vortex",
+          "params": {
+            "brightness": 0.95,
+            "speed": 1.0,
+            "softness": 0.4,
+            "density": 0.6,
+            "width": 0.3,
+            "opacity": 0.85
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "active_layer": 0,
+      "export_audio": {
+        "use_spectrum_shield": true,
+        "reset_pin": 5,
+        "strobe_pin": 4,
+        "left_pin": "A0",
+        "right_pin": "A1"
+      },
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.05,
+        "meter": "stereo14",
+        "autoconnect": false
+      }
+    }
+  },
+  {
+    "name": "Audio Arena",
+    "description": "Audio \u2192 purpose \u2192 mods: stereo energy drives dominance + particles.",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_audio_arena.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "audio_routes": [
+        {
+          "source": "energy_l",
+          "target": "purpose_f0",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "energy_r",
+          "target": "purpose_f1",
+          "scale": 1.0,
+          "mode": "add"
+        }
+      ],
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Stereo Particles",
+          "effect": "frequency_particles_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.75,
+            "softness": 0.35,
+            "opacity": 1.0
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "purpose_f0",
+              "target": "speed",
+              "amount": 0.6,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "purpose_f1",
+              "target": "density",
+              "amount": 0.4,
+              "bias": 0.0,
+              "curve": "linear"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "name": "Dominance Meter",
+          "effect": "purpose_meter",
+          "params": {
+            "opacity": 0.75,
+            "brightness": 1.0,
+            "bg": "#000000",
+            "color": "#00ff00",
+            "color2": "#ff0000"
+          },
+          "mods": []
+        }
+      ],
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.06,
+        "meter": "stereo14",
+        "autoconnect": false
+      },
+      "purpose_labels": {
+        "purpose_f0": "energy_L",
+        "purpose_f1": "energy_R"
+      }
+    }
+  },
+  {
+    "name": "Spectrum Ecosystem",
+    "description": "14-band stereo particles: each band behaves like its own species.",
+    "category": "Audio Sims",
+    "featured": false,
+    "fixture": "demo_spectrum_ecosystem.json",
+    "project": {
+      "name": "frequency_particles_14_demo",
+      "layout": {
+        "shape": "strip",
+        "num_leds": 180,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "frequency_particles_14",
+          "effect": "frequency_particles_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.55,
+            "softness": 0.45,
+            "width": 0.35
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "debug_purpose_serial": false
+      }
+    }
+  },
+  {
+    "name": "Living System Playground",
+    "description": "Layered system: Aurora + Spectrum + Purpose bars. Full pipeline showcase.",
+    "category": "Capstone",
+    "featured": false,
+    "fixture": "demo_living_system_playground.json",
+    "project": {
+      "schema_version": 14,
+      "layout": {
+        "shape": "strip",
+        "num_leds": 240,
+        "led_pin": 6
+      },
+      "audio_routes": [
+        {
+          "source": "bass",
+          "target": "purpose_f0",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "mid",
+          "target": "purpose_f1",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "high",
+          "target": "purpose_f2",
+          "scale": 1.0,
+          "mode": "add"
+        },
+        {
+          "source": "kick",
+          "target": "purpose_f3",
+          "scale": 1.0,
+          "mode": "add"
+        }
+      ],
+      "layers": [
+        {
+          "enabled": true,
+          "name": "Aurora Base",
+          "effect": "aurora",
+          "params": {
+            "brightness": 0.9,
+            "speed": 0.7,
+            "width": 0.35,
+            "softness": 0.4,
+            "density": 0.6,
+            "opacity": 0.85
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "purpose_f0",
+              "target": "width",
+              "amount": 0.35,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "purpose_f1",
+              "target": "speed",
+              "amount": 0.7,
+              "bias": 0.0,
+              "curve": "linear"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "name": "Spectrum Particles",
+          "effect": "frequency_particles_14",
+          "params": {
+            "brightness": 1.0,
+            "speed": 1.0,
+            "density": 0.7,
+            "softness": 0.35,
+            "opacity": 0.9
+          },
+          "mods": [
+            {
+              "enabled": true,
+              "source": "purpose_f2",
+              "target": "density",
+              "amount": 0.6,
+              "bias": 0.0,
+              "curve": "linear"
+            },
+            {
+              "enabled": true,
+              "source": "purpose_f3",
+              "target": "brightness",
+              "amount": 0.35,
+              "bias": 0.1,
+              "curve": "linear"
+            }
+          ]
+        },
+        {
+          "enabled": true,
+          "name": "Purpose Bars",
+          "effect": "purpose_bar",
+          "params": {
+            "opacity": 0.85,
+            "brightness": 1.0,
+            "bg": "#000000",
+            "color": "#00ffff",
+            "color2": "#ff00ff"
+          },
+          "mods": []
+        }
+      ],
+      "active_layer": 0,
+      "preview_audio": {
+        "mode": "sim",
+        "port": "",
+        "baud": 115200,
+        "gain": 1.0,
+        "smoothing": 0.06,
+        "meter": "stereo14",
+        "autoconnect": false
+      },
+      "purpose_labels": {
+        "purpose_f0": "bass",
+        "purpose_f1": "mid",
+        "purpose_f2": "high",
+        "purpose_f3": "kick"
+      }
+    }
+  },
+  {
+    "name": "HUB75 WiFi + NTP Sanity",
+    "description": "Exports with WiFi Web Update + /info time endpoint + NTP enabled. Use this to verify WiFi, OTA, and correct local time before more complex clock effects.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_wifi_ntp_sanity.json",
+    "project": {
+      "name": "hub75_wifi_ntp_sanity",
+      "layout": {
+        "shape": "matrix",
+        "mw": 64,
+        "mh": 32,
+        "width": 64,
+        "height": 32,
+        "num_leds": 2048,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "sanity",
+          "effect": "tilemap_sprite",
+          "params": {
+            "speed": 0.0,
+            "brightness": 1.0,
+            "color": [
+              40,
+              220,
+              40
+            ],
+            "tilemap_map": [
+              "................................................................",
+              "....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB",
+              "....Q..Q....B..B....Q..Q....B..B....Q..Q....B..B....Q..Q....B..B",
+              "....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB",
+              "................................................................",
+              "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+            ],
+            "tilemap_legend": {
+              "B": "brick",
+              "Q": "question",
+              "G": "grass",
+              ".": "sky"
+            },
+            "jump_on_second": 1,
+            "jump_period_s": 1.0
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 64,
+            "height": 32,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 1,
+          "num_rows": 1,
+          "chain": 1,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0,
+          "wifi_enable": 1,
+          "wifi_ssid": "YOUR_WIFI_SSID",
+          "wifi_password": "YOUR_WIFI_PASSWORD",
+          "wifi_hostname": "modulo-hub75",
+          "wifi_ap_fallback": 1,
+          "wifi_ap_password": "",
+          "wifi_ntp": 1,
+          "wifi_tz": "GMT0BST,M3.5.0/1,M10.5.0/2"
+        }
+      }
+    }
+  },
+  {
+    "name": "HUB75 WiFi + NTP Clock Dot Overlay",
+    "description": "Visual NTP sanity on the panel: a bright dot sweeps across the top row once per minute (updates every second). Includes web updater + /info endpoint + AP fallback portal.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_wifi_ntp_clockdot.json",
+    "project": {
+      "name": "hub75_wifi_ntp_clockdot",
+      "layout": {
+        "shape": "matrix",
+        "mw": 64,
+        "mh": 32,
+        "width": 64,
+        "height": 32,
+        "num_leds": 2048,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "sanity",
+          "effect": "tilemap_sprite",
+          "params": {
+            "speed": 0.0,
+            "brightness": 1.0,
+            "color": [
+              40,
+              220,
+              40
+            ],
+            "tilemap_map": [
+              "................................................................",
+              "....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB",
+              "....Q..Q....B..B....Q..Q....B..B....Q..Q....B..B....Q..Q....B..B",
+              "....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB....QQQQ....BBBB",
+              "................................................................",
+              "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+            ],
+            "tilemap_legend": {
+              "B": "brick",
+              "Q": "question",
+              "G": "grass",
+              ".": "sky"
+            },
+            "jump_on_second": 1,
+            "jump_period_s": 1.0
+          },
+          "mods": []
+        },
+        {
+          "enabled": true,
+          "name": "clock_dot",
+          "effect": "clock_seconds_dot",
+          "params": {
+            "brightness": 1.0,
+            "color": [
+              40,
+              180,
+              255
+            ],
+            "row": 0,
+            "trail": 6
+          },
+          "mods": [],
+          "opacity": 1.0,
+          "blend_mode": "add"
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 64,
+            "height": 32,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 1,
+          "num_rows": 1,
+          "chain": 1,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0,
+          "wifi_enable": 1,
+          "wifi_ssid": "YOUR_WIFI_SSID",
+          "wifi_password": "YOUR_WIFI_PASSWORD",
+          "wifi_hostname": "modulo-hub75",
+          "wifi_ap_fallback": 1,
+          "wifi_ap_password": "",
+          "wifi_ntp": 1,
+          "wifi_tz": "GMT0BST,M3.5.0/1,M10.5.0/2"
+        }
+      }
+    }
+  },
+  {
+    "name": "HUB75 HW Validation (Solid + Clock Dot)",
+    "description": "Minimal hardware validation: solid dim background + seconds-dot overlay. Use this to confirm wiring, mapping, brightness, and NTP time sync with the least moving parts.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_hw_validation_clockdot.json",
+    "project": {
+      "name": "hub75_hw_validation_clockdot",
+      "layout": {
+        "shape": "matrix",
+        "mw": 64,
+        "mh": 32,
+        "width": 64,
+        "height": 32,
+        "num_leds": 2048,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "solid_bg",
+          "effect": "solid",
+          "params": {
+            "brightness": 0.2,
+            "color": [
+              10,
+              10,
+              10
+            ]
+          },
+          "mods": []
+        },
+        {
+          "enabled": true,
+          "name": "clockdot",
+          "effect": "clock_seconds_dot",
+          "params": {
+            "brightness": 1.0,
+            "trail": 6,
+            "y": 0
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 64,
+            "height": 32,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 1,
+          "num_rows": 1,
+          "chain": 1,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0,
+          "wifi_enable": 1,
+          "wifi_ssid": "",
+          "wifi_password": "",
+          "wifi_hostname": "modulo-hub75",
+          "wifi_ap_fallback": 1,
+          "wifi_ap_password": "",
+          "wifi_ntp": 1,
+          "wifi_tz": "GMT0BST,M3.5.0/1,M10.5.0/2"
+        }
+      }
+    }
+  },
+  {
+    "name": "HUB75 HW Mapping Diagnostics (Corners + Gradients)",
+    "description": "Instant mapping sanity: corner markers + X/Y gradients + panel grid lines. Use this to spot rotate/flip/panel-order mistakes fast on real HUB75 panels.",
+    "category": "Matrix / HUB75",
+    "featured": true,
+    "fixture": "demo_hub75_hw_mapping_diagnostics.json",
+    "project": {
+      "name": "hub75_hw_mapping_diagnostics",
+      "layout": {
+        "shape": "matrix",
+        "mw": 128,
+        "mh": 64,
+        "width": 128,
+        "height": 64,
+        "num_leds": 8192,
+        "led_pin": 6
+      },
+      "layers": [
+        {
+          "enabled": true,
+          "name": "mapping_diag",
+          "effect": "mapping_diagnostics",
+          "params": {
+            "brightness": 1.0,
+            "marker": 6,
+            "panel_w": 64,
+            "panel_h": 32
+          },
+          "mods": []
+        }
+      ],
+      "groups": [],
+      "zones": [],
+      "postfx": [],
+      "export": {
+        "target_id": "esp32_hub75_i2sdma_grid_noneaudio",
+        "led_backend": "hub75",
+        "audio_backend": "none",
+        "hw": {
+          "matrix": {
+            "width": 128,
+            "height": 64,
+            "rotate": 0,
+            "flip_x": 0,
+            "flip_y": 0
+          }
+        },
+        "hub75": {
+          "panel_res_x": 64,
+          "panel_res_y": 32,
+          "num_cols": 2,
+          "num_rows": 2,
+          "chain": 4,
+          "virtual_chain_type": "CHAIN_TOP_LEFT_DOWN",
+          "brightness": 96,
+          "use_gamma": 0,
+          "gamma": "2.2f",
+          "color_order": 0,
+          "debug_mode": 0
+        }
+      },
+      "ui": {
+        "export_hub75_mapping_preset": "Default (no rotate/flip)",
+        "export_hub75_panel_order": "Linear L\u2192R, Top\u2192Bottom",
+        "export_hub75_auto_chain": 1
+      }
+    }
+  }
+]
