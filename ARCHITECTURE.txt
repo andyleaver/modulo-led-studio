@@ -1,0 +1,15 @@
+Modulo Architecture
+
+Surface / Hardware
+↓
+Targeting (zones, masks, groups)
+↓
+Layers (stack)
+↓
+Behaviors (generate pixels per layer)
+↓
+Operators (post processing)
+↓
+Hardware Output
+
+Signals, Variables, and Rules influence Behaviors and Layers during runtime.

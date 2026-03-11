@@ -1,7 +1,7 @@
 def test_project_migrate_adds_uids_and_ui_defaults():
     from app.project_manager import migrate_project_dict
     p = {
-        "layout": {"shape": "strip", "num_leds": 10},
+        "surface": {"shape": "strip", "count": 10},
         "layers": [{"name": "L1", "behavior": "solid"}],
     }
     p2 = migrate_project_dict(p)

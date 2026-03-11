@@ -1,4 +1,4 @@
-"""Deterministic preview render harness (v1).
+"""Deterministic preview render harness.
 
 Example:
   python3 scripts/mod_test_harness.py --effect mod_example_wave --frames 60 --leds 60
@@ -10,7 +10,6 @@ import argparse
 import hashlib
 
 from behaviors.registry import get_effect
-
 
 def main():
     ap = argparse.ArgumentParser()
@@ -34,7 +33,6 @@ def main():
         t += args.dt
 
     print(h.hexdigest())
-
 
 if __name__ == '__main__':
     main()

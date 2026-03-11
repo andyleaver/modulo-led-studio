@@ -6,13 +6,11 @@ from typing import List, Tuple, Dict
 
 RGB = Tuple[int,int,int]
 
-
 SKY_COLOR_565 = 0x000E
 
 MASK_565 = 0x000E
 
 SKY: RGB = (0, 0, 115)
-
 
 ASSETS: Dict[str, Dict[str, object]] = {
 
@@ -39,10 +37,8 @@ ASSETS: Dict[str, Dict[str, object]] = {
 def _pix_to_grid(pix, w, h):
     return [list(pix[y*w:(y+1)*w]) for y in range(h)]
 
-
 def _grid_to_pix(grid):
     return [c for row in grid for c in row]
-
 
 def _shift_region_x(grid, y0, y1, dx, fill=SKY):
     h = len(grid)
@@ -61,7 +57,6 @@ def _shift_region_x(grid, y0, y1, dx, fill=SKY):
             if 0 <= nx < w:
                 new[nx] = c
         grid[y] = new
-
 
 def _cap_edges(name: str, *, left: bool = True, right: bool = True, fill=SKY) -> None:
     """Pad unfinished sprite edges.
@@ -88,11 +83,10 @@ def _cap_edges(name: str, *, left: bool = True, right: bool = True, fill=SKY) ->
             g[y][w - 1] = g[y][w - 2]
     a['pix'] = _grid_to_pix(g)
 
-
 def _make_run_frames_from_jump_v2():
     """A cleaner run cycle.
 
-    V1 tried to "wiggle" torso + legs by shifting multiple bands. That made the
+    An earlier approach tried to "wiggle" torso + legs by shifting multiple bands. That made the
     head/body appear to drift separately at low resolution.
 
     V2 keeps the upper body locked and only animates the lower body. It also
@@ -126,7 +120,6 @@ def _make_run_frames_from_jump_v2():
         frames.append({'w': w, 'h': h, 'pix': _grid_to_pix(g)})
     return frames
 
-
 def _make_run_frames_from_jump():
     base = ASSETS['MARIO_JUMP']
     w = int(base['w'])
@@ -143,13 +136,11 @@ def _make_run_frames_from_jump():
         frames.append({'w': w, 'h': h, 'pix': _grid_to_pix(g)})
     return frames
 
-
 # Cap unfinished edges on scrolling items so wrap-around doesn't show raw cuts.
 _cap_edges('CLOUD1')
 _cap_edges('CLOUD2')
 _cap_edges('HILL')
 _cap_edges('BUSH')
-
 
 _run = _make_run_frames_from_jump_v2()
 ASSETS['MARIO_RUN0'] = _run[0]

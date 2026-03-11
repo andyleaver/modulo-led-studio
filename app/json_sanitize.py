@@ -20,16 +20,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
 
-
 @dataclass(frozen=True)
 class SanitizeIssue:
     kind: str  # 'cycle' | 'non_json'
     path: str
     note: str
 
-
 _JSON_SCALARS = (str, int, float, bool, type(None))
-
 
 def sanitize_for_json(obj: Any, *, max_depth: int = 128) -> Tuple[Any, List[SanitizeIssue]]:
     """Return (sanitized_obj, issues).

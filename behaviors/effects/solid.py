@@ -1,10 +1,12 @@
 from __future__ import annotations
+
+from core.surface_compat import canonical_surface_config
 SHIPPED = True
 
 from typing import List, Tuple
 
 from behaviors.registry import BehaviorDef, register
-from export.arduino_exporter import make_solid_sketch
+from behaviors.effects._export_hw import resolve_data_pin
 
 RGB = Tuple[int,int,int]
 
@@ -24,12 +26,15 @@ def _preview_emit(*, num_leds: int, params: dict, t: float) -> List[RGB]:
     px = _apply_brightness((r,g,b), br)
     return [px] * int(num_leds)
 
-def _arduino_emit(*, layout: dict, params: dict) -> str:
+def _arduino_emit(*, surface: dict | None = None, layout: dict | None = None, params: dict) -> str:
+    surface = surface if surface is not None else layout
+    surface_cfg = canonical_surface_config(surface)
     # Phase 3A: brightness applied by scaling RGB at export time (simple + parity-safe)
     c = params.get("color", (255,0,0))
     br = params.get("brightness", 1.0)
     rgb = _apply_brightness((int(c[0])&255, int(c[1])&255, int(c[2])&255), br)
-    return make_solid_sketch(num_leds=int(layout["num_leds"]), led_pin=int(layout["led_pin"]), rgb=rgb)
+    from export.arduino_exporter import make_solid_sketch
+    return make_solid_sketch(num_leds=int(surface_cfg["count"]), led_pin=resolve_data_pin(surface_cfg), rgb=rgb)
 
 def register_solid():
     return register(BehaviorDef(

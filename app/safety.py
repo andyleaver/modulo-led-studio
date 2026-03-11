@@ -1,147 +1,149 @@
 from __future__ import annotations
 
-"""Central safety wiring (NO duplicate validation logic).
-
-This module only *orchestrates* existing checks so they run consistently.
-It intentionally does NOT re-implement any validators.
-"""
-
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 @dataclass
 class SafetyIssue:
-    level: str  # "WARN" | "FAIL"
-    area: str   # "targets" | "preview" | "export"
+    level: str
+    area: str
     message: str
 
 
+@dataclass
+class SafetyReport:
+    issues: List[SafetyIssue]
+
+    @property
+    def ok(self) -> bool:
+        return not any(issue.level == 'FAIL' for issue in self.issues)
+
+
+def _artifact_root() -> Path:
+    repo_root = Path(__file__).resolve().parents[1]
+    artifact_root = repo_root.parent / 'artifacts'
+    artifact_root.mkdir(parents=True, exist_ok=True)
+    return artifact_root
+
+
 def _health_dir() -> Path:
-    root = Path(__file__).resolve().parents[1]
-    out = root / "out" / "health_reports"
-    out.mkdir(parents=True, exist_ok=True)
-    return out
+    path = _artifact_root() / 'health_reports'
+    path.mkdir(parents=True, exist_ok=True)
+    return path
 
 
 def write_report(*, title: str, issues: List[SafetyIssue]) -> Path:
-    import datetime
-
-    ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    p = _health_dir() / f"health_{ts}.txt"
-    lines: List[str] = []
-    lines.append(title)
-    lines.append("=" * max(10, len(title)))
+    ts = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%SZ')
+    report_path = _health_dir() / f'health_{ts}.txt'
+    lines: List[str] = [title, '=' * max(10, len(title))]
     if not issues:
-        lines.append("OK")
+        lines.append('OK')
     else:
-        for i in issues:
-            lines.append(f"{i.level}: {i.area}: {i.message}")
-    p.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return p
+        for issue in issues:
+            lines.append(f'{issue.level}: {issue.area}: {issue.message}')
+    report_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    return report_path
 
 
 def check_targets(*, target_id: Optional[str] = None) -> List[SafetyIssue]:
-    """Run existing target pack validation.
-
-    If target_id is provided, only return issues that match that id.
-    """
     issues: List[SafetyIssue] = []
     try:
         from export.targets.registry import validate_targets
 
-        problems = validate_targets()  # existing logic
-        for item in (problems or []):
-            tid = str(item.get("id") or "")
+        for item in validate_targets() or []:
+            tid = str(item.get('id') or '')
             if target_id and tid != target_id:
                 continue
-            err = str(item.get("error") or "Unknown error")
-            issues.append(SafetyIssue("FAIL", "targets", f"{tid}: {err}"))
-    except Exception as e:
-        issues.append(SafetyIssue("FAIL", "targets", f"Target validation crashed: {e}"))
+            err = str(item.get('error') or 'Unknown error')
+            issues.append(SafetyIssue('FAIL', 'targets', f'{tid}: {err}'))
+    except Exception as exc:
+        issues.append(SafetyIssue('FAIL', 'targets', f'Target validation crashed: {exc}'))
     return issues
 
 
 def startup_smoke_check(app) -> List[SafetyIssue]:
-    """Attempt a minimal preview rebuild using existing app method."""
     issues: List[SafetyIssue] = []
     try:
-        # This method is the same one PreviewPanel uses; we just call it once
-        # so failures are reported instead of silently degrading.
-        if hasattr(app, "_rebuild_full_preview_engine"):
+        if hasattr(app, '_rebuild_full_preview_engine'):
             app._rebuild_full_preview_engine()
         else:
-            issues.append(SafetyIssue("FAIL", "preview", "Missing _rebuild_full_preview_engine()"))
-    except Exception as e:
-        issues.append(SafetyIssue("FAIL", "preview", f"Preview rebuild failed: {e}"))
+            issues.append(SafetyIssue('FAIL', 'preview', 'Missing _rebuild_full_preview_engine()'))
+    except Exception as exc:
+        issues.append(SafetyIssue('FAIL', 'preview', f'Preview rebuild failed: {exc}'))
     return issues
 
 
-def run_startup_checks(app) -> tuple[List[SafetyIssue], Path]:
-    """Run non-blocking startup checks and write a report."""
+def run_startup_checks(app) -> Tuple[List[SafetyIssue], Path]:
     issues: List[SafetyIssue] = []
     issues.extend(check_targets())
     issues.extend(startup_smoke_check(app))
-    report = write_report(title="Modulo Safety Startup Check", issues=issues)
-    return issues, report
+    return issues, write_report(title='Modulo Safety Startup Check', issues=issues)
 
 
-def run_preexport_checks(*, target_id: str) -> tuple[List[SafetyIssue], Path]:
-    """Run checks that should block export when FAIL."""
+def run_preexport_checks(*, target_id: str) -> Tuple[List[SafetyIssue], Path]:
     issues = check_targets(target_id=target_id)
-    report = write_report(title=f"Modulo Safety Pre-Export Check ({target_id})", issues=issues)
-    return issues, report
+    return issues, write_report(title=f'Modulo Safety Pre-Export Check ({target_id})', issues=issues)
 
 
-import os
-import time
-from pathlib import Path
+def _run_tool(tool_relpath: str) -> tuple[bool, str]:
+    import subprocess
+    import sys
 
-def _write_health_report(text: str) -> str:
-    out_dir = Path("out") / "health_reports"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    ts = time.strftime("%Y%m%d_%H%M%S")
-    p = out_dir / f"health_{ts}.txt"
-    p.write_text(text, encoding="utf-8")
-    return str(p)
+    tool = (Path(__file__).resolve().parents[1] / tool_relpath).resolve()
+    if not tool.exists():
+        return False, f'missing tool: {tool_relpath}'
+    try:
+        cp = subprocess.run([sys.executable, str(tool)], capture_output=True, text=True, timeout=20, check=False)
+    except Exception as exc:
+        return False, f'tool exception: {tool_relpath} :: {exc}'
+    if cp.returncode != 0:
+        msg = (cp.stdout + '\n' + cp.stderr).strip()
+        return False, f'tool failed: {tool_relpath} rc={cp.returncode} :: {msg[:500]}'
+    return True, cp.stdout.strip() or f'ok: {tool_relpath}'
+
+
+def ensure_audit_docs(report: dict) -> None:
+    ok_cm, msg_cm = _run_tool('tools/codemap_audit.py')
+    ok_inv, msg_inv = _run_tool('tools/export_inventory_audit.py')
+    report.setdefault('audits', {})
+    report['audits']['codemap'] = {'ok': ok_cm, 'message': msg_cm}
+    report['audits']['export_inventory'] = {'ok': ok_inv, 'message': msg_inv}
+
 
 def run_health_check(app=None, startup: bool = True):
-    """Run existing checks and write a report. Returns (SafetyReport, report_path)."""
-    # Reuse the existing run_startup_checks if it exists; otherwise fall back to minimal.
-    rep = None
-    if "run_startup_checks" in globals():
-        rep = run_startup_checks(app=app)
-    else:
-        # Minimal: validate targets only
-        from export.targets.registry import validate_targets
-        problems = validate_targets()
-        from dataclasses import dataclass
-        @dataclass
-        class _Issue:
-            level: str
-            area: str
-            message: str
-        @dataclass
-        class _Rep:
-            issues: list
-            @property
-            def ok(self): return not any(i.level=="FAIL" for i in self.issues)
-        issues=[]
-        if problems:
-            issues.append(_Issue("WARN","targets",f"{len(problems)} target issue(s)"))
-        rep=_Rep(issues)
+    issues, _ = run_startup_checks(app=app) if startup else (check_targets(), None)
+    report = SafetyReport(issues=issues)
 
-    # Build report text
-    lines = []
-    lines.append("Modulo Health Report")
-    lines.append(f"Mode: {'startup' if startup else 'manual'}")
-    lines.append("")
-    if hasattr(rep, "issues"):
-        if not rep.issues:
-            lines.append("OK: no issues detected.")
-        else:
-            for i in rep.issues:
-                lines.append(f"{i.level}: {i.area}: {i.message}")
-    report_path = _write_health_report("\n".join(lines) + "\n")
-    return rep, report_path
+    payload = {
+        'mode': 'startup' if startup else 'manual',
+        'issues': [{'level': i.level, 'area': i.area, 'message': i.message} for i in report.issues],
+    }
+    try:
+        ensure_audit_docs(payload)
+    except Exception as exc:
+        payload.setdefault('audits', {})
+        payload['audits']['_exception'] = {'ok': False, 'message': str(exc)}
+
+    lines = ['Modulo Health Report', f"Mode: {payload['mode']}", '']
+    if payload['issues']:
+        for item in payload['issues']:
+            lines.append(f"{item['level']}: {item['area']}: {item['message']}")
+    else:
+        lines.append('OK: no issues detected.')
+
+    audits = payload.get('audits') or {}
+    if audits:
+        lines.extend(['', '== Audited Indices =='])
+        for key, value in audits.items():
+            if not isinstance(value, dict):
+                continue
+            status = 'OK' if value.get('ok') else 'WARN'
+            lines.append(f"{status}: {key}: {value.get('message', '')}")
+
+    ts = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%SZ')
+    report_path = _health_dir() / f'health_{ts}.txt'
+    report_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    return report, str(report_path)

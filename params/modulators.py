@@ -92,8 +92,6 @@ def sample(self, t: float, audio: Any = None) -> float:
 
     return float(sig)
 
-
-
 def apply_mod(base_value: float, mod_signal: float, mode: str, amount: float) -> float:
     mode = (mode or "mul").lower().strip()
     amt = float(amount)

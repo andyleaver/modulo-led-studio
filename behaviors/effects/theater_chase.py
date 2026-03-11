@@ -1,10 +1,13 @@
 from __future__ import annotations
+
+from core.surface_compat import canonical_surface_config
 SHIPPED = True
 
 from typing import List, Tuple
 import math
 
 from behaviors.registry import BehaviorDef, register
+from behaviors.effects._export_hw import resolve_data_pin
 
 RGB = Tuple[int,int,int]
 
@@ -42,9 +45,11 @@ def _preview_emit(*, num_leds: int, params: dict, t: float) -> List[RGB]:
         out.append(base if k < on_len else (0,0,0))
     return out
 
-def _arduino_emit(*, layout: dict, params: dict) -> str:
-    n = int(layout["num_leds"])
-    pin = int(layout["led_pin"])
+def _arduino_emit(*, surface: dict | None = None, layout: dict | None = None, params: dict) -> str:
+    surface = surface if surface is not None else layout
+    surface_cfg = canonical_surface_config(surface)
+    n = int(surface_cfg["count"])
+    pin = resolve_data_pin(surface_cfg)
     col = params.get("color",(255,0,0))
     br = float(params.get("brightness", 1.0))
     speed = float(params.get("speed", 1.0))

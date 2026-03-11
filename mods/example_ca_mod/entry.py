@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from app.mod_api import register_ca_module
 
-
 def py_step(src, dst, w, h, params):
     B = set([3, 6])
     S = set([2, 3])
@@ -26,7 +25,6 @@ def py_step(src, dst, w, h, params):
             dst[i] = 1 if nb in S else 0
         else:
             dst[i] = 1 if nb in B else 0
-
 
 CPP_STEP = r"""
   // HighLife B36/S23 encoded as bitmasks.
@@ -56,7 +54,6 @@ CPP_STEP = r"""
     }
   }
 """
-
 
 register_ca_module(
     name="highlife_B36S23",

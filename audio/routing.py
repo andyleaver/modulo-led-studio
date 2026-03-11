@@ -1,6 +1,14 @@
 from __future__ import annotations
 from typing import Dict
 
+# diagnostics (no silent failure)
+def _aud_diag_exc(e: BaseException, code: str, summary: str, details: dict | None = None) -> None:
+    try:
+        from runtime.diagnostics import GLOBAL_DIAGS
+        GLOBAL_DIAGS.exception(e, domain='RUNTIME', code=code, summary=summary, details=details or {})
+    except Exception:
+        return
+
 # Public list used by the UI (Audio Routing window).
 # Keep these in sync with resolve_source().
 SOURCES = [
@@ -60,7 +68,8 @@ def resolve_source(audio_events: Dict[str,float], audio_tempo: Dict[str,float], 
     return clamp01(float(ev.get(name,0.0) or 0.0))
 
 def compute_zone_levels(project: dict, audio_events: dict, audio_tempo: dict) -> Dict[str,float]:
-    routes = (project or {}).get("audio_routes") or []
+    audio = (project or {}).get("audio") if isinstance((project or {}).get("audio"), dict) else {}
+    routes = audio.get("routes") if isinstance(audio.get("routes"), list) else []
     levels: Dict[str,float] = {}
     for r in routes:
         try:
@@ -75,6 +84,7 @@ def compute_zone_levels(project: dict, audio_events: dict, audio_tempo: dict) ->
                 levels[tgt] = clamp01((levels.get(tgt,1.0)) * v)
             else:
                 levels[tgt] = clamp01(levels.get(tgt,0.0) + v)
-        except Exception:
+        except Exception as e:
+            _aud_diag_exc(e, code='AUDIO_ROUTE_EVAL_FAIL', summary='Audio routing entry failed', details={'route': dict(r) if isinstance(r, dict) else str(r)})
             continue
     return levels

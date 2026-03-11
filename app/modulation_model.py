@@ -1,5 +1,17 @@
 from __future__ import annotations
 
+# --- diagnostics helper (no silent failure) ---
+try:
+    from runtime.diagnostics import GLOBAL_DIAGS as _DIAGS
+except Exception:  # pragma: no cover
+    _DIAGS = None
+
+def _diag_exc(e: Exception, where: str):
+    try:
+        if _DIAGS is not None:
+            _DIAGS.exception(e, domain="RUNTIME", code="MODULATION_MODEL_EXCEPTION", summary=where)
+    except Exception:
+        pass
 """Modulation model (wired)
 
 This defines the canonical JSON representation for layer modulation bindings ("modulotors").
@@ -11,7 +23,6 @@ Contract:
 
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
-
 
 @dataclass
 class ModulationBinding:

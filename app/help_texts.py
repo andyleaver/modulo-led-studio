@@ -14,7 +14,7 @@ HELP = {
             "• Smoke Selected  Runs export+preview checks for ONE fixture (fast).\n"
             "• Smoke+Update  Same, but updates golden hashes for that effect.\n"
             "• Promote…  Ships the effect (blocked if TODOs/placeholders exist).\n\n"
-            "Output locations:\n• out/ = projects, exports (.ino), autosave, crash reports\n• dist/ = packaged release zips\n\nRule: If preflight fails, do NOT ship. Fix the contract first."
+            "Output locations:\n• out/ = user/runtime files such as projects, exports (.ino), autosave, crash reports\n• ../artifacts/ = generated test, audit, parity, and package artifacts\n\nRule: If preflight fails, do NOT ship. Fix the contract first."
         ),
     },
     "workbench": {
@@ -41,7 +41,7 @@ HELP = {
             "• Smoke test: runs export+preview for a fixture and compares to goldens.\n"
             "• Preflight: the strict gate (lint + contracts + goldens + shipped parity).\n"
             "• Promote: marks effect SHIPPED=True and adds it to auto_load (shipping list).\n"
-            "• Package Beta: creates a clean release zip only if preflight passes.\n\n"
+            "• Package Release: creates a clean release zip only if preflight checks pass.\n\n"
             "Philosophy: you don't 'hope' it works — you prove it with tests."
         ),
     },

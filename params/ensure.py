@@ -6,7 +6,6 @@ from .registry import PARAMS
 # Keys always present on every layer (mod targets even if effect doesn't explicitly use them)
 ALWAYS_KEYS = ["purpose_f0","purpose_f1","purpose_f2","purpose_f3","purpose_i0","purpose_i1","purpose_i2","purpose_i3"]
 
-
 def defaults_for(keys: List[str]) -> Dict[str, Any]:
     out: Dict[str, Any] = {}
     for k in list(keys) + ALWAYS_KEYS:

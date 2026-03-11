@@ -10,13 +10,11 @@ from typing import Iterable, List, Optional
 
 from app.signal_registry import REGISTRY, SignalRegistry
 
-
 @dataclass(frozen=True)
 class SignalValidationResult:
     ok: bool
     unknown_keys: List[str]
     message: str
-
 
 def validate_signal_keys(keys: Iterable[str], registry: Optional[SignalRegistry] = None) -> SignalValidationResult:
     r = registry or REGISTRY

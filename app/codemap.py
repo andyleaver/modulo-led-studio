@@ -17,7 +17,6 @@ from pathlib import Path
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
-
 @dataclass(frozen=True)
 class CodeLocation:
     file: str
@@ -30,7 +29,6 @@ class CodeLocation:
         if self.end_line and self.end_line >= self.start_line:
             return f"{self.file}:{self.start_line}-{self.end_line}"
         return f"{self.file}:{self.start_line}"
-
 
 def _locate(obj: Any) -> Optional[CodeLocation]:
     """Return file + line range for a callable/class/module attribute."""
@@ -52,8 +50,6 @@ def _locate(obj: Any) -> Optional[CodeLocation]:
             return CodeLocation(file=file, start_line=0, end_line=0)
     except Exception:
         return None
-
-
 
 def _locate_assignment(module_name: str, var_name: str) -> Optional[CodeLocation]:
     """Best-effort file + line for module-level variable assignments.
@@ -85,9 +81,9 @@ def build_codemap() -> Dict[str, Optional[CodeLocation]]:
     items: List[Tuple[str, str]] = [
         ("entry.modulo_designer.main", "modulo_designer:main"),
         ("qt.run_qt", "qt.qt_app:run_qt"),
-        ("qt.QtMainWindow", "qt.qt_app:QtMainWindow"),
+        ("qt.QtMainWindow", "qt.main_window:QtMainWindow"),
         ("qt.CoreBridge", "qt.core_bridge:CoreBridge"),
-        ("qt.CoreBridge._rebuild_full_preview_engine", "qt.core_bridge:CoreBridge._rebuild_full_preview_engine"),
+        ("qt.CoreBridge._rebuild_full_preview_engine", "qt.core_bridge_preview_flow:CoreBridgePreviewFlowMixin._rebuild_full_preview_engine"),
         # Era onboarding & history
         ("eras.history.get_eras", "app.eras.era_history:get_eras"),
         ("eras.history.get_era", "app.eras.era_history:get_era"),
@@ -95,9 +91,8 @@ def build_codemap() -> Dict[str, Optional[CodeLocation]]:
         ("eras.enforce.validate_project_against_era", "app.eras.era_enforce:validate_project_against_era"),
         ("qt.EraOnboardingWindow", "qt.era_onboarding:EraOnboardingWindow"),
         ("qt.EraPanel", "qt.era_panel:EraPanel"),
-        ("qt.EraPanel._on_verify", "qt.era_panel:EraPanel._on_verify"),
-        ("qt.EraPanel._on_wb_changed", "qt.era_panel:EraPanel._on_wb_changed"),
-        ("qt.ShowcasePanel._load_selected", "qt.showcase_panel:ShowcasePanel._load_selected"),
+        ("qt.EraPanel._on_verify", "qt.era_panel_workbench_flow:EraPanelWorkbenchFlowMixin._on_verify"),
+        ("qt.EraPanel._on_wb_changed", "qt.era_panel_workbench_preview:EraPanelWorkbenchPreviewMixin._on_wb_changed"),
         ("preview.PreviewEngine", "preview.preview_engine:PreviewEngine"),
         ("preview.PreviewEngine.render_frame", "preview.preview_engine:PreviewEngine.render_frame"),
         # Behavior/effect registration
@@ -151,11 +146,9 @@ def build_codemap() -> Dict[str, Optional[CodeLocation]]:
             continue
     return out
 
-
 def build_default_codemap() -> Dict[str, Optional[CodeLocation]]:
     """Backwards-compatible alias used by older UI code."""
     return build_codemap()
-
 
 def format_codemap_section(codemap: Optional[Dict[str, Optional[CodeLocation]]] = None) -> List[str]:
     cm = codemap if codemap is not None else build_codemap()
@@ -168,7 +161,6 @@ def format_codemap_section(codemap: Optional[Dict[str, Optional[CodeLocation]]] 
         else:
             lines.append(f"{k}: {loc.fmt()}")
     return lines
-
 
 def get_effect_locations(effect_keys: List[str], *, max_items: int = 80) -> List[Tuple[str, Dict[str, Any]]]:
     """Best-effort map of effect keys to code locations.

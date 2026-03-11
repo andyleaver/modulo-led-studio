@@ -34,7 +34,6 @@ class EffectState(dict):
             pass
         return v
 
-
 from dataclasses import dataclass, field
 from typing import Any, Dict, Optional
 
@@ -44,13 +43,12 @@ import random
 class EffectContext:
     """Runtime context passed to stateful effects during preview.
 
-    Minimal contract to keep stateful demo effects working.
+    Canonical runtime surface truth lives on ``surface`` only.
     """
-    layout: Dict[str, Any] = field(default_factory=dict)
+    surface: Dict[str, Any] = field(default_factory=dict)
     dt: float = 0.016
     t: float = 0.0
     audio: Optional[Dict[str, Any]] = None
-
 
 def rng_load(state: Dict[str, Any], *, seed: int, key: str = "rng") -> random.Random:
     """Return a deterministic RNG reconstructed from JSON-safe state.
@@ -76,7 +74,6 @@ def rng_load(state: Dict[str, Any], *, seed: int, key: str = "rng") -> random.Ra
         state[seed_key] = seed
         state[st_key] = rng.getstate()
     return rng
-
 
 def rng_save(state: Dict[str, Any], rng: random.Random, *, key: str = "rng") -> None:
     """Persist RNG internal state back into the JSON-safe ``state``."""

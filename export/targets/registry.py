@@ -22,9 +22,9 @@ _USER_DIR_DEFAULT = _APP_ROOT / "user_targets" / "export_targets"
 _ENV_PATHS = os.environ.get("MODULA_EXPORT_TARGETS_PATH", "")
 
 _REQUIRED_KEYS = {"id", "name", "emitter_module"}
-# Release: Supported targets v1 (others are experimental).
+# Release: Supported targets (others are experimental).
 # This is a truth/UX contract, not a feature gate: experimental targets remain selectable.
-SUPPORTED_TARGET_IDS_V1 = {
+SUPPORTED_TARGET_IDS = {
     "arduino_uno_fastled_msgeq7",
     "arduino_uno_pio_fastled_msgeq7",
     "arduino_mega_fastled_msgeq7",
@@ -33,22 +33,18 @@ SUPPORTED_TARGET_IDS_V1 = {
     "rp2040_fastled_noneaudio",
 }
 
-
-
 def resolve_requested_backends(project: dict, target_meta: dict) -> dict:
     """Resolve requested led_backend/audio_backend with strict precedence.
 
     Precedence:
       1) project.export.led_backend / project.export.audio_backend (explicit)
-      2) legacy project.ui.export_led_backend / project.ui.export_audio_backend (if present)
-      3) target defaults (target_meta.capabilities.defaults)
-      4) final fallback: led_backend="fastled", audio_backend="none"
+      2) target defaults (target_meta.capabilities.defaults)
+      3) final fallback: led_backend="fastled", audio_backend="none"
 
     Returned dict always contains: led_backend, audio_backend
     """
     project = project or {}
     exp = project.get("export") or {}
-    ui = project.get("ui") or {}
 
     def _norm(v: object) -> str:
         s = str(v).strip()
@@ -67,12 +63,6 @@ def resolve_requested_backends(project: dict, target_meta: dict) -> dict:
     led_backend = exp.get("led_backend")
     audio_backend = exp.get("audio_backend")
 
-    # legacy UI fallbacks only if explicit missing
-    if not str(led_backend or "").strip() and isinstance(ui, dict):
-        led_backend = ui.get("export_led_backend")
-    if not str(audio_backend or "").strip() and isinstance(ui, dict):
-        audio_backend = ui.get("export_audio_backend")
-
     # target defaults only if still missing
     if not str(led_backend or "").strip():
         led_backend = defaults.get("led_backend")
@@ -87,33 +77,28 @@ def resolve_requested_backends(project: dict, target_meta: dict) -> dict:
 def resolve_requested_hw(project: Dict[str, Any], target_meta: Dict[str, Any]) -> Dict[str, Any]:
     """Resolve requested wiring defaults (data pin, LED type, color order, brightness).
 
-    Stored under project['ui']:
-      - export_data_pin (string; may be numeric or board-specific like 'A0')
-      - export_led_type (FastLED chipset token, e.g. WS2812B)
-      - export_color_order (FastLED color order token, e.g. GRB)
-      - export_brightness (0..255)
+    Stored under project['export']['hw']:
+      - data_pin (string; may be numeric or board-specific like 'A0')
+      - led_type (FastLED chipset token, e.g. WS2812B)
+      - color_order (FastLED color order token, e.g. GRB)
+      - brightness (0..255)
 
     Target packs may declare:
       - led_types, color_orders (allowed lists)
       - default_data_pin, default_led_type, default_color_order, default_brightness
     """
-    ui = project.get('ui') or {}
-    req_pin = str(ui.get('export_data_pin') or '').strip()
-    req_type = str(ui.get('export_led_type') or '').strip()
-    req_order = str(ui.get('export_color_order') or '').strip()
-    req_bright = str(ui.get('export_brightness') or '').strip()
-
-
     export_cfg = project.get('export') or {}
-    export_hw = export_cfg.get('hw') or export_cfg.get('hardware') or {}
+    export_hw = export_cfg.get('hw') or {}
+    req_pin = ''
+    req_type = ''
+    req_order = ''
+    req_bright = ''
     if isinstance(export_hw, dict):
         # prefer explicit export.hw values
         req_pin = str(export_hw.get('data_pin') or req_pin).strip()
         req_type = str(export_hw.get('led_type') or req_type).strip()
         req_order = str(export_hw.get('color_order') or req_order).strip()
         req_bright = str(export_hw.get('brightness') or req_bright).strip()
-
-
 
     led_types = list(target_meta.get('led_types') or [])
     color_orders = list(target_meta.get('color_orders') or [])
@@ -155,31 +140,29 @@ def resolve_requested_hw(project: Dict[str, Any], target_meta: Dict[str, Any]) -
         'brightness': bright,
         'notes': notes,
     }
-    # Propagate matrix hardware request if provided (used for matrix layout exports/reporting).
-    export_cfg = project.get("export") or {}
-    export_hw = export_cfg.get("hw") or export_cfg.get("hardware") or {}
-    if isinstance(export_hw, dict):
-        m = export_hw.get("matrix")
-        if isinstance(m, dict) and m:
-            hw["matrix"] = m
+    # Canonical resolved hardware must stay on export.hw first-class fields only.
+    # Nested export.hw.matrix transport/mirroring is not part of the live resolved
+    # hardware contract here; HUB75/export geometry must come from SurfaceSpec or
+    # target-specific canonical config, not from a second geometry blob piggybacking
+    # on the generic hw resolver result.
     return hw
-
 
 def resolve_requested_audio_hw(project: Dict[str, Any], target_meta: Dict[str, Any], audio_backend: str | None = None) -> Dict[str, Any]:
     """Resolve audio wiring defaults for the selected audio backend.
 
     Currently supports MSGEQ7/Spectrum Shield pins.
     Stored under project['ui']:
-      - export_msgeq7_reset_pin
-      - export_msgeq7_strobe_pin
-      - export_msgeq7_left_pin
-      - export_msgeq7_right_pin
+      - export.audio_hw.msgeq7_reset_pin
+      - export.audio_hw.msgeq7_strobe_pin
+      - export.audio_hw.msgeq7_left_pin
+      - export.audio_hw.msgeq7_right_pin
 
     Target packs may declare defaults:
       - default_msgeq7_reset_pin, default_msgeq7_strobe_pin, default_msgeq7_left_pin, default_msgeq7_right_pin
     """
-    ui = project.get('ui') or {}
-    ab = (audio_backend or ui.get('export_audio_backend') or 'none')
+    export_cfg = project.get('export') or {}
+    export_audio_hw = export_cfg.get('audio_hw') or export_cfg.get('audio') or {}
+    ab = (audio_backend or export_cfg.get('audio_backend') or 'none')
     ab_l = str(ab).strip().lower()
 
     # Only meaningful for msgeq7-like backends.
@@ -192,10 +175,12 @@ def resolve_requested_audio_hw(project: Dict[str, Any], target_meta: Dict[str, A
     def_left = str((target_meta.get('defaults') or {}).get('msgeq7_left_pin') or target_meta.get('default_msgeq7_left_pin') or 'A0')
     def_right = str((target_meta.get('defaults') or {}).get('msgeq7_right_pin') or target_meta.get('default_msgeq7_right_pin') or 'A1')
 
-    reset = str(ui.get('export_msgeq7_reset_pin') or '').strip() or def_reset
-    strobe = str(ui.get('export_msgeq7_strobe_pin') or '').strip() or def_strobe
-    left = str(ui.get('export_msgeq7_left_pin') or '').strip() or def_left
-    right = str(ui.get('export_msgeq7_right_pin') or '').strip() or def_right
+    if not isinstance(export_audio_hw, dict):
+        export_audio_hw = {}
+    reset = str(export_audio_hw.get('msgeq7_reset_pin') or '').strip() or def_reset
+    strobe = str(export_audio_hw.get('msgeq7_strobe_pin') or '').strip() or def_strobe
+    left = str(export_audio_hw.get('msgeq7_left_pin') or '').strip() or def_left
+    right = str(export_audio_hw.get('msgeq7_right_pin') or '').strip() or def_right
 
     # Normalize numeric pins if possible (leave A0-style as-is)
     def _norm_pin(v: str, fallback: str) -> str:
@@ -244,7 +229,6 @@ def _iter_search_dirs() -> List[Path]:
             seen.add(d)
     return out
 
-
 def diagnose_target_packs() -> Dict[str, Any]:
     """Return diagnostic info about all discovered target packs (built-in + user).
 
@@ -285,11 +269,11 @@ def diagnose_target_packs() -> Dict[str, Any]:
             continue
         meta = _hoist_caps_legacy_fields(meta)
         tid = str(meta.get('id') or '')
-        meta['support_level'] = 'supported' if tid in SUPPORTED_TARGET_IDS_V1 else 'experimental'
+        meta['support_level'] = 'supported' if tid in SUPPORTED_TARGET_IDS else 'experimental'
         meta['source'] = 'builtin' if str(d).startswith(str(_BUILTIN_DIR)) else 'user'
         ok.append(meta)
     ok.sort(key=lambda m: (m.get("name","").lower(), m.get("id","")))
-    return {"ok": ok, "errors": errors, "supported_v1": sorted(SUPPORTED_TARGET_IDS_V1)}
+    return {"ok": ok, "errors": errors, "supported": sorted(SUPPORTED_TARGET_IDS)}
 def _discover_target_dirs() -> List[Path]:
     found: List[Path] = []
     for base in _iter_search_dirs():
@@ -341,6 +325,16 @@ def _hoist_caps_legacy_fields(meta: Dict[str, Any]) -> Dict[str, Any]:
     for k in legacy_keys:
         if k in meta and k not in caps:
             caps[k] = meta.get(k)
+
+    # Collapse legacy capability aliases to canonical capability truth.
+    # Old target packs may still expose supports_matrix_layout at the root.
+    if "supports_matrix" not in caps and "supports_matrix_layout" in caps:
+        caps["supports_matrix"] = bool(caps.get("supports_matrix_layout"))
+
+    # Remove the legacy alias after hoisting so target metadata exposes one live
+    # capability truth only.
+    caps.pop("supports_matrix_layout", None)
+    meta.pop("supports_matrix_layout", None)
     return meta
 
 def list_targets() -> List[dict]:
@@ -350,12 +344,14 @@ def list_targets() -> List[dict]:
             meta = _read_meta(d)
             try:
                 meta['capabilities'] = normalize_capabilities(meta)
-            except Exception:
+            except Exception as e:
+                from runtime.diagnostics import GLOBAL_DIAGS
+                GLOBAL_DIAGS.exception(e, domain="EXPORT", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"export/targets/registry.py"})
                 pass
             meta = _hoist_caps_legacy_fields(meta)
             try:
                 tid = str(meta.get('id') or '')
-                meta['support_level'] = 'supported' if tid in SUPPORTED_TARGET_IDS_V1 else 'experimental'
+                meta['support_level'] = 'supported' if tid in SUPPORTED_TARGET_IDS else 'experimental'
             except Exception:
                 meta['support_level'] = 'experimental'
             out.append(meta)
@@ -395,13 +391,14 @@ def load_target(target_id: str) -> TargetSpec:
             )
     raise KeyError(f"Unknown export target: {target_id}")
 
-
 def get_user_targets_dir() -> Path:
     """Return the directory where user target packs should be placed (created if missing)."""
     p = _USER_DIR_DEFAULT
     try:
         p.mkdir(parents=True, exist_ok=True)
-    except Exception:
+    except Exception as e:
+        from runtime.diagnostics import GLOBAL_DIAGS
+        GLOBAL_DIAGS.exception(e, domain="EXPORT", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"export/targets/registry.py"})
         pass
     return p
 
@@ -480,7 +477,6 @@ from typing import Tuple
 from export.ir import ShowIR
 from export.arduino_exporter import export_project_validated
 
-
 def emit(*, ir: ShowIR, out_path: Path) -> Tuple[Path, str]:
     """Sample emit() compatible with Modulo's target interface."""
     # If you want a custom template, add one to this folder and pass template_path=...
@@ -492,3 +488,24 @@ def emit(*, ir: ShowIR, out_path: Path) -> Tuple[Path, str]:
     # Python package marker so emitter_module import works (nested packages)
     # Ensure user_targets/export_targets is a package too if user extracts next to app
     return out_dir
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

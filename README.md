@@ -1,43 +1,81 @@
-Modulo LED Studio – Current Development Status
-Current Focus: UI Workflow & Layout Polish
-Modulo LED Studio is currently in the final interface refinement stage.
-The core engine architecture, rendering pipeline, rules system, mapping model, and export paths are now largely complete. Development focus has shifted to polishing the application interface and user workflow.
-Current work centers on ensuring the UI reflects the intended creation flow and that all controls are properly wired and usable.
-Active Work Areas
-UI Workflow Alignment
-Tabs and panels are being arranged to match the natural order of building a project.
-On a clean launch or new project, the interface should guide the user through creation in a logical sequence.
-Typical workflow path:
-Layout / Surface Setup
-→ Layers
-→ Behaviour / Rules
-→ Signals / Modulation
-→ Preview
-→ Export
-All tabs must be fully wired and functional, with no placeholder panels or inactive controls.
-Layout & Interaction Polish
-Current UI improvements include:
-Fixing non-responsive controls
-Ensuring panels can resize and dock correctly
-Correct default window layout on startup
-Removing hidden or inaccessible UI elements
-Ensuring buttons, dropdowns, and controls are wired to the engine
-The goal is that every visible control performs a real action.
-Clean Startup State
-Modulo is designed to always launch in a clean creation-ready state:
-No autosave restore
-No demo project injection
-Default strip layout with 144 LEDs
-Zero layers
-Preview starts empty (black)
-This ensures users always begin with a known baseline environment.
-Era System (Temporarily Disabled)
-The LED Era onboarding system exists in the codebase but is currently disabled while UI work is completed.
-It will return once the interface structure is finalized.
-Development Principle
-Modulo follows a single canonical engine path:
-One schema
-One runtime
-One preview path
-One export path
-Legacy compatibility is handled only through one-time migration, never through parallel runtimes.
+# Modulo LED Studio
+
+Modulo LED Studio is a **behavior-driven LED engine** for addressable LEDs.
+
+It can behave like a familiar effect-picker app, but its real purpose is to remove the artificial ceiling imposed by conventional LED apps and open up full control over addressable LEDs.
+
+This README describes **what is actually implemented in the codebase today**.
+
+## What Modulo is
+
+Modulo is not just a list of effects.
+
+In the current codebase it includes:
+
+- canonical project normalization
+- strip and matrix/cells surface handling
+- layered composition
+- behavior registry and shipped behavior set
+- rules, variables, and signal routing
+- audio-backed signal support
+- masks, groups, zones, and targeting infrastructure
+- operators and project-level postfx
+- live preview rendering
+- target-gated firmware export
+- diagnostics, triage, parity probes, and soak tooling
+- extension hooks for advanced users
+
+## Product structure
+
+Modulo is intended to support three distinct modes:
+
+1. **Era**
+   - historical onboarding through LED capability evolution
+   - not a normal working tab
+2. **Effect Picker App**
+   - a simplified, conventional LED-app workflow
+3. **Full Modulo App**
+   - the no-ceiling environment with full engine power exposed
+
+## Current code-verified status
+
+Based on the current code and validation runs:
+
+- selftests are green
+- release gate covers validation, parity sweep, resolver inspection, golden exports, and soak
+- target-pack validation is green
+- behavior validation is green
+- asset validation is green
+- in-app Doors Open diagnostics hold up across repeated runs
+
+Modulo is currently in an **engine-stable** state.
+
+## Current UI reality
+
+The engine is ahead of the UI.
+
+What is true in code today:
+
+- backend capability is strong
+- diagnostics are strong
+- export is strong
+- some UI tabs and controls still need workflow reordering and wiring
+- Era still needs to be separated from the main workspace flow
+- zones / masks / groups / targeting need clearer first-class workflow exposure
+
+## Summary
+
+Modulo LED Studio is currently:
+
+- a stable LED behavior engine
+- not just an effect picker
+- diagnostics-rich
+- export-capable
+- significantly broader than a conventional LED app
+- still needs workflow-first UI restructuring
+
+## Release hygiene
+
+- Live runtime names use the canonical schema.
+- Older input shapes are normalized at boundaries and are not written back into project state.
+- Publishable builds should keep shipped names clean and stable.

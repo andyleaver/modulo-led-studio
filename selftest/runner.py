@@ -9,19 +9,32 @@ that should always pass in exporter-only builds.
 
 from pathlib import Path
 import compileall
+import shutil
 import sys
-
 
 def _fail(msg: str) -> None:
     raise SystemExit("SELFTEST FAILED: " + msg)
 
+def _cleanup_repo_junk() -> None:
+    root = Path(__file__).resolve().parents[1]
+    for cache_dir in root.rglob('__pycache__'):
+        if cache_dir.is_dir():
+            shutil.rmtree(cache_dir, ignore_errors=True)
+    for pattern in ('*.pyc', '*.pyo'):
+        for path in root.rglob(pattern):
+            try:
+                path.unlink()
+            except OSError:
+                pass
+    pytest_cache = root / '.pytest_cache'
+    if pytest_cache.exists():
+        shutil.rmtree(pytest_cache, ignore_errors=True)
 
 def test_compileall() -> None:
     root = Path(__file__).resolve().parents[1]
     ok = compileall.compile_dir(str(root), quiet=1)
     if not ok:
         _fail("compileall failed")
-
 
 def test_preflight_if_present() -> None:
     # Optional: if preflight module exists in this branch, run its integrity checks.
@@ -36,8 +49,6 @@ def test_preflight_if_present() -> None:
 
     check_canonical_manifest_integrity()
     check_capabilities_catalog_parity()
-
-
 
 def test_golden_pipeline_order() -> None:
     """Lock the order-of-ops pipeline (behavior -> operators -> postfx -> blend)."""
@@ -103,15 +114,15 @@ def test_golden_pipeline_order() -> None:
     audio3.smoothing = 0.0
     eng3 = PreviewEngine(project=project3, audio=audio3, fixed_dt=1.0/60.0)
 
-    layout3 = getattr(project3, "layout", None) or {}
-    mw = int(getattr(layout3, "mw", 0) or 0)
-    mh = int(getattr(layout3, "mh", 0) or 0)
-    # Prefer canonical layout fields (serpentine/flip_x/flip_y/rotate), fallback to nested mapping dict if present.
-    mapping3 = getattr(layout3, "mapping", None) or {}
-    serp = getattr(layout3, "serpentine", None)
-    fx = getattr(layout3, "flip_x", None)
-    fy = getattr(layout3, "flip_y", None)
-    rot = getattr(layout3, "rotate", None)
+    surface3 = getattr(project3, "surface", None) or {}
+    mw = int(getattr(surface3, "width", 0) or 0)
+    mh = int(getattr(surface3, "height", 0) or 0)
+    # Prefer canonical surface fields (serpentine/flip_x/flip_y/rotate), fallback to nested mapping dict if present.
+    mapping3 = getattr(surface3, "mapping", None) or {}
+    serp = getattr(surface3, "serpentine", None)
+    fx = getattr(surface3, "flip_x", None)
+    fy = getattr(surface3, "flip_y", None)
+    rot = getattr(surface3, "rotate", None)
     if serp is None:
         serp = bool(getattr(mapping3, "serpentine", False) or getattr(mapping3, "mode", "") == "serpentine")
     if fx is None:
@@ -183,14 +194,14 @@ def test_golden_pipeline_order() -> None:
     audio4.smoothing = 0.0
     eng4 = PreviewEngine(project=project4, audio=audio4, fixed_dt=1.0/60.0)
 
-    layout4 = getattr(project4, "layout", None) or {}
-    mw4 = int(getattr(layout4, "mw", 0) or 0)
-    mh4 = int(getattr(layout4, "mh", 0) or 0)
-    mapping4 = getattr(layout4, "mapping", None) or {}
-    serp4 = getattr(layout4, "serpentine", None)
-    fx4 = getattr(layout4, "flip_x", None)
-    fy4 = getattr(layout4, "flip_y", None)
-    rot4 = getattr(layout4, "rotate", None)
+    surface4 = getattr(project4, "surface", None) or {}
+    mw4 = int(getattr(surface4, "width", 0) or 0)
+    mh4 = int(getattr(surface4, "height", 0) or 0)
+    mapping4 = getattr(surface4, "mapping", None) or {}
+    serp4 = getattr(surface4, "serpentine", None)
+    fx4 = getattr(surface4, "flip_x", None)
+    fy4 = getattr(surface4, "flip_y", None)
+    rot4 = getattr(surface4, "rotate", None)
     if serp4 is None:
         serp4 = bool(getattr(mapping4, "serpentine", False) or getattr(mapping4, "mode", "") == "serpentine")
     if fx4 is None:
@@ -232,13 +243,14 @@ def test_golden_pipeline_order() -> None:
     if got4 != exp4:
         _fail(f"matrix mapping stress2 golden hash mismatch: expected {exp4} got {got4}")
 
-
 def main() -> None:
-    test_compileall()
-    test_preflight_if_present()
-    test_golden_pipeline_order()
-    print("✅ selftest.runner passed.")
-
+    try:
+        test_compileall()
+        test_preflight_if_present()
+        test_golden_pipeline_order()
+        print("✅ selftest.runner passed.")
+    finally:
+        _cleanup_repo_junk()
 
 if __name__ == "__main__":
     main()

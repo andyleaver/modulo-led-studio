@@ -1,4 +1,4 @@
-"""Preview engine registry (v1)
+"""Preview engine registry
 
 Holds a reference to the last constructed PreviewEngine so health probes
 can report performance stats without UI access.

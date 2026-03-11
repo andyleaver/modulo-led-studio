@@ -1,0 +1,9 @@
+Rule Examples
+
+Audio peak → increase layer brightness
+Clock tick → trigger animation phase
+Variable threshold → switch preset
+
+Rule model:
+
+Trigger → Condition → Action

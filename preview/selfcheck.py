@@ -3,7 +3,6 @@
 from __future__ import annotations
 from typing import Iterable, Optional
 
-
 def check_selection_bounds(geom, selection: Optional[Iterable[int]]) -> Optional[str]:
     if selection is None:
         return None

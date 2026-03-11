@@ -13,7 +13,6 @@ from typing import Any, Optional, Sequence
 
 import math
 
-
 def _clamp01(x: float) -> float:
     if x < 0.0:
         return 0.0
@@ -21,13 +20,11 @@ def _clamp01(x: float) -> float:
         return 1.0
     return x
 
-
 def _get_attr(obj: Any, name: str, default: Any = None) -> Any:
     try:
         return getattr(obj, name)
     except Exception:
         return default
-
 
 def _get_seq(x: Any) -> Optional[Sequence[float]]:
     if x is None:
@@ -43,7 +40,6 @@ def _get_seq(x: Any) -> Optional[Sequence[float]]:
         except Exception:
             return None
     return None
-
 
 def apply_mod(base_value: float, mod_signal: float, mode: str, amount: float) -> float:
     """Apply a modulation signal to a base value.
@@ -61,7 +57,6 @@ def apply_mod(base_value: float, mod_signal: float, mode: str, amount: float) ->
     if mode == "set":
         return float(mod_signal) * amt
     return float(base_value) * (1.0 + float(mod_signal) * amt)
-
 
 @dataclass(frozen=True)
 class Modulotor:
@@ -167,12 +162,36 @@ class Modulotor:
 
         return 0.0
 
-
 def sample(mod: Optional[Modulotor], t: float, ctx: Any = None) -> float:
-    """Legacy helper used by older call sites."""
+    """Legacy helper used by older call sites.
+
+    Correctness rules:
+      - Never raise.
+      - Never silently swallow unexpected failures without recording evidence.
+
+    This helper is intentionally conservative: it logs a diagnostics event once per
+    unique modulotor signature if sampling throws.
+    """
     if mod is None:
         return 0.0
+
     try:
         return float(mod.sample(float(t), audio=ctx))
-    except Exception:
+    except Exception as e:
+        # Best-effort diagnostics without creating hard dependencies.
+        try:
+            from runtime.diagnostics import GLOBAL_DIAGS
+            sig = f"{(mod.kind or "").strip()}:{(mod.key or "").strip()}->{(mod.target or "").strip()}"
+            cache = globals().setdefault("_MOD_SAMPLE_ERR_CACHE", set())
+            if sig not in cache:
+                cache.add(sig)
+                GLOBAL_DIAGS.exc(
+                    domain="RUNTIME",
+                    code="MODULOTOR_SAMPLE_FAILED",
+                    summary="Modulotor.sample() raised; modulation disabled for this modulotor",
+                    details={"sig": sig, "t": float(t)},
+                    exc=e,
+                )
+        except Exception:
+            pass
         return 0.0

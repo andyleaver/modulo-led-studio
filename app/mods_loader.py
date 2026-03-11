@@ -1,6 +1,18 @@
 from __future__ import annotations
 
-"""Mod Packs / Plugins Loader (v1)
+# --- diagnostics helper (no silent failure) ---
+try:
+    from runtime.diagnostics import GLOBAL_DIAGS as _DIAGS
+except Exception:  # pragma: no cover
+    _DIAGS = None
+
+def _diag_exc(e: Exception, where: str):
+    try:
+        if _DIAGS is not None:
+            _DIAGS.exception(e, domain="PROJECT", code="MODS_LOADER_EXCEPTION", summary=where)
+    except Exception:
+        pass
+"""Mod Packs / Plugins Loader
 
 Loads mods from:
   - <run_root>/mods
@@ -19,7 +31,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 API_VERSION = 1
 
-
 @dataclass
 class ModLoadResult:
     mod_id: str
@@ -29,13 +40,11 @@ class ModLoadResult:
     path: str
     error: str = ""
 
-
 def _safe_read_json(p: Path) -> Optional[Dict[str, Any]]:
     try:
         return json.loads(p.read_text(encoding="utf-8"))
     except Exception:
         return None
-
 
 def _validate_manifest(m: Dict[str, Any]) -> Tuple[bool, str]:
     try:
@@ -49,7 +58,6 @@ def _validate_manifest(m: Dict[str, Any]) -> Tuple[bool, str]:
         return False, "Missing entry"
     return True, ""
 
-
 def discover_mod_dirs(run_root: Path) -> List[Path]:
     out: List[Path] = []
     for base in [run_root / "mods", run_root / "user_data" / "mods"]:
@@ -58,7 +66,6 @@ def discover_mod_dirs(run_root: Path) -> List[Path]:
                 if child.is_dir() and (child / "mod.json").is_file():
                     out.append(child)
     return out
-
 
 def _exec_entry(mod_dir: Path, entry: str) -> None:
     # Ensure the mod directory is importable
@@ -74,7 +81,6 @@ def _exec_entry(mod_dir: Path, entry: str) -> None:
     finally:
         if sys.path and sys.path[0] == str(mod_dir):
             sys.path.pop(0)
-
 
 def load_mods(run_root: Path, *, quiet: bool = True) -> List[ModLoadResult]:
     results: List[ModLoadResult] = []
@@ -104,7 +110,6 @@ def load_mods(run_root: Path, *, quiet: bool = True) -> List[ModLoadResult]:
 
     return results
 
-
 # Health probe
 
 def _health_probe() -> Dict[str, Any]:
@@ -117,10 +122,9 @@ def _health_probe() -> Dict[str, Any]:
     except Exception:
         return {"loaded": 0, "mods": [], "error": "bad MODULO_MODS_LOAD"}
 
-
 def register_health_probe() -> None:
     try:
-        from runtime.extensions_v1 import register_health_probe as _reg
+        from runtime.extensions import register_health_probe as _reg
         _reg("mods", _health_probe)
-    except Exception:
-        pass
+    except Exception as e:
+        _diag_exc(e, "mods_loader")

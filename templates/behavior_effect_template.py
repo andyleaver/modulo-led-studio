@@ -1,29 +1,55 @@
-"""Effect template.
+"""Canonical behavior template.
 
-1) Copy this file to behaviors/effects/<your_effect_key>.py
-2) Implement render() deterministically (seeded RNG only).
-3) Register it in behaviors/auto_load.py via register_effect("<your_effect_key>")
-4) Add your effect to behaviors/capabilities_catalog.json under effects{}
-5) Add export eligibility in export/export_eligibility.py
-6) Provide a golden fixture in demos/ and add it to tools/golden_exports.py FIXTURES
+1) Copy this file to ``behaviors/effects/<your_behavior_key>.py``.
+2) Rename ``BEHAVIOR_ID`` and ``BEHAVIOR_TITLE``.
+3) Fill in ``preview_emit(...)`` for preview/runtime use.
+4) Fill in ``arduino_emit(...)`` only when the behavior is exportable.
+5) Add a capabilities entry before registering it.
 """
 
-from behaviors.stateful import StatefulEffect
-from params.purpose_contract import PurposeParams
+from __future__ import annotations
 
-class Effect(StatefulEffect):
-    key = "<your_effect_key>"
-    title = "<Human Title>"
+from typing import Any, Dict
 
-    def __init__(self, params: PurposeParams):
-        super().__init__(params)
-        # deterministic internal state here
+from behaviors.registry import BehaviorDef
 
-    def tick(self, dt: float):
-        # deterministic update; dt is fixed-step in export runtimes
-        pass
+BEHAVIOR_ID = "<your_behavior_key>"
+BEHAVIOR_TITLE = "<Human Title>"
 
-    def render(self, fb):
-        # fb is logical framebuffer (strip or matrix via mapping)
-        # write pixels deterministically
-        pass
+
+def preview_emit(*, params: Dict[str, Any] | None = None, **kwargs: Any) -> Dict[str, Any]:
+    """Return preview/runtime metadata for the behavior.
+
+    Accepts the current PreviewEngine-style kwargs superset so new optional context
+    values do not immediately invalidate the template contract.
+    """
+    return {
+        "behavior": BEHAVIOR_ID,
+        "title": BEHAVIOR_TITLE,
+        "params": dict(params or {}),
+        "meta": {"template": True},
+    }
+
+
+def arduino_emit(*, params: Dict[str, Any] | None = None, **kwargs: Any) -> Dict[str, Any]:
+    """Return exporter metadata for the behavior."""
+    return {
+        "behavior": BEHAVIOR_ID,
+        "title": BEHAVIOR_TITLE,
+        "params": dict(params or {}),
+        "meta": {"template": True, "export": True},
+    }
+
+
+def build_behavior_def() -> BehaviorDef:
+    """Construct the canonical behavior definition for this template.
+
+    Registration is intentionally left to the copied behavior file, after the key and
+    capabilities entry have been made real.
+    """
+    return BehaviorDef(
+        BEHAVIOR_ID,
+        title=BEHAVIOR_TITLE,
+        preview_emit=preview_emit,
+        arduino_emit=arduino_emit,
+    )

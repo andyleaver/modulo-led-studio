@@ -67,7 +67,9 @@ class AudioInput:
             self.state = self._apply_gain_smooth(dict(self.sim.state))
             try:
                 self.recorder.add_frame(self.state)
-            except Exception:
+            except Exception as e:
+                from runtime.diagnostics import GLOBAL_DIAGS
+                GLOBAL_DIAGS.exception(e, domain="PREVIEW", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"preview/audio_input.py"})
                 pass
             return
 
@@ -122,13 +124,17 @@ class AudioInput:
         try:
             if self._thr and self._thr.is_alive():
                 self._thr.join(timeout=0.5)
-        except Exception:
+        except Exception as e:
+            from runtime.diagnostics import GLOBAL_DIAGS
+            GLOBAL_DIAGS.exception(e, domain="PREVIEW", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"preview/audio_input.py"})
             pass
         self._thr = None
         try:
             if self._serial:
                 self._serial.close()
-        except Exception:
+        except Exception as e:
+            from runtime.diagnostics import GLOBAL_DIAGS
+            GLOBAL_DIAGS.exception(e, domain="PREVIEW", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"preview/audio_input.py"})
             pass
         self._serial = None
         self.status.connected = False
@@ -193,7 +199,9 @@ class AudioInput:
                         self.state = self._apply_gain_smooth(dict(self.state))
                         try:
                             self.recorder.add_frame(self.state)
-                        except Exception:
+                        except Exception as e:
+                            from runtime.diagnostics import GLOBAL_DIAGS
+                            GLOBAL_DIAGS.exception(e, domain="PREVIEW", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"preview/audio_input.py"})
                             pass
                     return
             except Exception:
@@ -227,7 +235,9 @@ class AudioInput:
             self.state = self._apply_gain_smooth(dict(self.state))
             try:
                 self.recorder.add_frame(self.state)
-            except Exception:
+            except Exception as e:
+                from runtime.diagnostics import GLOBAL_DIAGS
+                GLOBAL_DIAGS.exception(e, domain="PREVIEW", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"preview/audio_input.py"})
                 pass
 
 def list_serial_ports():

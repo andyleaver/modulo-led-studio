@@ -1,7 +1,9 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import math
 
 from .mapping import MatrixMapping, xy_index, logical_dims
+from core.surface_compat import normalize_surface_mapping
 from preview.parity import ParityConfig, finalize_pixel
 from typing import List, Optional, Sequence, Set, Tuple
 
@@ -21,6 +23,8 @@ class GridGeom:
     gy: float = 0.0
     coords: Optional[List[Tuple[float,float,float,float]]] = None
 
+Geometry = GridGeom
+
 def build_strip_geom(n: int, *, cell: float=18.0, pad: float=2.0, gx: float=0.0, gy: float=0.0) -> GridGeom:
     coords = []
     x = gx
@@ -29,23 +33,37 @@ def build_strip_geom(n: int, *, cell: float=18.0, pad: float=2.0, gx: float=0.0,
         x += cell + pad
     return GridGeom(shape="strip", n=int(n), cell=cell, gx=gx, gy=gy, coords=coords)
 
-def build_cells_geom(mw: int, mh: int, cell: float, *, gx: float=0.0, gy: float=0.0) -> GridGeom:
-    mw = int(mw); mh = int(mh)
-    n = mw * mh
-    coords = []
-    for r in range(mh):
-        for c in range(mw):
-            x0 = gx + c*cell
-            y0 = gy + r*cell
-            coords.append((x0, y0, x0+cell, y0+cell))
-    return GridGeom(shape="cells", n=n, mw=mw, mh=mh, cell=cell, gx=gx, gy=gy, coords=coords)
-
-def build_cells_geom(mw: int, mh: int, cell: int, *, serpentine: bool=False, flip_x: bool=False, flip_y: bool=False, rotate: int=0) -> GridGeom:
+def build_cells_geom(
+    mw: int,
+    mh: int,
+    cell: int | float,
+    *,
+    serpentine: bool = False,
+    flip_x: bool = False,
+    flip_y: bool = False,
+    rotate: int = 0,
+    origin: str = "top_left",
+) -> GridGeom:
     mw = max(1, int(mw))
     mh = max(1, int(mh))
     cell = max(4, int(cell))
 
-    mapping = MatrixMapping(w=mw, h=mh, serpentine=bool(serpentine), flip_x=bool(flip_x), flip_y=bool(flip_y), rotate=int(rotate or 0))
+    mapping_cfg = normalize_surface_mapping({
+        "serpentine": serpentine,
+        "flip_x": flip_x,
+        "flip_y": flip_y,
+        "rotate": rotate,
+        "origin": origin,
+    })
+    mapping = MatrixMapping(
+        w=mw,
+        h=mh,
+        serpentine=mapping_cfg["serpentine"],
+        flip_x=mapping_cfg["flip_x"],
+        flip_y=mapping_cfg["flip_y"],
+        rotate=mapping_cfg["rotate"],
+        origin=mapping_cfg["origin"],
+    )
     lw, lh = logical_dims(mapping)  # dimensions after rotate for visual grid
     n = lw * lh
 
@@ -93,7 +111,9 @@ def draw(
     if selection is not None:
         try:
             selected_indices = set(selection)
-        except Exception:
+        except Exception as e:
+            from runtime.diagnostics import GLOBAL_DIAGS
+            GLOBAL_DIAGS.exception(e, domain="PREVIEW", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"preview/engine.py"})
             pass
     canvas.delete("all")
     w = max(1, canvas.winfo_width())
@@ -137,7 +157,6 @@ def draw(
         outline = "#44aaff" if sel else "#606060"
         lw = 2 if sel else 1
         canvas.create_rectangle(sx0, sy0, sx1, sy1, fill=fill_sel if sel else fill, outline=outline, width=lw)
-
 
 def apply_modulotors(params: dict, modulotors: list, audio: dict, t: float) -> dict:
     """Apply modulotors in list order. Each mod may be disabled.
@@ -184,7 +203,6 @@ def apply_modulotors(params: dict, modulotors: list, audio: dict, t: float) -> d
         out[target] = clamp_to_param_range(str(target), basef + mod)
     return out
 
-
 def clamp_to_param_range(key: str, value: float):
     """Clamp a numeric value to the PARAMS registry min/max and coerce int params."""
     try:
@@ -203,7 +221,6 @@ def clamp_to_param_range(key: str, value: float):
     if t == "int":
         v = int(round(v))
     return v
-
 
 def _curve_apply(v: float, curve: str) -> float:
     v = max(0.0, min(1.0, float(v)))

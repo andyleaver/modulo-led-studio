@@ -1,0 +1,18 @@
+Layer Controls
+
+Add:
+Create a new layer in the stack.
+
+Duplicate:
+Copy the selected layer and its setup.
+
+Solo:
+Temporarily enable only the selected layer.
+
+Move Up / Move Down:
+Change composition order in the stack.
+
+Delete:
+Remove the selected layer.
+
+Layer order changes the final composed frame.

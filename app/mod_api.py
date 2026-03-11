@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-"""Public Mod API (v1)
+"""Public Mod API
 
 This wraps existing, stable extension points.
 """
 
 from typing import Any, Callable, Dict, Optional
-
 
 def register_effect(
     key: str,
@@ -42,21 +41,17 @@ def register_effect(
     )
     register(defn)
 
-
 def register_rule_action(kind: str, fn: Callable[[Dict[str, Any]], Dict[str, Any]]) -> None:
-    from runtime.extensions_v1 import register_rule_action as _reg
+    from runtime.extensions import register_rule_action as _reg
     _reg(kind, fn)
 
-
 def register_signal_provider(name: str, fn: Callable[[Dict[str, Any]], Dict[str, Any]]) -> None:
-    from runtime.extensions_v1 import register_signal_provider as _reg
+    from runtime.extensions import register_signal_provider as _reg
     _reg(name, fn)
 
-
 def register_system(name: str, fn: Callable[[Dict[str, Any]], None], *, after=None, before=None, enabled: bool = True) -> None:
-    from runtime.extensions_v1 import register_system as _reg
+    from runtime.extensions import register_system as _reg
     _reg(name, fn, after=after, before=before, enabled=enabled)
-
 
 def register_ca_module(
     *,
@@ -70,5 +65,5 @@ def register_ca_module(
 
     This is an advanced escape hatch: cpp_step_body is embedded into Arduino export.
     """
-    from runtime.ca_modules_v1 import CAModuleV1, register_ca_module as _reg
-    _reg(CAModuleV1(name=name, kind=kind, description=description, py_step=py_step, cpp_step_body=cpp_step_body))
+    from runtime.ca_modules import CAModule, register_ca_module as _reg
+    _reg(CAModule(name=name, kind=kind, description=description, py_step=py_step, cpp_step_body=cpp_step_body))

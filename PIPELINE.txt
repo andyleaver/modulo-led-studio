@@ -1,0 +1,17 @@
+Modulo Pipeline
+
+Signals
+↓
+Variables
+↓
+Rules
+↓
+Behaviors
+↓
+Layers
+↓
+Operators
+↓
+Hardware Output
+
+This file documents the engine pipeline so UI workflow mirrors the real system.

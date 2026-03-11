@@ -1,0 +1,26 @@
+Creation Flow
+
+1 Surface / Hardware
+2 Targeting
+3 Layers
+4 Behaviors
+5 Signals
+6 Variables
+7 Rules
+8 Operators
+9 Presets / Scenes
+10 Playlist / Show
+11 Export
+12 Diagnostics
+
+The UI is organized to match how projects are actually created.
+
+Creation pipeline
+- Surface / Hardware starts new work
+- Targeting defines where layers render
+- Layers hold behaviors and compose the frame
+- Behaviors generate pixels
+- Rules automate state changes
+- Operators post-process the composed output
+- Export builds firmware or target output
+- Diagnostics verifies the finished project

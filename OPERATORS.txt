@@ -1,0 +1,9 @@
+Operators
+
+Operators are the post-processing stage of Modulo.
+
+Render chain:
+Behaviors → Layers → Composition → Operators → Hardware Output
+
+Use operators to adjust the composed image after all layers have rendered.
+The current UI exposes canonical project.postfx controls and helper presets.

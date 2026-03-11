@@ -1,4 +1,6 @@
 from __future__ import annotations
+from app.project_model import get_surface_spec
+from core.surface_compat import build_surface_geometry_dict, get_surface_mapping_values
 from dataclasses import dataclass
 from typing import Dict, Any, List, Optional
 
@@ -17,23 +19,12 @@ class BudgetEstimate:
 UNO_RAM = 2048
 MEGA_RAM = 8192
 
-def _infer_led_count(project: Dict[str, Any]) -> int:
-    # Prefer layout (Qt schema + legacy variants)
-    layout = (project or {}).get("layout") or {}
-    kind = str(layout.get("kind") or layout.get("shape") or "").strip().lower()
-    if kind == "cells":
-        kind = "matrix"
-    if kind == "strip":
-        return int(layout.get("count", layout.get("num_leds", layout.get("led_count", 60))) or 60)
-    if kind == "matrix":
-        w = int(layout.get("width", layout.get("matrix_w", layout.get("mw", 0))) or 0)
-        h = int(layout.get("height", layout.get("matrix_h", layout.get("mh", 0))) or 0)
-        if w > 0 and h > 0:
-            return int(w * h)
-    # Fall back to export section
+def _infer_count(project: Dict[str, Any]) -> int:
+    spec = get_surface_spec(project or {})
+    if spec is not None and int(getattr(spec, "count", 0) or 0) > 0:
+        return int(spec.count)
     export = (project or {}).get("export") or {}
-    return int(export.get("led_count", export.get("num_leds", 60)) or 60)
-
+    return int(export.get("count", 60) or 60)
 
 def _infer_layers(project: Dict[str, Any]) -> int:
     return len((project or {}).get("layers") or [])
@@ -59,7 +50,7 @@ def estimate_project_budget_for_limits(
     max_leds_recommended: Optional[int],
     max_leds_hard: Optional[int],
 ) -> BudgetEstimate:
-    leds = _infer_led_count(project)
+    leds = _infer_count(project)
     layers = _infer_layers(project)
     notes: List[str] = []
 
@@ -99,3 +90,24 @@ def estimate_project_budget_for_limits(
         max_leds_recommended=max_leds_recommended if isinstance(max_leds_recommended, int) else None,
         max_leds_hard=max_leds_hard if isinstance(max_leds_hard, int) else None,
     )
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

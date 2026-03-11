@@ -10,12 +10,10 @@ from typing import Tuple
 
 RGB = Tuple[int, int, int]
 
-
 @dataclass(frozen=True)
 class ParityConfig:
     brightness: float = 1.0  # 0..1
     gamma: float = 1.0       # 1.0 = passthrough
-
 
 def clamp8(x: float) -> int:
     if x <= 0:
@@ -24,13 +22,11 @@ def clamp8(x: float) -> int:
         return 255
     return int(x)
 
-
 def apply_brightness(rgb: RGB, brightness: float) -> RGB:
     if brightness >= 0.999:
         return rgb
     r, g, b = rgb
     return (clamp8(r * brightness), clamp8(g * brightness), clamp8(b * brightness))
-
 
 def apply_gamma(rgb: RGB, gamma: float) -> RGB:
     if 0.999 <= gamma <= 1.001:
@@ -43,12 +39,10 @@ def apply_gamma(rgb: RGB, gamma: float) -> RGB:
         clamp8(((b / 255.0) ** inv) * 255.0),
     )
 
-
 def finalize_pixel(rgb: RGB, cfg: ParityConfig) -> RGB:
     out = apply_brightness(rgb, cfg.brightness)
     out = apply_gamma(out, cfg.gamma)
     return out
-
 
 def blend_over(dst: RGB, src: RGB, alpha: float) -> RGB:
     if alpha <= 0.0:

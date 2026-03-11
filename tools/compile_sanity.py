@@ -3,7 +3,7 @@
 
 Best-effort export + optional compilation checks.
 
-- Always generates representative exports for a few target families.
+- Always generates representative exports for a few target families using canonical, explicitly exportable sample behaviors.
 - If PlatformIO is installed (pio), compiles generated PlatformIO projects.
 - If arduino-cli is installed, compiles emitted .ino sketches when an FQBN mapping is provided.
 
@@ -12,7 +12,7 @@ FQBN mapping:
 - Override via env: MODULO_FQBN_MAP=/path/to/map.json
 - Or CLI: --fqbn-map /path/to/map.json
 
-Writes reports to: parity_reports/compile_sanity_<timestamp>/
+Writes reports to: ../artifacts/compile_sanity/compile_sanity_<timestamp>/ by default.
 """
 from __future__ import annotations
 
@@ -30,14 +30,14 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from app.project_model import build_surface_dict
 from export.emit import emit_project
 from export.targets.registry import load_target
-
 
 def _minimal_project(behavior_key: str, *, w: int = 16, h: int = 16) -> Dict[str, Any]:
     return {
         "version": 1,
-        "layout": {"kind": "cells", "width": w, "height": h},
+        "surface": build_surface_dict(kind="cells", width=int(w), height=int(h), count=int(w) * int(h)),
         "postfx": {},
         "layers": [
             {
@@ -52,7 +52,6 @@ def _minimal_project(behavior_key: str, *, w: int = 16, h: int = 16) -> Dict[str
         ],
     }
 
-
 def _run(cmd: List[str], *, cwd: Path | None = None) -> Tuple[int, str]:
     try:
         p = subprocess.run(cmd, cwd=str(cwd) if cwd else None, capture_output=True, text=True)
@@ -63,22 +62,21 @@ def _run(cmd: List[str], *, cwd: Path | None = None) -> Tuple[int, str]:
     except Exception as e:
         return 1, f"Failed to run {cmd}: {e}"
 
-
 def _pick_targets() -> List[Tuple[str, str]]:
+    """Representative canonical targets that exist in the shipped registry."""
     return [
-        ("arduino_uno_fastled_noneaudio", "arduino"),
+        ("arduino_avr_fastled_noaudio", "arduino"),
         ("esp32_hub75_i2sdma_noneaudio", "platformio"),
         ("rp2040_fastled_noneaudio", "platformio"),
     ]
 
-
 def _pick_behaviors() -> List[str]:
+    """Representative canonical behaviors that are explicitly exportable."""
     return [
-        "solid_color",
-        "game_of_life",
-        "tilemap_sprite",
+        "solid",
+        "rainbow",
+        "chase",
     ]
-
 
 def _load_fqbn_map(path: Path) -> Dict[str, str]:
     if not path.exists():
@@ -88,7 +86,6 @@ def _load_fqbn_map(path: Path) -> Dict[str, str]:
         return dict((data.get("mappings") or {}))
     except Exception:
         return {}
-
 
 def _arduino_compile(ino_path: Path, *, fqbn: str) -> Tuple[int, str]:
     """Compile using arduino-cli.
@@ -105,8 +102,6 @@ def _arduino_compile(ino_path: Path, *, fqbn: str) -> Tuple[int, str]:
         cmd = ["arduino-cli", "compile", "--fqbn", fqbn, "--warnings", "all", str(sketch_dir)]
         return _run(cmd)
 
-
-
 def _load_fqbn_presets(path: Path) -> Dict[str, Dict[str, str]]:
     if not path.exists():
         return {}
@@ -115,7 +110,6 @@ def _load_fqbn_presets(path: Path) -> Dict[str, Dict[str, str]]:
         return dict((data.get("presets") or {}))
     except Exception:
         return {}
-
 
 def _arduino_core_list() -> List[Dict[str, Any]]:
     """Return arduino-cli core list as JSON-ish.
@@ -129,7 +123,6 @@ def _arduino_core_list() -> List[Dict[str, Any]]:
         return json.loads(out) if out.strip().startswith("[") else []
     except Exception:
         return []
-
 
 def _hint_install_core_for_fqbn(fqbn: str, installed_cores: List[Dict[str, Any]]) -> str:
     """Best-effort hint for installing the core that provides an FQBN.
@@ -164,10 +157,16 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fqbn-map", default="", help="Path to fqbn_map.json (overrides MODULO_FQBN_MAP)")
     ap.add_argument("--preset", default="", help="Name of a preset in tools/fqbn_presets.json to merge into mappings")
+    ap.add_argument("--out-dir", default="", help="Directory to write compile-sanity artifacts (default: ../artifacts/compile_sanity or $MODULO_ARTIFACT_DIR)")
     args = ap.parse_args()
 
-    ts = _dt.datetime.utcnow().strftime("%Y%m%d_%H%M%SZ")
-    out_dir = REPO_ROOT / "parity_reports" / f"compile_sanity_{ts}"
+    ts = _dt.datetime.now(_dt.timezone.utc).strftime("%Y%m%d_%H%M%SZ")
+    if args.out_dir:
+        out_base = Path(args.out_dir)
+    else:
+        artifact_root = Path(__import__("os").environ.get("MODULO_ARTIFACT_DIR", REPO_ROOT.parent / "artifacts"))
+        out_base = artifact_root / "compile_sanity"
+    out_dir = out_base / f"compile_sanity_{ts}"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     have_arduino = shutil.which("arduino-cli") is not None
@@ -234,11 +233,19 @@ def main() -> int:
                 })
                 continue
 
+            if written_p.exists():
+                try:
+                    emitted = str(written_p.relative_to(REPO_ROOT))
+                except ValueError:
+                    emitted = str(written_p)
+            else:
+                emitted = str(written_p)
+
             rec: Dict[str, Any] = {
                 "target": target_id,
                 "behavior": beh,
                 "output_mode": mode,
-                "emitted": str(written_p.relative_to(REPO_ROOT)) if written_p.exists() else str(written_p),
+                "emitted": emitted,
                 "status": "OK",
                 "compile": "N/A",
                 "compile_hint": "",
@@ -279,7 +286,6 @@ def main() -> int:
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(f"Wrote: {out_dir}/summary.json")
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

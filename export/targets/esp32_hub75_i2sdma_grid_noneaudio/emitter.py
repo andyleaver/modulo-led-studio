@@ -7,7 +7,7 @@ import json
 from ...ir import ShowIR
 from ...arduino_exporter import export_project_validated, HUB75_LED_IMPL_ESP32
 from ..registry import resolve_requested_hw
-
+from app.project_model import get_surface_spec
 
 def _get_meta() -> dict:
     try:
@@ -15,9 +15,8 @@ def _get_meta() -> dict:
     except Exception:
         return {}
 
-
 def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
-    """ESP32 HUB75 (I2S-DMA) matrix GRID target pack (no-audio)."""
+    """ESP32 HUB75 (I2S-DMA) cells GRID target pack (no-audio)."""
     tpl = Path(__file__).resolve().parent / "arduino_template.ino.tpl"
     meta = _get_meta()
 
@@ -34,7 +33,7 @@ def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
             v = defs.get(f"hub75_{key}", default)
         return str(v)
 
-    # Matrix dims (resolved by export_project_validated): require MATRIX_WIDTH/HEIGHT to exist for HUB75.
+    # Cells dims (resolved by export_project_validated): require MATRIX_WIDTH/HEIGHT to exist for HUB75.
     hw = resolve_requested_hw(ir.project, meta)
 
     # Resolve grid geometry
@@ -61,16 +60,10 @@ def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
     }
     vchain = vchain_map.get(vchain_raw, vchain_raw)
 
-    # Strict dimension checks (fail-closed)
-    # We read matrix dims from project export.hw.matrix if present, else layout dims.
-    mat = (exp.get("hw") or {}).get("matrix") or {}
-    mw = mat.get("width")
-    mh = mat.get("height")
-    # fallback to layout dims
-    if not mw or not mh:
-        lay = (ir.project or {}).get("layout") or {}
-        mw = mw or lay.get("width")
-        mh = mh or lay.get("height")
+    # Strict dimension checks (fail-closed). Geometry truth comes from the canonical
+    # surface spec only. Export must not override cells width/height from export.hw.matrix
+    # or leaked root layout mirrors at runtime.
+    spec = get_surface_spec(ir.project or {})
 
     def _as_int(x):
         try:
@@ -78,21 +71,21 @@ def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
         except Exception:
             return 0
 
-    mw = _as_int(mw)
-    mh = _as_int(mh)
+    mw = _as_int(getattr(spec, "width", 0))
+    mh = _as_int(getattr(spec, "height", 0))
 
     expected_w = panel_x * num_cols
     expected_h = panel_y * num_rows
 
     blocked_reason = None
-    kind = ((ir.project or {}).get("layout") or {}).get("kind")
-    if kind not in ("matrix", "cells"):
-        blocked_reason = f"HUB75 grid export requires layout.kind matrix/cells (got {kind!r})."
+    kind = str(getattr(spec, "kind", "") or "").strip().lower()
+    if kind != "cells":
+        blocked_reason = f"HUB75 grid export requires canonical project.surface.kind='cells' (resolved kind={kind!r})."
     elif mw <= 0 or mh <= 0:
-        blocked_reason = "HUB75 grid export requires matrix width/height to be set."
+        blocked_reason = "HUB75 grid export requires cells width/height to be set."
     elif mw != expected_w or mh != expected_h:
         blocked_reason = (
-            f"HUB75 grid dims mismatch: matrix={mw}x{mh}, expected={expected_w}x{expected_h} "
+            f"HUB75 grid dims mismatch: surface={mw}x{mh}, expected={expected_w}x{expected_h} "
             f"(panel={panel_x}x{panel_y}, cols={num_cols}, rows={num_rows})."
         )
 
@@ -157,3 +150,38 @@ def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
         f"HUB75 grid: panel={panel_x}x{panel_y} cols={num_cols} rows={num_rows} chain={panel_chain} vchain={vchain_raw}\n"
     )
     return Path(p), report
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    from app.project_model import get_surface_spec
+    from core.surface_compat import get_surface_mapping_values
+
+    spec = get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    mapping = get_surface_mapping_values(spec)
+    return {
+        "kind": spec.kind,
+        "width": spec.width,
+        "height": spec.height,
+        "count": spec.count,
+        "mapping": mapping,
+        "serpentine": bool(mapping.get("serpentine", False)),
+        "flip_x": bool(mapping.get("flip_x", False)),
+        "flip_y": bool(mapping.get("flip_y", False)),
+        "rotate": int(mapping.get("rotate", 0)),
+        "origin": str(mapping.get("origin", "top_left")),
+    }
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

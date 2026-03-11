@@ -1,4 +1,6 @@
 from __future__ import annotations
+from app.project_model import get_surface_spec
+from core.surface_compat import build_surface_geometry_dict, get_surface_mapping_values
 
 """
 Unified export emitter entrypoint.
@@ -12,7 +14,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Tuple
 import zipfile
-
 
 def _ascii_qr(payload: str) -> str:
     """Render a small ASCII QR for copy/paste-friendly export reports.
@@ -41,7 +42,6 @@ def _ascii_qr(payload: str) -> str:
     except Exception:
         return ""
 
-
 def _validate_export_artifact_text(text: str) -> list[str]:
     """Fail-loud validation for generated artifacts.
 
@@ -58,7 +58,9 @@ def _validate_export_artifact_text(text: str) -> list[str]:
         toks = sorted(set(re.findall(r"@@[A-Z0-9_]+@@", t)))
         if toks:
             probs.append("Unreplaced template tokens: " + ", ".join(toks[:50]) + (f" …(+{len(toks)-50})" if len(toks) > 50 else ""))
-    except Exception:
+    except Exception as e:
+        from runtime.diagnostics import GLOBAL_DIAGS
+        GLOBAL_DIAGS.exception(e, domain="EXPORT", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"export/emit.py"})
         pass
 
     # Accidental Python format/f-string artifacts
@@ -74,7 +76,6 @@ def _validate_export_artifact_text(text: str) -> list[str]:
 
     return probs
 
-
 def _validate_written_artifact(path: Path) -> None:
     """Validate the emitted file before we consider export successful."""
     try:
@@ -88,12 +89,13 @@ def _validate_written_artifact(path: Path) -> None:
             # Delete corrupt output to prevent false success.
             try:
                 path.unlink()
-            except Exception:
+            except Exception as e:
+                from runtime.diagnostics import GLOBAL_DIAGS
+                GLOBAL_DIAGS.exception(e, domain="EXPORT", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"export/emit.py"})
                 pass
             raise RuntimeError("Export validation failed:\n- " + "\n- ".join(probs))
     except Exception:
         raise
-
 
 from export.targets.registry import (
     load_target,
@@ -102,12 +104,10 @@ from export.targets.registry import (
     resolve_requested_audio_hw,
 )
 
-
 @dataclass
 class EmitResult:
     written_path: Path
     report_text: str
-
 
 def emit_project(*, project: Dict[str, Any], out_path: Path, target_id: str, output_mode: str) -> Tuple[Path, str]:
     out_path = Path(out_path)
@@ -146,6 +146,15 @@ def emit_project(*, project: Dict[str, Any], out_path: Path, target_id: str, out
     )
     written_p = Path(written)
     rep = str(rep or "")
+
+    # Normalize accidental double-brace template escapes before validation.
+    try:
+        if written_p.exists() and written_p.is_file() and written_p.suffix.lower() in (".ino", ".h", ".hpp", ".c", ".cpp", ".txt"):
+            txt = written_p.read_text(encoding="utf-8", errors="replace")
+            if "{{" in txt or "}}" in txt:
+                written_p.write_text(txt.replace("{{", "{").replace("}}", "}"), encoding="utf-8")
+    except Exception:
+        raise
 
     # Release R8: fail-loud validation of generated artifacts
     _validate_written_artifact(written_p)
@@ -194,7 +203,9 @@ def emit_project(*, project: Dict[str, Any], out_path: Path, target_id: str, out
                         q2 = _ascii_qr(url_ap)
                         if q2:
                             rep += q2 + "\\n"
-                except Exception:
+                except Exception as e:
+                    from runtime.diagnostics import GLOBAL_DIAGS
+                    GLOBAL_DIAGS.exception(e, domain="EXPORT", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"export/emit.py"})
                     pass
                 rep += "Update page: http://<device-ip>/\n"
                 rep += "Upload endpoint: http://<device-ip>/update\n\n"
@@ -211,7 +222,30 @@ def emit_project(*, project: Dict[str, Any], out_path: Path, target_id: str, out
                 rep += "How to get a .bin:\n"
                 rep += "  - Arduino IDE: Sketch → Export compiled Binary\n"
                 rep += "  - PlatformIO: build and use the produced firmware.bin\n"
-    except Exception:
+    except Exception as e:
+        from runtime.diagnostics import GLOBAL_DIAGS
+        GLOBAL_DIAGS.exception(e, domain="EXPORT", code="SWALLOWED_EXCEPTION", summary="swallowed exception", details={"file":"export/emit.py"})
         pass
 
     return written_p, rep
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

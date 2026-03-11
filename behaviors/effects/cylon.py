@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from core.surface_compat import canonical_surface_config
 SHIPPED = True
 
 """Cylon / Larson Scanner
@@ -18,8 +20,10 @@ USES = list(getattr(_base, "USES", []) or [])
 def _preview_emit(*, num_leds: int, params: dict, t: float):
     return _base._preview_emit(num_leds=num_leds, params=params, t=t)
 
-def _arduino_emit(*, layout: dict, params: dict) -> str:
-    return _base._arduino_emit(layout=layout, params=params)
+def _arduino_emit(*, surface: dict | None = None, layout: dict | None = None, params: dict) -> str:
+    surface = surface if surface is not None else layout
+    surface_cfg = canonical_surface_config(surface)
+    return _base._arduino_emit(surface=surface_cfg, params=params)
 
 def register_cylon():
     return register(BehaviorDef(

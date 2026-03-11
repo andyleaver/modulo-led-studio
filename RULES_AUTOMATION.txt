@@ -1,0 +1,16 @@
+Rules Automation
+
+Rules are the automation system of Modulo.
+
+Rules do NOT generate pixels.
+Instead they change system state.
+
+Typical rule flow:
+Signal or Variable → Condition → Action
+
+Actions may:
+- modify layers
+- update variables
+- adjust behaviors
+
+Behaviors then generate pixels during the render stage.

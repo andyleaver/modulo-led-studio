@@ -42,6 +42,21 @@ def clamp(params: Dict) -> Dict:
                 if iv < int(s.minv): iv = int(s.minv)
                 if iv > int(s.maxv): iv = int(s.maxv)
                 params[s.key] = iv
-        except Exception:
+        except Exception as e:
+            # Best-effort diagnostics once per key to avoid spam.
+            try:
+                from runtime.diagnostics import GLOBAL_DIAGS
+                cache = globals().setdefault("_PURPOSE_CLAMP_ERR_CACHE", set())
+                if s.key not in cache:
+                    cache.add(s.key)
+                    GLOBAL_DIAGS.exc(
+                        domain="RUNTIME",
+                        code="PURPOSE_PARAM_COERCE_FAILED",
+                        summary="Purpose param could not be coerced; default applied",
+                        details={"key": s.key, "value": v, "kind": s.kind},
+                        exc=e,
+                    )
+            except Exception:
+                pass
             params[s.key] = s.default
     return params

@@ -2,7 +2,7 @@
 """Register a new golden fixture for regression protection.
 
 What it does:
-- Optionally creates a demo fixture JSON from a small template.
+- Optionally creates a fixture JSON under fixtures/projects/ from a small template.
 - Adds the fixture filename to tools/golden_exports.py FIXTURES list (idempotent).
 - Optionally runs golden_exports.py --update to refresh baseline.
 
@@ -16,18 +16,31 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import subprocess
+import sys
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from app.project_model import build_surface_dict
 
 TEMPLATE = {
   "name": "Golden Fixture (edit me)",
-  "layout": {"kind": "cells", "width": 16, "height": 16, "origin": "tl", "serpentine": True},
+  "surface": build_surface_dict(
+    kind="cells",
+    width=16,
+    height=16,
+    count=256,
+    mapping={"origin": "top_left", "serpentine": True},
+  ),
   "layers": [
-    {"type": "effect", "key": "aurora", "params": {"purpose_f0": 0.0}}
+    {"behavior": "aurora", "enabled": True, "params": {"purpose_f0": 0.0}}
   ]
 }
+
 
 def _add_fixture_to_golden_exports(py_path: Path, fixture_name: str) -> bool:
     txt = py_path.read_text(encoding="utf-8")
@@ -38,25 +51,25 @@ def _add_fixture_to_golden_exports(py_path: Path, fixture_name: str) -> bool:
     if re.search(rf"\b{re.escape(fixture_name)}\b", body):
         return False
 
-    # Insert before closing bracket, keep formatting stable.
     insertion = f'    "{fixture_name}",\n'
     new_body = body + insertion
     new_txt = txt[:m.start("body")] + new_body + txt[m.end("body"):]
     py_path.write_text(new_txt, encoding="utf-8")
     return True
 
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True, help="Fixture filename (e.g. demo_my_effect_golden.json)")
-    ap.add_argument("--create", action="store_true", help="Create demos/<name> if missing using a safe template")
+    ap.add_argument("--create", action="store_true", help="Create fixtures/projects/<name> if missing using a safe template")
     ap.add_argument("--update-baseline", action="store_true", help="Run golden_exports.py --update after registering")
     args = ap.parse_args()
 
-    repo_root = Path(__file__).resolve().parents[1]
-    demos_dir = repo_root / "demos"
-    demos_dir.mkdir(exist_ok=True)
+    repo_root = REPO_ROOT
+    fixture_dir = repo_root / "fixtures" / "projects"
+    fixture_dir.mkdir(parents=True, exist_ok=True)
 
-    fixture_path = demos_dir / args.name
+    fixture_path = fixture_dir / args.name
     if args.create and not fixture_path.exists():
         data = dict(TEMPLATE)
         data["name"] = args.name.replace(".json", "")
@@ -71,6 +84,7 @@ def main() -> None:
         cmd = ["python3", str(repo_root / "tools" / "golden_exports.py"), "--update"]
         print("Running:", " ".join(cmd))
         subprocess.check_call(cmd, cwd=str(repo_root))
+
 
 if __name__ == "__main__":
     main()

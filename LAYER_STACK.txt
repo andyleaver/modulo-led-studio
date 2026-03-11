@@ -1,0 +1,16 @@
+Layer Stack
+
+Layers are combined in order to form the final frame.
+
+Each Layer:
+- runs exactly one Behavior
+- generates a pixel buffer
+
+The layer stack then composes these buffers together.
+
+Pipeline:
+
+Behavior → Layer Buffer
+Layers → Composition Stack
+Composition → Operators
+Operators → Hardware Output

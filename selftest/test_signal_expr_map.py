@@ -2,7 +2,6 @@
 
 from export.signal_expr_map import arduino_expr_for_signal
 
-
 def main():
     assert arduino_expr_for_signal("audio_energy") == "g_energy"
     assert arduino_expr_for_signal("audio_peak") == "g_peak"
@@ -14,7 +13,6 @@ def main():
     assert arduino_expr_for_signal("audio_left_-1") is None
     assert arduino_expr_for_signal("nope") is None
     print("OK: signal_expr_map selftest passed")
-
 
 if __name__ == "__main__":
     main()

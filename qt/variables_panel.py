@@ -1,254 +1,364 @@
 from __future__ import annotations
 
-"""Variables Panel (Phase 6.2)
+# --- diagnostics helper (no silent failure) ---
+try:
+    from runtime.diagnostics import GLOBAL_DIAGS as _DIAGS
+except Exception:  # pragma: no cover
+    _DIAGS = None
 
-Minimal UI to create/edit persistent variables used by Rules.
+def _diag_exc(e: Exception, where: str):
+    try:
+        if _DIAGS is not None:
+            _DIAGS.exception(e, domain="UI", code="QT_UI_EXCEPTION", summary=where)
+    except Exception:
+        pass
 
-Project schema:
-  project['variables']['number'][name] = float
-  project['variables']['toggle'][name] = bool
+try:
+    from qt.qt_compat import QtCore, QtWidgets  # type: ignore
+except Exception:
+    from qt.qt_compat import QtCore, QtWidgets  # type: ignore
 
-This panel is intentionally simple and deterministic.
-"""
+def _flatten_variables_tree(tree: dict | None) -> dict[str, tuple[str, object]]:
+    flat: dict[str, tuple[str, object]] = {}
+    src = tree if isinstance(tree, dict) else {}
+    for kind in ("number", "toggle"):
+        bucket = src.get(kind)
+        if not isinstance(bucket, dict):
+            continue
+        for name, value in bucket.items():
+            flat[f"{kind}.{str(name)}"] = (kind, value)
+    return flat
 
-from PyQt6 import QtCore, QtWidgets
+def _parse_flat_key(key: str) -> tuple[str, str] | None:
+    k = str(key or "").strip()
+    if not k or "." not in k:
+        return None
+    kind, name = k.split(".", 1)
+    kind = kind.strip().lower()
+    name = name.strip()
+    if kind not in ("number", "toggle") or not name:
+        return None
+    return kind, name
 
-from runtime.variables import ensure_variables
-
-
-def _safe_name(s: str) -> str:
-    s = (s or "").strip()
-    # Keep simple: alnum, underscore, dash. Replace spaces with underscore.
-    s = s.replace(" ", "_")
-    out = []
-    for ch in s:
-        if ch.isalnum() or ch in "_-":
-            out.append(ch)
-    return "".join(out)
-
+def _coerce_variable_value(kind: str, raw):
+    if kind == "number":
+        return float(raw)
+    text = str(raw).strip().lower()
+    if text in ("1", "true", "yes", "on"):
+        return True
+    if text in ("0", "false", "no", "off", ""):
+        return False
+    return bool(raw)
 
 class VariablesPanel(QtWidgets.QWidget):
+    """Canonical variables editor.
+
+    Variables are first-class runtime values used by rules, operators,
+    behaviors, and signals. This UI keeps the canonical project structure
+    visible while adding helpers to reduce friction.
+    """
+
     def __init__(self, app_core):
         super().__init__()
         self.app_core = app_core
 
         outer = QtWidgets.QVBoxLayout(self)
-        outer.setContentsMargins(10, 10, 10, 10)
+        outer.setContentsMargins(0, 0, 0, 0)
         outer.setSpacing(8)
 
-        hdr = QtWidgets.QHBoxLayout()
-        hdr.addWidget(QtWidgets.QLabel("Variables"))
+        helpers = QtWidgets.QGroupBox("Variable Helpers")
+        hlay = QtWidgets.QHBoxLayout(helpers)
 
-        self.search = QtWidgets.QLineEdit()
-        self.search.setPlaceholderText("Search… (e.g., speed, toggle)")
-        hdr.addWidget(self.search, 1)
+        self.cmb_kind = QtWidgets.QComboBox()
+        self.cmb_kind.addItems(["number", "toggle"])
+        hlay.addWidget(self.cmb_kind, 0)
 
-        self.btn_add_num = QtWidgets.QPushButton("+ Number")
-        self.btn_add_tog = QtWidgets.QPushButton("+ Toggle")
-        self.btn_del = QtWidgets.QPushButton("Delete")
-        self.btn_refresh = QtWidgets.QPushButton("Refresh")
-        hdr.addWidget(self.btn_add_num)
-        hdr.addWidget(self.btn_add_tog)
-        hdr.addWidget(self.btn_del)
-        hdr.addWidget(self.btn_refresh)
-        outer.addLayout(hdr)
+        self.txt_name = QtWidgets.QLineEdit()
+        self.txt_name.setPlaceholderText("variable name")
+        hlay.addWidget(self.txt_name, 1)
+
+        self.txt_value = QtWidgets.QLineEdit()
+        self.txt_value.setPlaceholderText("initial value")
+        hlay.addWidget(self.txt_value, 1)
+
+        self.btn_add = QtWidgets.QPushButton("Add Variable")
+        self.btn_remove = QtWidgets.QPushButton("Remove Selected")
+        hlay.addWidget(self.btn_add, 0)
+        hlay.addWidget(self.btn_remove, 0)
+        hlay.addStretch(1)
+        outer.addWidget(helpers, 0)
+
+        btns = QtWidgets.QHBoxLayout()
+        self.btn_commit_rt_to_proj = QtWidgets.QPushButton("Commit Runtime → Project")
+        self.btn_commit_proj_to_rt = QtWidgets.QPushButton("Commit Project → Runtime")
+        self.btn_revert_rt = QtWidgets.QPushButton("Revert Runtime")
+        btns.addWidget(self.btn_commit_rt_to_proj)
+        btns.addWidget(self.btn_commit_proj_to_rt)
+        btns.addWidget(self.btn_revert_rt)
+        btns.addStretch(1)
+        outer.addLayout(btns)
 
         self.table = QtWidgets.QTableWidget()
         self.table.setColumnCount(3)
-        self.table.setHorizontalHeaderLabels(["Type", "Name", "Value"])
-        self.table.horizontalHeader().setStretchLastSection(True)
-        self.table.verticalHeader().setVisible(False)
-        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
-        self.table.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
-        self.table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.DoubleClicked | QtWidgets.QAbstractItemView.EditTrigger.EditKeyPressed)
+        self.table.setHorizontalHeaderLabels(["Key", "Project", "Runtime"])
+        try:
+            self.table.horizontalHeader().setStretchLastSection(True)
+        except Exception as e:
+            _diag_exc(e, "qt/variables_panel.py.header")
         outer.addWidget(self.table, 1)
 
-        self.status = QtWidgets.QLabel("")
-        self.status.setWordWrap(True)
-        outer.addWidget(self.status)
+        note = QtWidgets.QLabel(
+            "Variables are canonical and namespaced. Use keys like number.score and toggle.enabled."
+        )
+        note.setWordWrap(True)
+        outer.addWidget(note)
 
-        self.btn_add_num.clicked.connect(lambda: self._add_var(kind="number"))
-        self.btn_add_tog.clicked.connect(lambda: self._add_var(kind="toggle"))
-        self.btn_del.clicked.connect(self._delete_selected)
-        self.btn_refresh.clicked.connect(self.refresh)
-        self.search.textChanged.connect(self.refresh)
-
+        self.btn_commit_rt_to_proj.clicked.connect(self._commit_runtime_to_project)
+        self.btn_commit_proj_to_rt.clicked.connect(self._commit_project_to_runtime)
+        self.btn_revert_rt.clicked.connect(self._revert_runtime)
+        self.btn_add.clicked.connect(self._add_variable)
+        self.btn_remove.clicked.connect(self._remove_selected_variable)
         self.table.itemChanged.connect(self._on_item_changed)
-
-        self._timer = QtCore.QTimer(self)
-        self._timer.setInterval(250)
-        self._timer.timeout.connect(self._poll_project_rev)
-        self._timer.start()
-        self._last_rev = -1
-        self._suspend_item_changed = False
+        self.table.itemSelectionChanged.connect(self._update_buttons)
 
         self.refresh()
 
-    def _poll_project_rev(self):
-        try:
-            rev = int(getattr(self.app_core, "project_revision", 0))
-        except Exception:
-            rev = 0
-        if rev != self._last_rev:
-            self._last_rev = rev
-            self.refresh()
+    def _project(self) -> dict:
+        p = getattr(self.app_core, "project", None)
+        return p if isinstance(p, dict) else {}
 
-    def _get_vars(self):
-        p = self.app_core.project or {}
-        p2, changed = ensure_variables(p)
-        if changed:
-            self.app_core.project = p2
-            p = p2
-        v = p.get("variables") or {}
-        num = v.get("number") or {}
-        tog = v.get("toggle") or {}
-        return num if isinstance(num, dict) else {}, tog if isinstance(tog, dict) else {}
+    def _project_vars(self) -> dict:
+        return _flatten_variables_tree(self._project().get("variables"))
+
+    def _runtime_vars_tree(self) -> dict:
+        getter = getattr(self.app_core, "get_runtime_variables_state", None)
+        if callable(getter):
+            try:
+                data = getter()
+                return data if isinstance(data, dict) else {}
+            except Exception as e:
+                _diag_exc(e, "qt/variables_panel.py.get_runtime_variables_state")
+        rv = getattr(self.app_core, "runtime_vars", None)
+        if isinstance(rv, dict):
+            return rv
+        p = self._project()
+        rv = p.get("variables_runtime")
+        return rv if isinstance(rv, dict) else {}
+
+    def _runtime_vars(self) -> dict:
+        return _flatten_variables_tree(self._runtime_vars_tree())
+
+    def _notify_changed(self):
+        for name in ("on_project_changed", "notify_project_changed", "mark_dirty", "set_dirty"):
+            fn = getattr(self.app_core, name, None)
+            if callable(fn):
+                try:
+                    fn()
+                    return
+                except Exception as e:
+                    _diag_exc(e, f"qt/variables_panel.py.{name}")
+
+    def _set_project_variable(self, kind: str, name: str, value) -> bool:
+        try:
+            from runtime.resolver import set_address
+            p2, changed = set_address(project=self._project(), address=f"project.variables.{kind}.{name}", value=value)
+            if changed:
+                self.app_core.project = p2
+            return bool(changed)
+        except Exception as e:
+            _diag_exc(e, "qt/variables_panel.py.set_address")
+            return False
+
+    def _delete_project_variable(self, kind: str, name: str) -> bool:
+        try:
+            from app.project_canonical import apply_project_root
+
+            project = dict(self._project())
+            vars_tree = dict(project.get("variables") or {})
+            bucket = dict(vars_tree.get(kind) or {})
+            if name not in bucket:
+                return False
+            bucket.pop(name, None)
+            vars_tree[kind] = bucket
+            project, _validation, _changes = apply_project_root(project, "variables", vars_tree)
+            self.app_core.project = project
+            return True
+        except Exception as e:
+            _diag_exc(e, "qt/variables_panel.py.delete_project_variable")
+            return False
+
+    def _set_runtime_variable(self, kind: str, name: str, value) -> bool:
+        setter = getattr(self.app_core, "set_runtime_variable", None)
+        if callable(setter):
+            try:
+                setter(kind, name, value)
+                return True
+            except Exception as e:
+                _diag_exc(e, "qt/variables_panel.py.set_runtime_variable")
+                return False
+        rv = self._runtime_vars_tree()
+        bucket = dict(rv.get(kind) or {}) if isinstance(rv.get(kind), dict) else {}
+        bucket[name] = value
+        rv[kind] = bucket
+        if isinstance(getattr(self.app_core, "runtime_vars", None), dict):
+            self.app_core.runtime_vars = rv
+            return True
+        return False
+
+    def _delete_runtime_variable(self, kind: str, name: str) -> bool:
+        try:
+            rv = self._runtime_vars_tree()
+            bucket = dict(rv.get(kind) or {}) if isinstance(rv.get(kind), dict) else {}
+            if name not in bucket:
+                return False
+            bucket.pop(name, None)
+            rv[kind] = bucket
+            if isinstance(getattr(self.app_core, "runtime_vars", None), dict):
+                self.app_core.runtime_vars = rv
+                return True
+        except Exception as e:
+            _diag_exc(e, "qt/variables_panel.py.delete_runtime_variable")
+        return False
 
     def refresh(self):
-        num, tog = self._get_vars()
-        q = (self.search.text() or "").strip().lower()
+        pv = dict(self._project_vars())
+        rv = dict(self._runtime_vars())
+        keys = sorted(set(pv.keys()) | set(rv.keys()))
 
-        rows = []
-        for name in sorted(num.keys(), key=lambda x: str(x)):
-            if q and q not in str(name).lower() and q not in "number":
-                continue
-            rows.append(("number", str(name), float(num.get(name, 0.0))))
-        for name in sorted(tog.keys(), key=lambda x: str(x)):
-            if q and q not in str(name).lower() and q not in "toggle":
-                continue
-            rows.append(("toggle", str(name), bool(tog.get(name, False))))
+        self.table.blockSignals(True)
+        self.table.setRowCount(len(keys))
+        for r, key in enumerate(keys):
+            ik = QtWidgets.QTableWidgetItem(str(key))
+            ik.setFlags(ik.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
+            self.table.setItem(r, 0, ik)
+            self.table.setItem(r, 1, QtWidgets.QTableWidgetItem(str(pv.get(key, (None, ""))[1] if key in pv else "")))
+            self.table.setItem(r, 2, QtWidgets.QTableWidgetItem(str(rv.get(key, (None, ""))[1] if key in rv else "")))
+        self.table.blockSignals(False)
+        self._update_buttons()
 
-        self._suspend_item_changed = True
-        try:
-            self.table.setRowCount(len(rows))
-            for r, (kind, name, val) in enumerate(rows):
-                it0 = QtWidgets.QTableWidgetItem(kind)
-                it0.setFlags(it0.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
-                it1 = QtWidgets.QTableWidgetItem(name)
-                it1.setFlags(it1.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
-                it2 = QtWidgets.QTableWidgetItem("true" if (kind == "toggle" and val) else ("false" if kind == "toggle" else f"{val:.4f}"))
-                self.table.setItem(r, 0, it0)
-                self.table.setItem(r, 1, it1)
-                self.table.setItem(r, 2, it2)
-        finally:
-            self._suspend_item_changed = False
+    def _diff_count(self) -> int:
+        pv = self._project_vars()
+        rv = self._runtime_vars()
+        keys = set(pv.keys()) | set(rv.keys())
+        diff = 0
+        for key in keys:
+            if str(pv.get(key, (None, ""))[1]) != str(rv.get(key, (None, ""))[1]):
+                diff += 1
+        return diff
 
-        self.status.setText(f"{len(rows)} variables shown" + (" (filtered)" if q else ""))
+    def _update_buttons(self):
+        diff = self._diff_count()
+        self.btn_commit_rt_to_proj.setEnabled(diff > 0)
+        self.btn_commit_proj_to_rt.setEnabled(diff > 0)
+        self.btn_revert_rt.setEnabled(diff > 0)
+        self.btn_remove.setEnabled(self.table.currentRow() >= 0)
 
-    def _selected_row(self) -> int:
-        try:
-            sel = self.table.selectionModel().selectedRows()
-            if sel:
-                return int(sel[0].row())
-        except Exception:
-            pass
-        return -1
-
-    def _selected_key(self):
-        row = self._selected_row()
-        if row < 0:
-            return None
-        try:
-            kind = (self.table.item(row, 0).text() or "").strip()
-            name = (self.table.item(row, 1).text() or "").strip()
-            return kind, name
-        except Exception:
-            return None
-
-    def _add_var(self, kind: str):
-        name, ok = QtWidgets.QInputDialog.getText(self, "Add variable", "Name:")
-        if not ok:
+    def _on_item_changed(self, item):
+        row = item.row()
+        col = item.column()
+        key_item = self.table.item(row, 0)
+        if key_item is None:
             return
-        name = _safe_name(name)
+        parsed = _parse_flat_key(key_item.text())
+        if parsed is None:
+            return
+        kind, name = parsed
+        try:
+            value = _coerce_variable_value(kind, item.text())
+        except Exception:
+            self.refresh()
+            return
+
+        changed = False
+        if col == 1:
+            changed = self._set_project_variable(kind, name, value)
+            if changed:
+                self._notify_changed()
+        elif col == 2:
+            changed = self._set_runtime_variable(kind, name, value)
+            if changed:
+                self._notify_changed()
+        self._update_buttons()
+
+    def _add_variable(self):
+        kind = str(self.cmb_kind.currentText() or "number").strip().lower()
+        name = str(self.txt_name.text() or "").strip()
         if not name:
+            QtWidgets.QMessageBox.warning(self, "Invalid Variable", "Please enter a variable name.")
             return
-
-        p = self.app_core.project or {}
-        p2, _ = ensure_variables(p)
-        v = dict(p2.get("variables") or {})
-        num = dict(v.get("number") or {})
-        tog = dict(v.get("toggle") or {})
-
-        if kind == "number":
-            if name in num or name in tog:
-                QtWidgets.QMessageBox.warning(self, "Exists", "A variable with that name already exists.")
-                return
-            num[name] = 0.0
-        else:
-            if name in num or name in tog:
-                QtWidgets.QMessageBox.warning(self, "Exists", "A variable with that name already exists.")
-                return
-            tog[name] = False
-
-        v["number"] = num
-        v["toggle"] = tog
-        p3 = dict(p2)
-        p3["variables"] = v
-        self.app_core.project = p3
-        self.refresh()
-
-    def _delete_selected(self):
-        key = self._selected_key()
-        if not key:
-            return
-        kind, name = key
-        p = self.app_core.project or {}
-        p2, _ = ensure_variables(p)
-        v = dict(p2.get("variables") or {})
-        num = dict(v.get("number") or {})
-        tog = dict(v.get("toggle") or {})
-        if kind == "number":
-            num.pop(name, None)
-        else:
-            tog.pop(name, None)
-        v["number"] = num
-        v["toggle"] = tog
-        p3 = dict(p2)
-        p3["variables"] = v
-        self.app_core.project = p3
-        self.refresh()
-
-    def _on_item_changed(self, item: QtWidgets.QTableWidgetItem):
-        if self._suspend_item_changed:
-            return
-        # Only value column editable
         try:
-            col = int(item.column())
-        except Exception:
+            value = _coerce_variable_value(kind, self.txt_value.text())
+        except Exception as e:
+            QtWidgets.QMessageBox.warning(self, "Invalid Variable", str(e))
             return
-        if col != 2:
-            return
-        row = int(item.row())
-        try:
-            kind = (self.table.item(row, 0).text() or "").strip()
-            name = (self.table.item(row, 1).text() or "").strip()
-        except Exception:
-            return
-        raw = (item.text() or "").strip()
 
-        p = self.app_core.project or {}
-        p2, _ = ensure_variables(p)
-        v = dict(p2.get("variables") or {})
-        num = dict(v.get("number") or {})
-        tog = dict(v.get("toggle") or {})
+        if not self._set_project_variable(kind, name, value):
+            QtWidgets.QMessageBox.warning(self, "Variable Not Added", "Unable to add the variable to the project.")
+            return
 
-        if kind == "number":
+        self._notify_changed()
+        self.txt_name.clear()
+        self.txt_value.clear()
+        self.refresh()
+        QtWidgets.QMessageBox.information(self, "Variable Added", f"Added {kind}.{name} to the project.")
+
+    def _remove_selected_variable(self):
+        row = self.table.currentRow()
+        if row < 0:
+            return
+        key_item = self.table.item(row, 0)
+        if key_item is None:
+            return
+        parsed = _parse_flat_key(key_item.text())
+        if parsed is None:
+            return
+        kind, name = parsed
+
+        self._delete_runtime_variable(kind, name)
+        removed = self._delete_project_variable(kind, name)
+        if removed:
+            self._notify_changed()
+        self.refresh()
+        QtWidgets.QMessageBox.information(self, "Variable Removed", f"Removed {kind}.{name}.")
+
+    def _commit_runtime_to_project(self):
+        fn = getattr(self.app_core, "commit_runtime_variables_to_project", None)
+        if callable(fn):
             try:
-                num[name] = float(raw)
-            except Exception:
-                # revert
-                self._suspend_item_changed = True
-                try:
-                    item.setText(f"{float(num.get(name, 0.0)):.4f}")
-                finally:
-                    self._suspend_item_changed = False
-                return
+                fn()
+            except Exception as e:
+                _diag_exc(e, "qt/variables_panel.py.commit_runtime_variables_to_project")
         else:
-            val = raw.lower() in ("1", "true", "yes", "on", "y", "t")
-            tog[name] = bool(val)
+            rt = self._runtime_vars()
+            changed = False
+            for key, (kind, value) in rt.items():
+                parsed = _parse_flat_key(key)
+                if parsed is None:
+                    continue
+                changed = self._set_project_variable(kind, parsed[1], value) or changed
+            if changed:
+                self._notify_changed()
+        self.refresh()
 
-        v["number"] = num
-        v["toggle"] = tog
-        p3 = dict(p2)
-        p3["variables"] = v
-        self.app_core.project = p3
+    def _commit_project_to_runtime(self):
+        proj = self._project_vars()
+        changed = False
+        for key, (kind, value) in proj.items():
+            parsed = _parse_flat_key(key)
+            if parsed is None:
+                continue
+            changed = self._set_runtime_variable(kind, parsed[1], value) or changed
+        if changed:
+            self._notify_changed()
+        self.refresh()
+
+    def _revert_runtime(self):
+        fn = getattr(self.app_core, "revert_runtime_variables_from_project", None)
+        if callable(fn):
+            try:
+                fn()
+            except Exception as e:
+                _diag_exc(e, "qt/variables_panel.py.revert_runtime_variables_from_project")
+        else:
+            self._commit_project_to_runtime()
+        self.refresh()

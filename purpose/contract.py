@@ -1,6 +1,6 @@
-"""Backward-compatible re-exports for purpose channel keys.
+"""Purpose channel contract exports.
 
-Canonical: `params.purpose_contract`.
+This module exposes the shared purpose parameter contract used across the app.
 """
 
 from __future__ import annotations

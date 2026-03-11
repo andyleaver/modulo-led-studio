@@ -2,12 +2,19 @@ from __future__ import annotations
 from export.export_eligibility import get_eligibility, ExportStatus
 
 REGISTRY = {}
-# Back-compat alias used by older diagnostics/utilities.
 EFFECTS = REGISTRY
 
 import json
 from pathlib import Path
 import re
+
+# diagnostics (no silent failure)
+def _reg_diag_exc(e: BaseException, code: str, summary: str, details: dict | None = None) -> None:
+    try:
+        from runtime.diagnostics import GLOBAL_DIAGS
+        GLOBAL_DIAGS.exception(e, domain='RUNTIME', code=code, summary=summary, details=details or {})
+    except Exception:
+        return
 
 def _parse_auto_load_shipped_keys(root: Path) -> set[str]:
     """Return set of shipped effect keys by parsing behaviors/auto_load.py register_*() calls."""
@@ -42,10 +49,9 @@ def load_capabilities_catalog():
         # Ensure shipped keys exist in catalog at least with shipped=True
         for k in shipped:
             eff.setdefault(k, {'shipped': True})
-    except Exception:
-        pass
+    except Exception as e:
+        _reg_diag_exc(e, code='CAPS_CATALOG_SHIPPED_MERGE_FAIL', summary='Failed merging shipped keys into capabilities catalog')
     return _CAPS_CACHE
-
 
 class BehaviorDef:
     # stateful=True means preview_emit receives and may mutate EffectState
@@ -72,7 +78,7 @@ def register(defn: BehaviorDef):
     return defn
 
 def register_effect(defn: BehaviorDef):
-    """Back-compat alias used by older modules."""
+    """Compatibility entry point for modules still importing register_effect."""
     return register(defn)
 
 def get_effect(key: str):
@@ -81,10 +87,10 @@ def get_effect(key: str):
 def list_effects():
     return list(REGISTRY.keys())
 
-
 def list_effect_keys():
     """Return all registered behavior keys."""
     try:
         return sorted(list(REGISTRY.keys()))
-    except Exception:
+    except Exception as e:
+        _reg_diag_exc(e, code='REGISTRY_LIST_KEYS_FAIL', summary='Failed to list behavior keys')
         return []

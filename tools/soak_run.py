@@ -1,18 +1,19 @@
-"""Soak runner (Release R9).
+"""Soak runner.
 
 Purpose:
-- Exercise preview ticks for an extended duration to catch crashes/leaks.
+- Exercise preview rebuild/render paths for an extended duration to catch crashes/leaks.
 - Does not require UI interaction; uses CoreBridge + PreviewEngine.
 
 Usage:
   python3 tools/soak_run.py --seconds 600 --fps 60
-
-Notes:
-- This is a diagnostic tool; it does not mutate projects.
-- It prints periodic status and exits non-zero on exceptions.
 """
 from __future__ import annotations
 import argparse, time, sys, traceback
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
@@ -24,8 +25,11 @@ def main(argv=None):
     from qt.core_bridge import CoreBridge
     core = CoreBridge()
 
-    # Ensure preview engine exists
-    core.ensure_full_preview_engine()
+    # Current CoreBridge API: build a fresh preview engine explicitly.
+    if hasattr(core, "rebuild_preview_clean"):
+        core.rebuild_preview_clean("soak_start")
+    elif hasattr(core, "_rebuild_full_preview_engine"):
+        core._rebuild_full_preview_engine()
 
     dt = 1.0 / max(1, int(args.fps))
     t0 = time.time()
@@ -36,29 +40,37 @@ def main(argv=None):
             now = time.time()
             if now - t0 >= args.seconds:
                 break
-            # tick core time + audio + signal bus
-            try:
-                core.tick(dt)
-            except Exception:
-                # fallback if tick signature differs
-                try:
-                    core.tick()
-                except Exception:
-                    raise
 
-            # render a frame (full preview) best-effort
+            # Best-effort audio/signal advancement for headless diagnostics runs.
             try:
-                eng = getattr(core, "_full_preview_engine", None)
-                if eng is not None and hasattr(eng, "render_frame"):
-                    eng.render_frame(now)
+                if hasattr(core, "_diagnostics_tick_audio"):
+                    core._diagnostics_tick_audio()
             except Exception:
-                raise
+                pass
+
+            eng = getattr(core, "_full_preview_engine", None) or getattr(core, "preview_engine", None)
+            if eng is None:
+                raise RuntimeError("Preview engine unavailable during soak run")
+
+            # Render one frame on the live preview engine.
+            if hasattr(eng, "render_frame"):
+                eng.render_frame(now)
+            else:
+                raise RuntimeError("Preview engine has no render_frame()")
+
+            # Keep signal snapshots fresh when available.
+            try:
+                if hasattr(core, "_update_signals_from_preview"):
+                    core._update_signals_from_preview(now)
+            except Exception:
+                pass
 
             frames += 1
             if now - last_log >= args.log_every:
                 last_log = now
                 print(f"[soak] t={now-t0:.1f}s frames={frames}")
             time.sleep(dt)
+
         print(f"[soak] OK duration={time.time()-t0:.1f}s frames={frames}")
         return 0
     except Exception as e:

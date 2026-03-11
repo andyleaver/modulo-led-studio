@@ -1,15 +1,12 @@
-"""Legacy wrapper for Modulo's modulation system.
+"""Utilities for storing modulation specs in project data.
 
-The canonical modulotor runtime implementation currently lives inside the PreviewEngine
-(`preview.preview_engine._normalize_modulotors` + runtime application).
-
-This module exists purely for import stability across refactors.
+Modulo stores modulators as JSON-serializable dict specs. The PreviewEngine
+normalizes those specs into runtime modulators when a project is loaded.
 """
 
 from __future__ import annotations
 
 from typing import Any, Dict
-
 
 def build_modulotor(spec: Any) -> Dict[str, Any]:
     """Return a dict spec suitable for storage in project data.

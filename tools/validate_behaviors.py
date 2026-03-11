@@ -7,23 +7,24 @@ Checks:
 - shipped keys have an entry in export/export_eligibility.py
 
 Optional strict mode:
-- keys listed in tools/new_effects_watchlist.txt must have a golden fixture and be included in tools/golden_exports.py
+- keys listed in tools/new_effects_watchlist.txt must have a shipped golden fixture
+  under fixtures/projects/ and be included in tools/golden_exports.py
 """
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
-import json
 
 ROOT = Path(__file__).resolve().parents[1]
+FIXTURE_DIR = ROOT / "fixtures" / "projects"
+
 
 def _fail(msg: str) -> None:
     print(f"[validate_behaviors] ERROR: {msg}")
     raise SystemExit(1)
 
-def _warn(msg: str) -> None:
-    print(f"[validate_behaviors] WARN: {msg}")
 
 def _read_watchlist() -> list[str]:
     p = ROOT / "tools" / "new_effects_watchlist.txt"
@@ -37,13 +38,14 @@ def _read_watchlist() -> list[str]:
         keys.append(line)
     return keys
 
+
 def main() -> int:
-    # shipped keys (registry already knows how to parse auto_load)
     sys.path.insert(0, str(ROOT))
     from behaviors.registry import _parse_auto_load_shipped_keys
     from export.export_eligibility import ELIGIBILITY
+    from tools.golden_exports import FIXTURES
 
-    shipped = sorted(_parse_auto_load_shipped_keys(ROOT / "behaviors"))
+    shipped = sorted(_parse_auto_load_shipped_keys(ROOT))
     if not shipped:
         _fail("No shipped keys parsed from behaviors/auto_load.py")
 
@@ -67,30 +69,27 @@ def main() -> int:
             missing_elig.append(key)
 
     if missing_py:
-        _fail(f"Missing behaviors/effects python modules for: {', '.join(missing_py[:20])}" + (" ..." if len(missing_py)>20 else ""))
+        _fail(f"Missing behaviors/effects python modules for: {', '.join(missing_py[:20])}" + (" ..." if len(missing_py) > 20 else ""))
     if missing_cat:
-        _fail(f"Missing capabilities_catalog entries for: {', '.join(missing_cat[:20])}" + (" ..." if len(missing_cat)>20 else ""))
+        _fail(f"Missing capabilities_catalog entries for: {', '.join(missing_cat[:20])}" + (" ..." if len(missing_cat) > 20 else ""))
     if missing_elig:
-        _fail(f"Missing export eligibility entries for: {', '.join(missing_elig[:20])}" + (" ..." if len(missing_elig)>20 else ""))
+        _fail(f"Missing export eligibility entries for: {', '.join(missing_elig[:20])}" + (" ..." if len(missing_elig) > 20 else ""))
 
-    # strict: new effects watchlist must have golden fixture + fixture list inclusion
     watch = _read_watchlist()
     if watch:
-        ge_path = ROOT / "tools" / "golden_exports.py"
-        ge_text = ge_path.read_text(encoding="utf-8")
-        demos = ROOT / "demos"
-
+        fixture_set = set(FIXTURES)
         for key in watch:
             fixture = f"demo_{key}_golden.json"
-            if not (demos / fixture).exists():
-                _fail(f"Watchlist effect '{key}' missing demos/{fixture}")
-            if fixture not in ge_text:
+            if not (FIXTURE_DIR / fixture).exists():
+                _fail(f"Watchlist effect '{key}' missing fixtures/projects/{fixture}")
+            if fixture not in fixture_set:
                 _fail(f"Watchlist effect '{key}' fixture '{fixture}' not listed in tools/golden_exports.py FIXTURES")
 
     print(f"[validate_behaviors] OK: {len(shipped)} shipped keys validated")
     if watch:
         print(f"[validate_behaviors] OK: strict watchlist validated ({len(watch)} keys)")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -10,13 +10,14 @@ The sketch draws 7 bars across the strip based on mono bands.
 """
 
 from __future__ import annotations
+from app.project_model import get_surface_spec
+from core.surface_compat import build_surface_geometry_dict, get_surface_mapping_values
 
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class DemoConfig:
-    led_count: int = 575
+    count: int = 575
     data_pin: int = 6
     strobe_pin: int = 4
     reset_pin: int = 5
@@ -27,14 +28,13 @@ class DemoConfig:
     gain: float = 1.0
     strobe_delay_us: int = 30
 
-
 def make_demo_sketch(cfg: DemoConfig) -> str:
     # Keep it single-file and Arduino-IDE friendly.
     return f"""    #include <FastLED.h>
 
 // ---- LED strip ----
 #define LED_PIN {cfg.data_pin}
-#define LED_COUNT {int(cfg.led_count)}
+#define LED_COUNT {int(cfg.count)}
 #define BRIGHTNESS {int(cfg.brightness)}
 CRGB leds[LED_COUNT];
 
@@ -128,6 +128,26 @@ void loop() {{
 }}
 """
 
-
 def default_demo() -> str:
     return make_demo_sketch(DemoConfig())
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

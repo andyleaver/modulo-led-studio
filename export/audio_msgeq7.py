@@ -17,10 +17,11 @@ Output contract (planned):
 """
 
 from __future__ import annotations
+from app.project_model import get_surface_spec
+from core.surface_compat import build_surface_geometry_dict, get_surface_mapping_values
 
 from dataclasses import dataclass
 from typing import List
-
 
 @dataclass(frozen=True)
 class MSGEQ7Pins:
@@ -29,7 +30,6 @@ class MSGEQ7Pins:
     left_adc: str = "A0"
     right_adc: str = "A1"
 
-
 @dataclass(frozen=True)
 class MSGEQ7Config:
     pins: MSGEQ7Pins = MSGEQ7Pins()
@@ -37,7 +37,6 @@ class MSGEQ7Config:
     gain: float = 1.0
     # sample delay microseconds between strobe toggles (typical 30-50us)
     strobe_delay_us: int = 30
-
 
 def emit_msgeq7_declarations(cfg: MSGEQ7Config) -> str:
     p = cfg.pins
@@ -54,7 +53,6 @@ uint16_t audioEnergy = 0;
 uint16_t audioPeak   = 0;
 """
 
-
 def emit_msgeq7_setup(cfg: MSGEQ7Config) -> str:
     return f"""    // --- MSGEQ7 setup ---
 pinMode(PIN_STROBE, OUTPUT);
@@ -62,7 +60,6 @@ pinMode(PIN_RESET, OUTPUT);
 digitalWrite(PIN_STROBE, HIGH);
 digitalWrite(PIN_RESET, LOW);
 """
-
 
 def emit_msgeq7_read_function(cfg: MSGEQ7Config) -> str:
     # Keep code simple and deterministic; use integer math where possible.
@@ -115,7 +112,6 @@ void readMSGEQ7() {{
 }}
 """
 
-
 def emit_msgeq7_all(cfg: MSGEQ7Config) -> str:
     return "\n".join([
         emit_msgeq7_declarations(cfg).rstrip(),
@@ -125,3 +121,24 @@ def emit_msgeq7_all(cfg: MSGEQ7Config) -> str:
         emit_msgeq7_read_function(cfg).rstrip(),
         ""
     ]) + "\n"
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

@@ -1,0 +1,8 @@
+Targeting Flow
+
+1. Create Zones (spatial areas)
+2. Create Masks (pixel filters)
+3. Combine them into Groups if needed
+4. Assign them to Layers
+
+Targeting controls where behaviors render on the surface.

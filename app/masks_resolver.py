@@ -21,7 +21,7 @@ maskRef may be:
 from typing import Any, Dict, Optional, Set
 
 from app.zones_ops_registry import get_zone_op, normalize_to_index_set
-
+from runtime.resolver import resolve_address
 
 def resolve_mask_to_indices(project: Dict[str, Any], mask_ref: Any, *, n: Optional[int] = None, _depth: int = 0, _seen: Optional[Set[str]] = None) -> Set[int]:
     if _depth > 16:
@@ -38,7 +38,7 @@ def resolve_mask_to_indices(project: Dict[str, Any], mask_ref: Any, *, n: Option
         if not k:
             return set()
         if k in _seen:
-            return set()
+            raise RuntimeError(f"mask cycle detected: {k}")
         _seen.add(k)
         masks = (project or {}).get("masks") or {}
         node = masks.get(k)
@@ -69,12 +69,16 @@ def resolve_target_mask_for_layer(layer_dict, project_dict, n=None):
     """Compatibility wrapper used by PreviewEngine and legacy callers.
 
     Returns (mask_key, indices_set).
-    - mask_key is the resolved key from project['ui']['target_mask'] if present.
-    - indices_set is a set[int] of resolved indices.
+    - project-level truth is canonical project.ui.target_mask via resolver
+    - layer-local target_mask is only a fallback when no global canonical mask is set
     """
     project = project_dict or {}
-    ui = project.get("ui") or {}
-    mask_key = ui.get('target_mask') or (layer_dict or {}).get('target_mask')
+    try:
+        mask_key = resolve_address(project=project, address="project.ui.target_mask", default=None).value
+    except Exception:
+        mask_key = None
+    if mask_key in (None, "", 0):
+        mask_key = (layer_dict or {}).get('target_mask')
     if mask_key is None or mask_key == "" or mask_key == 0:
         return (None, set())
     idxs = resolve_mask_to_indices(project, mask_key, n=n)

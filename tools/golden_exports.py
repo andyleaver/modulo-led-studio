@@ -15,6 +15,8 @@ Notes:
 - This uses the Arduino exporter (export/arduino_exporter.py) which writes a single
   .ino sketch per project.
 - Baseline lives at golden_exports/golden_exports.json
+- Fixtures live at fixtures/projects/*.json
+- Mismatch reports default to ../artifacts/parity_reports/golden_mismatch
 """
 
 from __future__ import annotations
@@ -34,18 +36,19 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from core.surface_compat import get_surface_kind_value, get_surface_mapping_values, get_default_surface_dict
 from export.arduino_exporter import export_project_validated
 
 BASELINE_PATH = REPO_ROOT / "golden_exports" / "golden_exports.json"
-DEMOS_DIR = REPO_ROOT / "demos"
+PROJECT_FIXTURE_DIR = REPO_ROOT / "fixtures" / "projects"
 
-# A small but representative fixture set.
+# A small but representative fixture set shipped with the repo.
 FIXTURES = [
-    "demo_hub75_hw_validation_clockdot.json",
-    "demo_hub75_tilemap_runner.json",
-    "demo_strip_aurora_golden.json",
+    "order_pipeline_lock.json",
+    "order_pipeline_lock_matrix8x8.json",
+    "order_pipeline_lock_matrix8x8_mapstress.json",
+    "order_pipeline_lock_matrix8x8_mapstress2.json",
 ]
-
 
 def _sha256_file(p: Path) -> str:
     h = hashlib.sha256()
@@ -54,11 +57,9 @@ def _sha256_file(p: Path) -> str:
             h.update(chunk)
     return h.hexdigest()
 
-
 def _read_text_lines(p: Path) -> List[str]:
     # Arduino exporter output is UTF-8 in our toolchain, but be resilient.
     return p.read_text(encoding="utf-8", errors="replace").splitlines(keepends=True)
-
 
 def _excerpt(lines: List[str], head: int = 80, tail: int = 40) -> Dict[str, Any]:
     return {
@@ -67,47 +68,35 @@ def _excerpt(lines: List[str], head: int = 80, tail: int = 40) -> Dict[str, Any]
         "tail": "".join(lines[-tail:]) if len(lines) > tail else "".join(lines),
     }
 
-
-
-
 def _load_json(p: Path) -> Dict[str, Any]:
     return json.loads(p.read_text(encoding="utf-8"))
 
-
 def _normalize_project_for_export(project: Dict[str, Any]) -> Dict[str, Any]:
-    # Ensure export.hw.matrix exists when layout is cells/matrix (Phase1+).
-    # Also normalize older demo schemas (layout.shape + mw/mh).
+    # Ensure export.hw.matrix exists when canonical surface is cells.
     proj = json.loads(json.dumps(project))  # deep copy
-    layout = proj.get("layout") or {}
+    surface = proj.get("surface")
+    if not isinstance(surface, dict):
+        surface = get_default_surface_dict()
 
-    if isinstance(layout, dict):
-        shape = str(layout.get("shape") or "").strip().lower()
-        if not layout.get("kind") and shape in ("matrix", "cells"):
-            layout["kind"] = "cells"
+    kind = get_surface_kind_value(surface, default="strip")
 
-        # Prefer mw/mh if present (older demo schema)
-        if layout.get("mw") is not None and not layout.get("width"):
-            layout["width"] = layout.get("mw")
-        if layout.get("mh") is not None and not layout.get("height"):
-            layout["height"] = layout.get("mh")
-
-    if isinstance(layout, dict) and (str(layout.get("kind") or "").strip().lower() in ("cells", "matrix")):
-        w = int(layout.get("width") or 0)
-        h = int(layout.get("height") or 0)
+    if kind == "cells":
+        w = int(surface.get("width") or 0)
+        h = int(surface.get("height") or 0)
         if w > 0 and h > 0:
+            mapping = get_surface_mapping_values(surface)
             exp = proj.setdefault("export", {})
             hw = exp.setdefault("hw", {})
             hw.setdefault("matrix", {
                 "width": w,
                 "height": h,
-                "serpentine": True,
-                "origin": "top_left",
-                "rotate": 0,
-                "flip_x": False,
-                "flip_y": False,
+                "serpentine": mapping["serpentine"],
+                "origin": mapping["origin"],
+                "rotate": mapping["rotate"],
+                "flip_x": mapping["flip_x"],
+                "flip_y": mapping["flip_y"],
             })
     return proj
-
 
 def _export_one(project_path: Path, out_dir: Path) -> Path:
     project = _normalize_project_for_export(_load_json(project_path))
@@ -115,18 +104,18 @@ def _export_one(project_path: Path, out_dir: Path) -> Path:
     written = export_project_validated(project, out_dir / "export.ino")
     return Path(written)
 
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--update", action="store_true", help="Regenerate baseline hashes")
     ap.add_argument("--fixtures", nargs="*", default=None, help="Override fixture list")
+    ap.add_argument("--out-dir", default=None, help="Directory to write mismatch artifacts (default: ../artifacts/parity_reports/golden_mismatch or $MODULO_ARTIFACT_DIR)")
     args = ap.parse_args()
 
     fixtures = args.fixtures if args.fixtures else FIXTURES
 
     missing: List[str] = []
     for fx in fixtures:
-        if not (DEMOS_DIR / fx).exists():
+        if not (PROJECT_FIXTURE_DIR / fx).exists():
             missing.append(fx)
     if missing:
         print("ERROR: missing demo fixtures:")
@@ -138,7 +127,7 @@ def main() -> int:
     try:
         results: Dict[str, Dict[str, Any]] = {}
         for fx in fixtures:
-            proj_path = DEMOS_DIR / fx
+            proj_path = PROJECT_FIXTURE_DIR / fx
             out_dir = tmp_root / fx.replace(".json", "")
             ino_path = _export_one(proj_path, out_dir)
             ino_lines = _read_text_lines(ino_path)
@@ -170,13 +159,11 @@ def main() -> int:
 
         if mismatches:
             print("\nGOLDEN EXPORT MISMATCHES:")
-            base_dir = Path(os.environ.get("MODULO_ARTIFACT_DIR")) if os.environ.get("MODULO_ARTIFACT_DIR") else None
+            base_dir = Path(os.environ.get("MODULO_ARTIFACT_DIR")) if os.environ.get("MODULO_ARTIFACT_DIR") else (REPO_ROOT.parent / "artifacts")
             if args.out_dir:
                 mismatch_dir = Path(args.out_dir) / "golden_mismatch"
-            elif base_dir:
-                mismatch_dir = base_dir / "parity_reports" / "golden_mismatch"
             else:
-                mismatch_dir = REPO_ROOT / "parity_reports" / "golden_mismatch"
+                mismatch_dir = base_dir / "parity_reports" / "golden_mismatch"
             mismatch_dir.mkdir(parents=True, exist_ok=True)
             for fx, kind, cur_hash, prev_hash in mismatches:
                 print(f"- {fx}: {kind}\n    current: {cur_hash}\n    baseline: {prev_hash}")
@@ -207,7 +194,6 @@ def main() -> int:
 
     finally:
         shutil.rmtree(tmp_root, ignore_errors=True)
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

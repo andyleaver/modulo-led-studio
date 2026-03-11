@@ -1,7 +1,6 @@
 # Parameter registry (single source of truth)
 # - All tweakable knobs live here (even if not yet used by an effect).
 # - Effects declare which knobs they use via their `USES` list in behaviors/effects/*.py
-#
 # Types supported by AutoParamPanel + resolve():
 #   float, int, bool, enum, rgb
 
@@ -249,7 +248,6 @@ SOURCES = [
     "purpose_score",
     "purpose_blocks_left",
 ]
-
 
 MODES = ["add","mul","set"]
 

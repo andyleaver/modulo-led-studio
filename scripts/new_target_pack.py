@@ -66,12 +66,12 @@ def emit(project: Dict[str, Any], ctx: Dict[str, Any]) -> Dict[str, Any]:
     \"\"\"
     root = Path(__file__).resolve().parent
     tpl = (root / "templates" / "sketch_fastled.ino.tpl").read_text(encoding="utf-8")
-    sketch = tpl.replace("{BUILD_ID}", str(ctx.get("build_id","")))
+    sketch = tpl.replace("{APP_ID}", str(ctx.get("app_id","")))
     return {"files": {"sketch.ino": sketch}, "meta": {"target_id": ctx.get("target_id")}}
 """
     (out_dir / "emitter.py").write_text(emitter_py, encoding="utf-8")
 
-    sketch_tpl = """// {BUILD_ID}
+    sketch_tpl = """// {APP_ID}
 // Minimal scaffold sketch. Replace with real exporter output.
 #include <Arduino.h>
 void setup() { }

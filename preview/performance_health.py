@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
-from runtime.extensions_v1 import register_health_probe
-
+from runtime.extensions import register_health_probe
 
 def _probe() -> Dict[str, Any]:
     try:
@@ -19,7 +18,12 @@ def _probe() -> Dict[str, Any]:
             out['fps'] = float(fps)
         if isinstance(snap, dict):
             # keep this small + stable
-            out['n_leds'] = snap.get('n_leds')
+            try:
+                from app.project_model import get_surface_geometry_values
+                _kind, count, _width, _height = get_surface_geometry_values(snap, default_kind='strip', default_count=1)
+                out['count'] = int(count)
+            except Exception:
+                out['count'] = snap.get('count')
             out['enabled_layers'] = snap.get('enabled_layers')
             out['ops_est'] = snap.get('ops_est')
             out['tick_ms_avg'] = snap.get('tick_ms_avg')
@@ -29,10 +33,9 @@ def _probe() -> Dict[str, Any]:
             out['last_layer_costs'] = snap.get('last_layer_costs')
         if isinstance(last, dict):
             out['last_nonzero'] = last.get('nonzero')
-            out['layout_shape'] = last.get('layout_shape')
+            out['surface_kind'] = last.get('surface_kind')
         return out
     except Exception as e:
         return {'present': False, 'error': f'{type(e).__name__}: {e}'}
-
 
 register_health_probe('performance', _probe)

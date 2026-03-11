@@ -26,7 +26,12 @@
       "wifi_ssid": "",
       "wifi_password": "",
       "wifi_hostname": "modulo-hub75"
-    }
+    },
+    "led_backends": [
+      "hub75"
+    ],
+    "supports_postfx_runtime": true,
+    "supports_operators_runtime": true
   },
   "id": "esp32_hub75_i2sdma_noneaudio",
   "name": "ESP32 HUB75 Matrix (I2S-DMA) [Experimental]",
@@ -36,5 +41,6 @@
     "HUB75"
   ],
   "experimental_stable": true,
-  "hub75_backend_version": "v0.1"
+  "hub75_backend_version": "v0.1",
+  "toolchain": "arduino"
 }

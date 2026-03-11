@@ -14,20 +14,16 @@ Mask node shapes supported match app.masks_resolver.
 """
 
 from typing import Any, Dict, Optional, Tuple
-import copy
-
 from app.masks_resolver import resolve_mask_to_indices
+from app.project_canonical import apply_project_root
 
 _ALLOWED_OPS = {"union", "intersect", "subtract", "xor"}
-
 
 def ensure_masks_dict(project: Dict[str, Any]) -> Dict[str, Any]:
     p = project if isinstance(project, dict) else {}
     if not isinstance(p.get("masks"), dict):
-        p = dict(p)
-        p["masks"] = {}
+        p, _, _ = apply_project_root(p, "masks", {})
     return p
-
 
 def create_composed_mask(
     project: Dict[str, Any],
@@ -59,15 +55,13 @@ def create_composed_mask(
         raise ValueError(f"mask key already exists: {key}")
 
     masks[key] = {"op": op, "a": a, "b": b}
-    p2 = dict(p)
-    p2["masks"] = masks
+    p2, _, _ = apply_project_root(p, "masks", masks)
 
     if validate:
         # Raises on cycle/unknown op/etc.
         resolve_mask_to_indices(p2, key, n=n)
 
     return p2
-
 
 def validate_all_masks(project: Dict[str, Any], *, n: Optional[int] = None) -> Tuple[bool, Dict[str, str]]:
     """Validate all masks resolve. Returns (ok, errors_by_key)."""

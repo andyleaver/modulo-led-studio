@@ -2,7 +2,6 @@ import os
 import sys
 from datetime import datetime, timezone
 
-
 def _write_crash_log(exc: BaseException) -> None:
     """Best-effort crash log writer."""
     try:
@@ -23,24 +22,26 @@ def _write_crash_log(exc: BaseException) -> None:
     except Exception:
         pass
 
-
 def main() -> None:
+    argv = list(sys.argv[1:])
+    if "--bypass-era" in argv:
+        os.environ["MODULO_BYPASS_ERA"] = "1"
+        argv = [a for a in argv if a != "--bypass-era"]
+        sys.argv = [sys.argv[0], *argv]
     # Qt-only app entrypoint
     # Ensure core extension registries are initialized before UI loads.
     # (Mods may register additional hooks during startup.)
-    import runtime.ca_modules_v1  # noqa: F401
+    import runtime.ca_modules  # noqa: F401
     import runtime.long_memory_health  # noqa: F401
     import app.mods_loader  # noqa: F401
     import export.targets.targets_health  # noqa: F401
     from qt.core_bridge import CoreBridge
-    from qt.qt_app import run_qt, BUILD_ID
+    from qt.qt_app import run_qt
 
     here = os.path.dirname(os.path.abspath(__file__))
-    print(f"=== MODULO STARTUP ===\nrun_root: {here}\nbuild_id: {BUILD_ID}\n=== END STARTUP ===")
 
     core = CoreBridge()
     run_qt(core)
-
 
 if __name__ == "__main__":
     try:

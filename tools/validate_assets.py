@@ -26,13 +26,11 @@ from typing import Iterable, List, Set, Tuple
 
 RGB = Tuple[int, int, int]
 
-
 @dataclass
 class Issue:
     level: str  # 'ERR' | 'WARN'
     module: str
     message: str
-
 
 def _iter_asset_modules(repo_root: Path) -> Iterable[Path]:
     assets_dir = repo_root / 'behaviors' / 'assets'
@@ -45,7 +43,6 @@ def _iter_asset_modules(repo_root: Path) -> Iterable[Path]:
             continue
         yield p
 
-
 def _unique_colors(pix: List[RGB]) -> int:
     s: Set[RGB] = set()
     for rgb in pix:
@@ -54,7 +51,6 @@ def _unique_colors(pix: List[RGB]) -> int:
             # short circuit
             return len(s)
     return len(s)
-
 
 def validate_module(modname: str) -> List[Issue]:
     issues: List[Issue] = []
@@ -118,7 +114,6 @@ def validate_module(modname: str) -> List[Issue]:
 
     return issues
 
-
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
 
@@ -145,7 +140,6 @@ def main() -> int:
         print('OK: no issues found')
 
     return 1 if errs else 0
-
 
 if __name__ == '__main__':
     raise SystemExit(main())

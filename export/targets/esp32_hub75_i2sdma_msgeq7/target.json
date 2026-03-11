@@ -59,7 +59,12 @@
       "wifi_hostname": "modulo-hub75"
     },
     "supports_matrix": true,
-    "supports_strip": false
+    "supports_strip": false,
+    "led_backends": [
+      "hub75"
+    ],
+    "supports_postfx_runtime": true,
+    "supports_operators_runtime": true
   },
   "default_audio_backend": "msgeq7",
   "default_msgeq7_left_pin": "34",
@@ -74,5 +79,6 @@
   "led_backends": [
     "HUB75"
   ],
-  "name": "ESP32 HUB75 Matrix (I2S-DMA + MSGEQ7) [Experimental]"
+  "name": "ESP32 HUB75 Matrix (I2S-DMA + MSGEQ7) [Experimental]",
+  "toolchain": "arduino"
 }

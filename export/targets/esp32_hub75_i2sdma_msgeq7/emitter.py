@@ -7,14 +7,13 @@ import json
 from ...ir import ShowIR
 from ...arduino_exporter import export_project_validated, HUB75_LED_IMPL_ESP32
 from ..registry import resolve_requested_backends, resolve_requested_hw, resolve_requested_audio_hw
-
+from app.project_model import get_surface_spec
 
 def _get_meta() -> dict:
     try:
         return json.loads((Path(__file__).resolve().parent / "target.json").read_text(encoding="utf-8"))
     except Exception:
         return {}
-
 
 def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
     """ESP32 HUB75 (I2S-DMA) matrix target pack (MSGEQ7 audio)."""
@@ -77,7 +76,6 @@ def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
         'WIFI_NTP1': gv('wifi_ntp1', 'pool.ntp.org'),
         'WIFI_NTP2': gv('wifi_ntp2', 'time.nist.gov'),
 
-
         # Keep these around for templates expecting them; unused for HUB75.
         'DATA_PIN': str(hw.get('data_pin', '23')),
         'LED_TYPE': str(hw.get('led_type', 'WS2812B')),
@@ -105,3 +103,38 @@ def emit(*, ir: ShowIR, out_path: Path, **_kwargs) -> Tuple[Path, str]:
         f"Audio backend: {sel.get('audio_backend')} (USE_MSGEQ7={use_msgeq7})\n"
     )
     return Path(p), report
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    from app.project_model import get_surface_spec
+    from core.surface_compat import get_surface_mapping_values
+
+    spec = get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    mapping = get_surface_mapping_values(spec)
+    return {
+        "kind": spec.kind,
+        "width": spec.width,
+        "height": spec.height,
+        "count": spec.count,
+        "mapping": mapping,
+        "serpentine": bool(mapping.get("serpentine", False)),
+        "flip_x": bool(mapping.get("flip_x", False)),
+        "flip_y": bool(mapping.get("flip_y", False)),
+        "rotate": int(mapping.get("rotate", 0)),
+        "origin": str(mapping.get("origin", "top_left")),
+    }
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

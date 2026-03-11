@@ -1,0 +1,130 @@
+{
+  "surface": {
+    "kind": "cells",
+    "count": 64,
+    "width": 8,
+    "height": 8,
+    "mapping": {
+      "serpentine": false,
+      "flip_x": false,
+      "flip_y": false,
+      "rotate": 0,
+      "origin": "top_left"
+    },
+    "shape": "cells",
+    "serpentine": false,
+    "flip_x": false,
+    "flip_y": false,
+    "rotate": 0,
+    "origin": "top_left",
+    "cell_size": 20,
+    "cell": 20
+  },
+  "layers": [
+    {
+      "uid": "f6ea7537ee554c6993ddb71de029af25",
+      "name": "Solid",
+      "kind": "effect",
+      "behavior": "solid",
+      "enabled": true,
+      "opacity": 1.0,
+      "blend_mode": "over",
+      "order": 0,
+      "target_kind": "all",
+      "target_ref": 0,
+      "variables": [],
+      "rules": [],
+      "operators": [
+        {
+          "type": "solid",
+          "params": {
+            "color": [
+              255,
+              0,
+              0
+            ],
+            "brightness": 1.0,
+            "speed": 1.0,
+            "width": 0.2,
+            "softness": 0.0,
+            "direction": 1.0,
+            "density": 0.5,
+            "purpose_f0": 0.0,
+            "purpose_f1": 0.0,
+            "purpose_f2": 0.0,
+            "purpose_f3": 0.0,
+            "purpose_i0": 0,
+            "purpose_i1": 0,
+            "purpose_i2": 0,
+            "purpose_i3": 0
+          },
+          "enabled": true
+        }
+      ],
+      "params": {
+        "color": [
+          255,
+          0,
+          0
+        ],
+        "brightness": 1.0,
+        "speed": 1.0,
+        "width": 0.2,
+        "softness": 0.0,
+        "direction": 1.0,
+        "density": 0.5,
+        "purpose_f0": 0.0,
+        "purpose_f1": 0.0,
+        "purpose_f2": 0.0,
+        "purpose_f3": 0.0,
+        "purpose_i0": 0,
+        "purpose_i1": 0,
+        "purpose_i2": 0,
+        "purpose_i3": 0
+      },
+      "modulotors": [
+        {},
+        {},
+        {}
+      ],
+      "__uid": "f6ea7537ee554c6993ddb71de029af25"
+    }
+  ],
+  "export_audio": null,
+  "preview_audio": null,
+  "postfx": null,
+  "ui": {
+    "selected_layer": 0,
+    "era_id": "era_1962_red",
+    "era_complete": false,
+    "era_done": {
+      "era_1962_red": false,
+      "era_1972_yellow_green": false,
+      "era_1980s_high_brightness": false,
+      "era_1993_blue": false,
+      "era_1996_white": false,
+      "era_2000s_matrices": false,
+      "era_2012_addressable": false,
+      "era_usage_plateau": false,
+      "era_now": false
+    },
+    "era_unlocked": [
+      "era_1962_red"
+    ]
+  },
+  "audio": {
+    "routes": []
+  },
+  "variables": {
+    "number": {},
+    "toggle": {}
+  },
+  "masks": {},
+  "rules": [],
+  "groups": {},
+  "zones": {},
+  "export": {
+    "hw": {}
+  },
+  "schema_version": 22
+}

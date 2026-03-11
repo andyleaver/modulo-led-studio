@@ -15,7 +15,6 @@ This file was previously scaffold-only; it is now wired.
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Optional
 
-
 @dataclass(frozen=True)
 class SignalDef:
     key: str
@@ -24,7 +23,6 @@ class SignalDef:
     available_in_preview: bool = True
     available_in_export: bool = False  # conservative default
     notes: str = ""
-
 
 class SignalRegistry:
     def __init__(self) -> None:
@@ -56,7 +54,6 @@ class SignalRegistry:
                 unknown.append(str(k))
         return sorted(set(unknown))
 
-
 # Global registry instance (wired)
 REGISTRY = SignalRegistry()
 
@@ -66,12 +63,11 @@ def _register_builtin_signals() -> None:
     REGISTRY.register(SignalDef("dt", "Delta time (seconds)", available_in_export=True))
     REGISTRY.register(SignalDef("frame", "Frame counter", available_in_export=True))
 
-    # TimeSource v1 metadata
+    # TimeSource metadata
     REGISTRY.register(SignalDef("time.mode", "Time source mode", available_in_export=False, notes="SIM_FIXED_DT / SIM_REALTIME / WALLCLOCK"))
     REGISTRY.register(SignalDef("time.paused", "Time paused flag", available_in_export=False))
     REGISTRY.register(SignalDef("time.tick", "Simulation tick counter", available_in_export=True))
     REGISTRY.register(SignalDef("time.fixed_dt", "Fixed dt (seconds)", available_in_export=True))
-
 
     # Audio frame contract (engine truth)
     REGISTRY.register(SignalDef("audio.energy", "Audio energy (0..1)", available_in_export=True))
@@ -80,7 +76,6 @@ def _register_builtin_signals() -> None:
         REGISTRY.register(SignalDef(f"audio.band.{i}", f"Audio band {i} (mono)", available_in_export=True))
         REGISTRY.register(SignalDef(f"audio.L.{i}", f"Audio band {i} (left)", available_in_export=True))
         REGISTRY.register(SignalDef(f"audio.R.{i}", f"Audio band {i} (right)", available_in_export=True))
-
 
     # Derived engine metrics (Phase 6.4)
     REGISTRY.register(SignalDef("signal.entropy", "Frame entropy (0..1)", available_in_export=False, notes="Derived from frame-to-frame pixel deltas"))

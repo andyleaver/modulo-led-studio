@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from core.surface_compat import canonical_surface_config
 SHIPPED = True
 
 from typing import List, Tuple
@@ -30,7 +32,9 @@ def _preview_emit(*, num_leds: int, params: dict, t: float) -> List[RGB]:
     px = _apply_brightness(rgb, br) if on else (0,0,0)
     return [px]*n
 
-def _arduino_emit(*, layout: dict, params: dict) -> str:
+def _arduino_emit(*, surface: dict | None = None, layout: dict | None = None, params: dict) -> str:
+    surface = surface if surface is not None else layout
+    surface_cfg = canonical_surface_config(surface)
     return ""
 
 def register_strobe():

@@ -1,26 +1,12 @@
-# Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-
-# Virtualenv
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .venv/
 venv/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Modulo runtime outputs
 out/
-logs/
-*.log
-
-# Editor/IDE
-.vscode/
-.idea/
-
-# Packaging
-*.zip
-.github/workflows/
+dist/
+parity_reports/
+artifacts/
+tmp_*

@@ -67,5 +67,6 @@
   "notes": [
     "HUB75 export backend is export-only; preview unchanged.",
     "Experimental but stable v0.1 baseline."
-  ]
+  ],
+  "toolchain": "arduino"
 }

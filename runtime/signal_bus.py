@@ -21,14 +21,12 @@ from app.signal_registry import REGISTRY
 
 from typing import Any, Dict, List, Optional, Tuple
 
-
 def _clamp01(x: float) -> float:
     if x < 0.0:
         return 0.0
     if x > 1.0:
         return 1.0
     return x
-
 
 @dataclass
 class SignalSnapshot:
@@ -38,7 +36,6 @@ class SignalSnapshot:
     dt: float
     frame: int
     signals: Dict[str, Any]
-
 
 class SignalBus:
     """A small, deterministic signal container.
@@ -90,12 +87,29 @@ class SignalBus:
         sig["dt"] = float(self._dt)
         sig["frame"] = int(self._frame)
 
-        # TimeSource v1 metadata
+        # TimeSource metadata
         sig["time.mode"] = str(time_mode)
         sig["time.paused"] = bool(time_paused)
         sig["time.tick"] = int(time_tick)
         sig["time.fixed_dt"] = float(time_fixed_dt)
 
+        # Canonical derived time signals (always present)
+        try:
+            phase = float(self._t) % 1.0
+        except Exception:
+            phase = 0.0
+        sig['time.phase1hz'] = phase
+        sig['time.square1hz'] = 1.0 if phase < 0.5 else 0.0
+        sig['time.square1hz_inv'] = 0.0 if phase < 0.5 else 1.0
+
+        # Canonical derived time signals (always present)
+        try:
+            phase = float(self._t) % 1.0
+        except Exception:
+            phase = 0.0
+        sig['time.phase1hz'] = phase
+        sig['time.square1hz'] = 1.0 if phase < 0.5 else 0.0
+        sig['time.square1hz_inv'] = 0.0 if phase < 0.5 else 1.0
 
         # Audio signals (0..1). We support the AudioSim state keys:
         # energy, mono0..mono6, l0..l6, r0..r6
@@ -130,7 +144,6 @@ class SignalBus:
         sig["audio.mono"] = mono
         sig["audio.left"] = left
         sig["audio.right"] = right
-
 
         # Variables (Phase 6.2)
         vstate = variables_state if isinstance(variables_state, dict) else {}

@@ -10,7 +10,7 @@ Design goal:
 """
 
 from typing import Any, Dict, List
-
+from app.project_model import get_surface_spec
 
 DEFAULT_CAPS: Dict[str, Any] = {
     # basic
@@ -34,8 +34,7 @@ DEFAULT_CAPS: Dict[str, Any] = {
     "max_leds_hard": None,
 }
 
-
-REQUIRED_CAPS_V1 = {
+REQUIRED_CAPS = {
     'supports_arduino_ino': False,
     'supports_platformio': False,
     'supports_strip': True,
@@ -72,7 +71,6 @@ REQUIRED_CAPS_V1 = {
     'max_matrix_height': None,
 }
 
-
 def normalize_capabilities(meta: Dict[str, Any] | None) -> Dict[str, Any]:
     """Return a normalized capabilities dict.
 
@@ -104,31 +102,81 @@ def normalize_capabilities(meta: Dict[str, Any] | None) -> Dict[str, Any]:
     caps["led_backends"] = [str(x).lower() for x in caps["led_backends"] if str(x).strip()]
     caps["audio_backends"] = [str(x).lower() for x in caps["audio_backends"] if str(x).strip()]
 
+    # legacy capability aliases -> canonical capability truth
+    # Old target packs may still publish supports_matrix_layout. Collapse it once here
+    # so runtime/export code consumes canonical supports_matrix only.
+    if caps.get("supports_matrix") is None and caps.get("supports_matrix_layout") is not None:
+        caps["supports_matrix"] = bool(caps.get("supports_matrix_layout"))
+
+    # Do not keep the legacy alias as live capability truth after normalization.
+    caps.pop("supports_matrix_layout", None)
+
     # booleans
     for b in ("supports_platformio","supports_arduino_ino","supports_strip","supports_matrix"):
         caps[b] = bool(caps.get(b))
 
-    # Ensure required v1 keys exist
-    for k,v in REQUIRED_CAPS_V1.items():
+    # Ensure required keys exist
+    for k,v in REQUIRED_CAPS.items():
         if k not in caps:
             caps[k] = v
     return caps
 
-
 def caps_supports_layout(caps: Dict[str, Any], layout_kind: str) -> bool:
-    k = str(layout_kind or "").lower()
+    """Return whether target capabilities support the canonical surface kind.
+
+    Canonical project/runtime layout kinds are:
+      - strip
+      - cells
+
+    Capability truth lives on supports_matrix. Legacy matrix wording is tolerated
+    only at this helper boundary for compatibility.
+    """
+    k = str(layout_kind or "").lower().strip()
     if k == "strip":
         return bool(caps.get("supports_strip", True))
-    if k == "matrix":
+    if k in ("cells", "matrix"):
         return bool(caps.get("supports_matrix", False))
     return False
-
 
 def caps_supports_led_backend(caps: Dict[str, Any], led_backend: str) -> bool:
     lb = str(led_backend or "").lower()
     return lb in set(caps.get("led_backends") or [])
 
-
 def caps_supports_audio_backend(caps: Dict[str, Any], audio_backend: str) -> bool:
     ab = str(audio_backend or "").lower()
     return ab in set(caps.get("audio_backends") or [])
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    from app.project_model import get_surface_spec
+    from core.surface_compat import get_surface_mapping_values
+
+    spec = get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    mapping = get_surface_mapping_values(spec)
+    return {
+        "kind": spec.kind,
+        "width": spec.width,
+        "height": spec.height,
+        "count": spec.count,
+        "mapping": mapping,
+        "serpentine": bool(mapping.get("serpentine", False)),
+        "flip_x": bool(mapping.get("flip_x", False)),
+        "flip_y": bool(mapping.get("flip_y", False)),
+        "rotate": int(mapping.get("rotate", 0)),
+        "origin": str(mapping.get("origin", "top_left")),
+    }
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

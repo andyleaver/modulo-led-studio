@@ -8,7 +8,7 @@ It provides a *single* authoritative validator that can be used by:
 - Export gate
 - Selftests
 
-Beta contract:
+Validation contract:
 - Validation must be deterministic.
 - Canonical target mask is project['ui']['target_mask'].
 - If validation fails, project is structurally unsafe.
@@ -17,18 +17,18 @@ Beta contract:
 from typing import Any, Dict, List, Optional
 
 from app.masks_resolver import resolve_mask_to_indices
-
+from runtime.resolver import resolve_address
+from app.project_model import get_surface_spec
 
 def _layout_count(project: Dict[str, Any]) -> Optional[int]:
     try:
-        layout = (project or {}).get("layout") or {}
-        if isinstance(layout, dict) and "count" in layout:
-            n = int(layout.get("count") or 0)
-            return n if n > 0 else None
+        spec = get_surface_spec(project)
+        if spec is None:
+            return None
+        n = int(getattr(spec, "count", 0) or 0)
+        return n if n > 0 else None
     except Exception:
         return None
-    return None
-
 
 def _validate_index_list(name: str, idx: Any, *, n: Optional[int]) -> Optional[str]:
     if idx is None:
@@ -46,7 +46,6 @@ def _validate_index_list(name: str, idx: Any, *, n: Optional[int]) -> Optional[s
             if v < 0 or v >= n:
                 return f"{name}: out-of-range index {v} (layout count {n})"
     return None
-
 
 def validate_project(project: Dict[str, Any]) -> Dict[str, Any]:
     """Return validation snapshot: {'ok': bool, 'errors': [...], 'warnings': [...]}"""
@@ -111,10 +110,10 @@ def validate_project(project: Dict[str, Any]) -> Dict[str, Any]:
                         errors.append(f"mask '{mk}': shadows group '{gn}' (remove this mask alias; groups are referenced as group:{gn})")
 
     # Canonical target mask: project['ui']['target_mask']
-    ui = p.get("ui") or {}
-    if not isinstance(ui, dict):
-        ui = {}
-    tm = ui.get("target_mask")
+    try:
+        tm = resolve_address(project=p, address="project.ui.target_mask", default=None).value
+    except Exception:
+        tm = None
     if tm is not None and str(tm).strip():
         tm = str(tm)
         if not isinstance(masks, dict) or tm not in masks:
@@ -129,7 +128,6 @@ def validate_project(project: Dict[str, Any]) -> Dict[str, Any]:
     if isinstance(p, dict) and "target_mask" in p:
         warnings.append("Deprecated: top-level target_mask present; normalizer should migrate/remove it")
 
-
     # Layer target refs (zone/group) sanity (warnings; normalizer coerces to 'all' if invalid)
     layers = p.get("layers") if isinstance(p, dict) else None
     if isinstance(layers, list):
@@ -140,6 +138,10 @@ def validate_project(project: Dict[str, Any]) -> Dict[str, Any]:
         for idx, L in enumerate(layers):
             if not isinstance(L, dict):
                 continue
+
+            params = L.get('params')
+            if isinstance(params, dict) and '_mods' in params:
+                warnings.append(f"Layer[{idx}] params._mods present; legacy modulation storage should be migrated/removed")
             # Operators schema sanity ()
             ops = L.get('operators')
             if ops is not None and not isinstance(ops, list):
@@ -167,7 +169,6 @@ def validate_project(project: Dict[str, Any]) -> Dict[str, Any]:
                 warnings.append(f"Layer[{idx}] target_ref out of range for group; will be normalized")
             if tk not in ("all", "zone", "group"):
                 warnings.append(f"Layer[{idx}] unknown target_kind '{tk}'; will be normalized")
-
 
     ok = (len(errors) == 0)
     return {"ok": ok, "errors": errors, "warnings": warnings}

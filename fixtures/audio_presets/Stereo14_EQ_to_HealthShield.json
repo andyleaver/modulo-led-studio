@@ -1,0 +1,11 @@
+{
+  "name": "Stereo14 EQ to HealthShield",
+  "audio": {
+    "preset_name": "Stereo14 EQ to HealthShield",
+    "routes": [
+      {"source": "bass", "target": "shield.low", "scale": 1.0, "mode": "add"},
+      {"source": "mid", "target": "shield.mid", "scale": 1.0, "mode": "add"},
+      {"source": "high", "target": "shield.high", "scale": 1.0, "mode": "add"}
+    ]
+  }
+}

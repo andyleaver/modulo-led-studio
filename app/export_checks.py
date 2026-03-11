@@ -11,7 +11,6 @@ from __future__ import annotations
 
 from typing import List
 
-
 def check_project(project: dict) -> List[str]:
     """Return a list of blocking issues for exporting this project.
 

@@ -1,0 +1,12 @@
+Layer Behaviors
+
+Each Layer runs exactly one Behavior.
+
+Behavior:
+Generates pixels each frame.
+
+Layer:
+Holds the behavior output and participates in the layer stack composition.
+
+Multiple layers combine to form the final frame.
+Operators modify the composed result before output.

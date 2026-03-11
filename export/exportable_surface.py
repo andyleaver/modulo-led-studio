@@ -1,4 +1,4 @@
-"""Exportable Surface Matrix
+"""Exportable Surface Schema
 
 This module is the *single source of truth* for what the app considers
 "exportable".
@@ -12,16 +12,17 @@ Use this from:
 """
 
 from __future__ import annotations
+from app.project_model import get_surface_spec
+from core.surface_compat import build_surface_geometry_dict, get_surface_mapping_values
 
 from dataclasses import dataclass
 from typing import Dict, List
-
 
 @dataclass(frozen=True)
 class ExportableSurface:
     """A minimal, machine-readable exportable surface description."""
 
-    # Rules V6: allowed params for action.kind == "set_layer_param"
+    # Rules: allowed params for action.kind == "set_layer_param"
     rules_layer_params: List[str]
 
     # Exportable operator kinds (runtime exists on targets that opt-in)
@@ -36,21 +37,20 @@ class ExportableSurface:
     # Modulotion: source keys that are safe/exportable (layer.modulotors source)
     modulotion_sources: List[str]
 
-
-# ---- Canonical exportable surface (v1)
+# ---- Canonical exportable surface
 
 RULES_LAYER_PARAMS_EXPORTABLE: List[str] = [
     # Layer params
     "opacity",
     "brightness",
-    # Operators (safe subset)
-    "op_gain",
-    "op_gamma",
-    "op_posterize_levels",
-    # PostFX (safe subset)
-    "postfx_trail",
-    "postfx_bleed",
-    "postfx_bleed_radius",
+    # Operators (canonical runtime addresses)
+    "operator.gain",
+    "operator.gamma",
+    "operator.posterize_levels",
+    # PostFX (canonical runtime addresses)
+    "project.postfx.trail_amount",
+    "project.postfx.bleed_amount",
+    "project.postfx.bleed_radius",
 ]
 
 OPERATORS_KINDS_EXPORTABLE: List[str] = [
@@ -79,7 +79,7 @@ MODULATION_TARGETS_EXPORTABLE: List[str] = [
     "purpose_f3",
 ]
 
-# Modulotion sources supported by v1 runtime/export. Keep aligned with params.registry.SOURCES
+# Modulotion sources supported by runtime/export. Keep aligned with params.registry.SOURCES
 MODULATION_SOURCES_EXPORTABLE: List[str] = [
     "none",
     "lfo_sine",
@@ -95,8 +95,7 @@ MODULATION_SOURCES_EXPORTABLE: List[str] = [
     "purpose_f0","purpose_f1","purpose_f2","purpose_f3",
 ]
 
-
-SURFACE_V1 = ExportableSurface(
+SURFACE = ExportableSurface(
     rules_layer_params=RULES_LAYER_PARAMS_EXPORTABLE,
     operators_kinds=OPERATORS_KINDS_EXPORTABLE,
     postfx_keys=POSTFX_KEYS_EXPORTABLE,
@@ -104,14 +103,39 @@ SURFACE_V1 = ExportableSurface(
     modulotion_sources=MODULATION_SOURCES_EXPORTABLE,
 )
 
-
-def surface_matrix() -> Dict[str, List[str]]:
-    """Return a JSON-serializable view for UI / diagnostics."""
+def surface_schema() -> Dict[str, List[str]]:
+    """Return a JSON-serializable canonical exportable-surface view."""
 
     return {
-        "rules.set_layer_param": list(SURFACE_V1.rules_layer_params),
-        "operators.kinds": list(SURFACE_V1.operators_kinds),
-        "postfx.keys": list(SURFACE_V1.postfx_keys),
-        "modulotion.targets": list(SURFACE_V1.modulotion_targets),
-        "modulotion.sources": list(SURFACE_V1.modulotion_sources),
+        "rules.set_layer_param": list(SURFACE.rules_layer_params),
+        "operators.kinds": list(SURFACE.operators_kinds),
+        "postfx.keys": list(SURFACE.postfx_keys),
+        "modulotion.targets": list(SURFACE.modulotion_targets),
+        "modulotion.sources": list(SURFACE.modulotion_sources),
     }
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------
+
+
+def surface_matrix() -> Dict[str, List[str]]:
+    """Compatibility wrapper for older callers still using matrix wording."""
+    return surface_schema()

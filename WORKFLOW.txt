@@ -1,0 +1,12 @@
+Workflow
+
+1. Surface / Mapping
+2. Zones
+3. Behaviors (Effects)
+4. Layers
+5. Rules
+6. Operators (postfx)
+7. Playlist / sequencing
+8. Diagnostics / triage
+
+This file is informational so future UI wiring follows the real creation flow.

@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
-
 @dataclass(frozen=True)
 class Glyph:
     bitmapOffset: int
@@ -15,7 +14,6 @@ class Glyph:
     xOffset: int
     yOffset: int
 
-
 @dataclass(frozen=True)
 class GFXFont:
     bitmaps: bytes
@@ -24,9 +22,7 @@ class GFXFont:
     last: int
     yAdvance: int
 
-
 _HEX_BYTE_RE = re.compile(r"0x([0-9A-Fa-f]{1,2})")
-
 
 def _extract_array_bytes(text: str, array_name: str) -> bytes:
     # Example: const uint8_t Super_Mario_Bros__24pt7bBitmaps[] PROGMEM = { ... };
@@ -36,7 +32,6 @@ def _extract_array_bytes(text: str, array_name: str) -> bytes:
     body = m.group(1)
     vals = [int(h, 16) for h in _HEX_BYTE_RE.findall(body)]
     return bytes(vals)
-
 
 def _extract_glyphs(text: str, array_name: str) -> Dict[int, Glyph]:
     # Example: const GFXglyph Super_Mario_Bros__24pt7bGlyphs[] PROGMEM = { {offset,w,h,xAdv,xOff,yOff}, ... };
@@ -62,7 +57,6 @@ def _extract_glyphs(text: str, array_name: str) -> Dict[int, Glyph]:
         g = Glyph(*vals)
         glyphs[i] = g
     return glyphs
-
 
 def load_gfx_font_from_header(header_path: str | Path, font_struct_name: Optional[str] = None) -> GFXFont:
     """Load an Adafruit_GFX GFXfont from a .h file.
@@ -118,7 +112,6 @@ def load_gfx_font_from_header(header_path: str | Path, font_struct_name: Optiona
 
     return GFXFont(bitmaps=bitmaps, glyphs=glyphs, first=first, last=last, yAdvance=yAdvance)
 
-
 def draw_text_to_buffer(
     *,
     buf: List[Tuple[int, int, int]],
@@ -171,3 +164,6 @@ def draw_text_to_buffer(
                     buf[py * mw + px] = color
 
         cursor_x += g.xAdvance
+
+# Not a flat pixel asset bundle; validator requires a declared asset map.
+ASSETS = {}

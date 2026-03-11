@@ -1,10 +1,13 @@
 from __future__ import annotations
+
+from core.surface_compat import canonical_surface_config
 SHIPPED = True
 
 from typing import List, Tuple
 import math
 
 from behaviors.registry import BehaviorDef, register
+from behaviors.effects._export_hw import resolve_data_pin
 
 RGB = Tuple[int,int,int]
 
@@ -54,9 +57,10 @@ def _preview_emit(*, num_leds: int, params: dict, t: float) -> List[RGB]:
         out.append(_apply_brightness(_lerp_rgb((int(c1[0])&255,int(c1[1])&255,int(c1[2])&255), c2, v), br))
     return out
 
-def _arduino_emit(*, layout: dict, params: dict) -> str:
-    n = int(layout["num_leds"])
-    pin = int(layout["led_pin"])
+def _arduino_emit(*, surface: dict | None = None, layout: dict | None = None, params: dict) -> str:
+    surface_cfg = canonical_surface_config(surface)
+    n = int(surface_cfg["count"])
+    pin = resolve_data_pin(surface_cfg)
     c1 = params.get("color",(255,0,200))
     c2 = (int(c1[2])&255, int(c1[0])&255, int(c1[1])&255)
 

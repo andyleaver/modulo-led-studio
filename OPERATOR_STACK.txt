@@ -1,0 +1,13 @@
+Operator Stack
+
+After layers render their pixel output, operators modify the final image.
+
+Examples of operator effects:
+- blending
+- color shaping
+- brightness scaling
+- other post processing
+
+Pipeline:
+
+Layers → Composition → Operators → Hardware Output

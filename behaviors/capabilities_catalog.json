@@ -317,9 +317,14 @@
     },
     "fsm_phases": {
       "export": true,
-      "notes": "Narrative phase tint overlay (implemented via write_the_loop pathway).",
+      "notes": "Narrative phase tint overlay (implemented via Kernel pathway).",
       "preview": true,
-      "shipped": true
+      "shipped": true,
+      "title": "FSM Phases",
+      "supports": "both",
+      "supports_strip": true,
+      "supports_matrix": true,
+      "ui_category": "showcase"
     },
     "game_of_life": {
       "cost": "medium",
@@ -388,6 +393,12 @@
       "supports": "both",
       "supports_matrix": true,
       "supports_strip": true
+    },
+    "kernel": {
+      "desc": "First-class programmable kernel layer (no ceilings). Preview runs Python kernel; export requires C++ body.",
+      "hidden": false,
+      "shipped": true,
+      "title": "Kernel"
     },
     "kick_burst": {
       "cost": "medium",
@@ -506,6 +517,39 @@
       "supports": "both",
       "supports_matrix": true,
       "supports_strip": true
+    },
+    "pulse_green_1980s": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1980s Pulse (Green)",
+      "ui_category": "era"
+    },
+    "pulse_red_1980s": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1980s Pulse (Red)",
+      "ui_category": "era"
+    },
+    "pulse_yellow_1980s": {
+      "preview_only": false,
+      "requires": [],
+      "requires_audio": false,
+      "shipped": true,
+      "supports": "both",
+      "supports_matrix": true,
+      "supports_strip": true,
+      "title": "1980s Pulse (Yellow)",
+      "ui_category": "era"
     },
     "purpose_autoplay": {
       "cost": "medium",
@@ -673,39 +717,6 @@
       "title": "1972 Yellow LED",
       "ui_category": "era"
     },
-    "pulse_red_1980s": {
-      "preview_only": false,
-      "requires": [],
-      "requires_audio": false,
-      "shipped": true,
-      "supports": "both",
-      "supports_matrix": true,
-      "supports_strip": true,
-      "title": "1980s Pulse (Red)",
-      "ui_category": "era"
-    },
-    "pulse_yellow_1980s": {
-      "preview_only": false,
-      "requires": [],
-      "requires_audio": false,
-      "shipped": true,
-      "supports": "both",
-      "supports_matrix": true,
-      "supports_strip": true,
-      "title": "1980s Pulse (Yellow)",
-      "ui_category": "era"
-    },
-    "pulse_green_1980s": {
-      "preview_only": false,
-      "requires": [],
-      "requires_audio": false,
-      "shipped": true,
-      "supports": "both",
-      "supports_matrix": true,
-      "supports_strip": true,
-      "title": "1980s Pulse (Green)",
-      "ui_category": "era"
-    },
     "sparkle": {
       "cost": "light",
       "requires": [],
@@ -855,6 +866,54 @@
       "supports": "both",
       "supports_matrix": true,
       "supports_strip": true
+    },
+    "solid_rgb_mix": {
+      "title": "1993 RGB Mix",
+      "supports": "both",
+      "supports_strip": true,
+      "supports_matrix": true,
+      "requires_audio": false,
+      "shipped": true,
+      "ui_category": "era"
+    },
+    "solid_white_1996": {
+      "title": "1996 White LED",
+      "supports": "both",
+      "supports_strip": true,
+      "supports_matrix": true,
+      "requires_audio": false,
+      "shipped": true,
+      "ui_category": "era"
+    },
+    "matrix_dot": {
+      "title": "Array Dot",
+      "supports": "preview",
+      "supports_strip": false,
+      "supports_matrix": true,
+      "requires_audio": false,
+      "shipped": true,
+      "ui_category": "era",
+      "preview_only": true
+    },
+    "matrix_scroll_bar": {
+      "title": "Array Scroll Bar",
+      "supports": "preview",
+      "supports_strip": false,
+      "supports_matrix": true,
+      "requires_audio": false,
+      "shipped": true,
+      "ui_category": "era",
+      "preview_only": true
+    },
+    "clock_seconds_dot": {
+      "title": "Clock Seconds Dot",
+      "supports": "preview",
+      "supports_strip": false,
+      "supports_matrix": true,
+      "requires_audio": false,
+      "shipped": true,
+      "ui_category": "era",
+      "preview_only": true
     }
   },
   "version": 1

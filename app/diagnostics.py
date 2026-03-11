@@ -1,6 +1,12 @@
 from __future__ import annotations
-import sys, platform, json
+
+import sys
+import platform
+import json
 from pathlib import Path
+
+from behaviors.registry import load_capabilities_catalog
+from app.project_model import get_surface_kind
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -40,18 +46,17 @@ def as_text() -> str:
     d = gather()
     return json.dumps(d, indent=2)
 
-
 def _layout_incompat_layers(project: dict) -> int:
     try:
-        kind = (project.get("layout") or {}).get("kind")
+        kind = str(get_surface_kind(project if isinstance(project, dict) else {}) or '').strip().lower() or None
     except Exception:
         return 0
     if kind not in ("strip","cells"):
         return 0
-    caps = load_capabilities_catalog().get("effects", {}) or {}
+    caps = (load_capabilities_catalog() or {}).get("effects", {}) or {}
     bad = 0
     for layer in (project.get("layers") or []):
-        key = (layer.get("effect") or "").strip()
+        key = str(layer.get("behavior") or "").strip()
         if not key:
             continue
         supports = str((caps.get(key) or {}).get("supports","both"))
@@ -60,3 +65,11 @@ def _layout_incompat_layers(project: dict) -> int:
         if kind == "cells" and supports not in ("cells","both"):
             bad += 1
     return bad
+
+def layout_incompat_summary(project: dict) -> dict:
+    """Lightweight diagnostic: count layers whose behavior does not support the current canonical surface kind."""
+    try:
+        bad = _layout_incompat_layers(project if isinstance(project, dict) else {})
+        return {"layout_incompat_layers": int(bad)}
+    except Exception:
+        return {"layout_incompat_layers": 0}

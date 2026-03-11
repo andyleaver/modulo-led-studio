@@ -2,6 +2,18 @@ from __future__ import annotations
 import os, sys, time, traceback
 from pathlib import Path
 
+# --- diagnostics helper (no silent failure) ---
+try:
+    from runtime.diagnostics import GLOBAL_DIAGS as _DIAGS
+except Exception:  # pragma: no cover
+    _DIAGS = None
+
+def _diag_exc(e: Exception, where: str):
+    try:
+        if _DIAGS is not None:
+            _DIAGS.exception(e, domain="PROJECT", code="CRASH_REPORTER_EXCEPTION", summary=where)
+    except Exception:
+        pass
 ROOT = Path(__file__).resolve().parents[1]
 
 def _now_stamp() -> str:
@@ -31,7 +43,7 @@ def write_report(exc_type, exc, tb) -> Path:
     trace = "".join(traceback.format_exception(exc_type, exc, tb))
 
     p.write_text(
-        "MODULA CRASH REPORT\n"
+        "MODULO CRASH REPORT\n"
         f"timestamp={_now_stamp()}\n"
         f"argv={sys.argv}\n"
         "\n--- diagnostics ---\n"
@@ -50,8 +62,8 @@ def install_global():
         try:
             rp = write_report(exc_type, exc, tb)
             sys.stderr.write(f"\n[Modulo] Crash report written: {rp}\n")
-        except Exception:
-            pass
+        except Exception as e:
+            _diag_exc(e, "app/crash_reporter.py")
         # also print default
         sys.__excepthook__(exc_type, exc, tb)
     sys.excepthook = _hook

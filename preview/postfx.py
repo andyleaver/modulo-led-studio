@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List, Tuple, Optional, Dict, Any
+from core.surface_compat import canonical_surface_config, get_surface_kind_value
 
 RGB = Tuple[int, int, int]
 
@@ -37,21 +38,21 @@ def apply_strip_bleed(frame: List[RGB], amount: float, radius: int) -> List[RGB]
         out.append((nr, ng, nb))
     return out
 
-def build_matrix_neighbors(layout: Dict[str, Any], radius: int = 1) -> Optional[List[List[int]]]:
-    """Build neighbor index lists for matrix/cells layouts.
+def build_surface_neighbors(surface: Dict[str, Any], radius: int = 1) -> Optional[List[List[int]]]:
+    """Build neighbor index lists for canonical surface snapshots.
 
-    Expects layout:
-      - shape == 'cells'
+    Expects surface:
+      - surface.kind == 'cells'
       - coords: list of (x,y) integer cell coordinates per LED index
     Returns:
       neighbors[i] = list of indices to average with i (includes i itself)
     """
-    if not isinstance(layout, dict):
+    surface_cfg = canonical_surface_config(surface)
+    if not isinstance(surface_cfg, dict):
         return None
-    shape = str(layout.get("shape","")).lower().strip()
-    if shape != "cells":
+    if get_surface_kind_value(surface_cfg, default="strip") != "cells":
         return None
-    coords = layout.get("coords")
+    coords = surface_cfg.get("coords")
     if not isinstance(coords, list) or not coords:
         return None
     r = int(radius or 1)
@@ -107,38 +108,85 @@ def apply_matrix_bleed(frame: List[RGB], amount: float, neighbors: Optional[List
         out.append((nr, ng, nb))
     return out
 
-def apply_trail(frame: List[RGB], prev: Optional[List[RGB]], amount: float) -> Tuple[List[RGB], List[RGB]]:
+def apply_trail(frame: List[RGB], prev: Optional[List[RGB]], amount: float) -> Tuple[List[RGB], Optional[List[RGB]]]:
+    """Temporal trail blend.
+
+    Audit contracts:
+      - When trail_amount == 0, output must be identical frame-to-frame (no history accumulation).
+      - When trail toggles from OFF->ON, the first ON frame must NOT mix with older OFF history.
+      - When ON, decay should preserve previous brightness without dimming current frame.
+
+    Implementation (when ON): out = max(curr, prev * a) per channel.
+    """
     a = _clamp01(amount)
-    if a <= 0.0 or prev is None or len(prev) != len(frame):
+
+    # Trail OFF: do not change the frame and do NOT accumulate/update history.
+    if a <= 0.0:
+        return frame, None
+
+    # Trail ON but no valid history yet: initialize history to current frame.
+    if prev is None or len(prev) != len(frame):
         return frame, list(frame)
+
     out: List[RGB] = []
     for (cr, cg, cb), (pr, pg, pb) in zip(frame, prev):
-        nr = int(pr * a + cr * (1.0 - a)) & 255
-        ng = int(pg * a + cg * (1.0 - a)) & 255
-        nb = int(pb * a + cb * (1.0 - a)) & 255
+        nr = max(int(cr) & 255, int(pr * a) & 255)
+        ng = max(int(cg) & 255, int(pg * a) & 255)
+        nb = max(int(cb) & 255, int(pb * a) & 255)
         out.append((nr, ng, nb))
+
+    # Persist trail state as the post-trail output.
     return out, out
 
-def apply_postfx(frame: List[RGB], *, layout: Dict[str, Any], postfx: Optional[Dict[str, Any]],
+def ensure_surface_coords(surface: dict):
+    try:
+        surface_cfg = canonical_surface_config(surface)
+        if get_surface_kind_value(surface_cfg, default='strip') != 'cells':
+            return
+        coords = surface_cfg.get('coords')
+        # Canonical dims keys are width/height; legacy mw/mh/matrix_w/matrix_h are import-only.
+        w = int(surface_cfg.get('width') or 0)
+        h = int(surface_cfg.get('height') or 0)
+        if w <= 0 or h <= 0:
+            return
+        if not (isinstance(coords, list) and coords and isinstance(coords[0], (list, tuple))):
+            surface['coords'] = [(x,y) for y in range(h) for x in range(w)]
+    except Exception:
+        return
+
+# Compatibility wrappers for older layout-named callers.
+def build_matrix_neighbors(layout: Dict[str, Any], radius: int = 1) -> Optional[List[List[int]]]:
+    return build_surface_neighbors(layout, radius)
+
+def _ensure_coords(layout: dict):
+    return ensure_surface_coords(layout)
+
+def apply_postfx(frame: List[RGB], *, surface: Optional[Dict[str, Any]] = None, layout: Optional[Dict[str, Any]] = None, postfx: Optional[Dict[str, Any]] = None,
                  prev: Optional[List[RGB]] = None, neighbors: Optional[List[List[int]]] = None) -> Tuple[List[RGB], Optional[List[RGB]]]:
     """Apply post-processing effects to an already-composited frame.
 
     Phase 7E:
       - Strip bleed (1D) + trails
-      - Matrix/cells bleed (neighbor averaging) + trails
+      - Cells bleed (neighbor averaging) + trails
+
+    Canonical live geometry flows through ``surface``. ``layout`` remains
+    a compatibility alias only for older call sites.
     """
+    surface_cfg = canonical_surface_config(surface)
     pf = dict(postfx or {})
     bleed_amount = pf.get("bleed_amount", 0.0)
     bleed_radius = pf.get("bleed_radius", 1)
     trail_amount = pf.get("trail_amount", 0.0)
 
-    shape = str((layout or {}).get("shape","")).lower().strip()
+    kind = get_surface_kind_value(surface_cfg, default="strip")
 
     out = frame
-    if shape == "strip":
+    if kind == "strip":
         out = apply_strip_bleed(out, float(bleed_amount or 0.0), int(bleed_radius or 1))
-    elif shape == "cells":
+    elif kind == "cells":
         # neighbors must be supplied/cached by caller
+        if neighbors is None:
+            neighbors = build_surface_neighbors(surface_cfg, int(bleed_radius or 1))
         out = apply_matrix_bleed(out, float(bleed_amount or 0.0), neighbors)
 
     out, new_prev = apply_trail(out, prev, float(trail_amount or 0.0))

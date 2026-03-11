@@ -1,0 +1,20 @@
+UI Flow
+
+Studio order
+1 Surface / Hardware
+2 Targeting
+3 Layers
+4 Behaviors
+5 Signals
+6 Variables
+7 Rules
+8 Operators
+9 Presets / Scenes
+10 Playlist / Show
+11 Export Firmware
+12 Diagnostics
+
+New-project baseline
+- Start on Surface / Hardware
+- Strip 144 is the quick-start path
+- Then continue to Targeting, Layers, and Behaviors

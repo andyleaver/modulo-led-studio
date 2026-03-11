@@ -7,7 +7,6 @@ from typing import Optional, Any
 # IMPORTANT: release-plan R1 is about OWNERSHIP/TRUTH, not changing algorithms.
 from preview.audio import AudioSim
 
-
 class AudioService:
     """Engine-owned always-on audio service.
 
@@ -57,7 +56,6 @@ class AudioService:
     @property
     def last_error(self) -> str:
         return str(getattr(self.backend, "last_error", "") or "")
-
 
     @property
     def mode(self) -> str:

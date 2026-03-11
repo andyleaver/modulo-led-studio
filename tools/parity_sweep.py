@@ -3,14 +3,15 @@
 Parity sweep: iterate all shipped effects vs all builtin targets and report export gating.
 
 Outputs:
-- parity_reports/parity_sweep_<timestamp>.csv
-- parity_reports/parity_sweep_<timestamp>.md
+- artifacts/parity_reports/parity_sweep_<timestamp>.csv
+- artifacts/parity_reports/parity_sweep_<timestamp>.md
 
 This is intentionally non-invasive: it does NOT modify projects or targets.
 """
 from __future__ import annotations
 
 import csv
+import json
 import argparse
 import datetime as _dt
 import os
@@ -26,6 +27,7 @@ if str(REPO_ROOT) not in sys.path:
 from export.targets.registry import list_targets, load_target
 from export.gating import gate_project_for_target
 from export.export_eligibility import get_eligibility, ExportStatus
+from app.project_model import build_surface_dict
 
 CATALOG_PATH = REPO_ROOT / "behaviors" / "capabilities_catalog.json"
 
@@ -46,7 +48,7 @@ def _minimal_project_for_behavior(behavior_key: str) -> Dict[str, Any]:
         "version": 1,
         # Keep this intentionally small so low-RAM targets (e.g. Arduino Uno)
         # don't warn purely due to the sweep harness.
-        "layout": {"kind": "cells", "width": 8, "height": 8},
+        "surface": build_surface_dict(kind="cells", width=8, height=8, count=64),
         "postfx": {},
         "layers": [
             {
@@ -68,7 +70,7 @@ def main() -> int:
         return 2
 
     parser = argparse.ArgumentParser(description="Modulo export parity sweep")
-    parser.add_argument("--out-dir", default=None, help="Directory to write reports (default: parity_reports/ or $MODULO_ARTIFACT_DIR)")
+    parser.add_argument("--out-dir", default=None, help="Directory to write reports (default: ../artifacts/parity_reports or $MODULO_ARTIFACT_DIR)")
     parser.add_argument("--json-summary", action="store_true", help="Also write a small JSON summary next to the reports")
     args = parser.parse_args()
 
@@ -78,14 +80,12 @@ def main() -> int:
     target_records = list_targets()
     target_ids = [t.get("id") if isinstance(t, dict) else str(t) for t in target_records]
 
-    ts = _dt.datetime.utcnow().strftime("%Y%m%d_%H%M%SZ")
-    base_dir = Path(os.environ.get("MODULO_ARTIFACT_DIR")) if os.environ.get("MODULO_ARTIFACT_DIR") else None
+    ts = _dt.datetime.now(_dt.UTC).strftime("%Y%m%d_%H%M%SZ")
+    base_dir = Path(os.environ.get("MODULO_ARTIFACT_DIR")) if os.environ.get("MODULO_ARTIFACT_DIR") else (REPO_ROOT.parent / "artifacts")
     if args.out_dir:
         out_dir = Path(args.out_dir)
-    elif base_dir:
-        out_dir = base_dir / "parity_reports"
     else:
-        out_dir = REPO_ROOT / "parity_reports"
+        out_dir = base_dir / "parity_reports"
     out_dir.mkdir(parents=True, exist_ok=True)
     csv_path = out_dir / f"parity_sweep_{ts}.csv"
     md_path = out_dir / f"parity_sweep_{ts}.md"
@@ -186,7 +186,13 @@ def main() -> int:
     md.append("")
     md.append("## Quick links")
     md.append("")
-    md.append(f"- CSV: `{csv_path.relative_to(REPO_ROOT)}`")
+    def _display_path(path: Path) -> str:
+        try:
+            return str(path.relative_to(REPO_ROOT))
+        except ValueError:
+            return str(path)
+    md.append(f"- CSV: `{_display_path(csv_path)}`")
+    md.append(f"- Markdown: `{_display_path(md_path)}`")
     md.append("")
     md.append("## Top non-OK (first 50)")
     md.append("")

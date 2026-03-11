@@ -1,17 +1,17 @@
-"""Variables (Phase 6.2)
+"""Variables helpers.
 
 Persistent user variables that Rules/Triggers can read/write.
 
-Stored in project schema:
+Stored in project schema::
 
-project["variables"] = {
-  "number": { "<name>": float, ... },
-  "toggle": { "<name>": bool, ... }
-}
+    project["variables"] = {
+      "number": {"<name>": float, ...},
+      "toggle": {"<name>": bool, ...},
+    }
 
 Constraints:
 - Names are explicit and stable (no implicit creation by Rules).
-- Best-effort helpers; never raise for malformed project.
+- Helpers are best-effort and never raise for malformed project data.
 """
 
 from __future__ import annotations
@@ -20,11 +20,11 @@ from typing import Any, Dict, Tuple
 
 
 def ensure_variables(project: dict) -> Tuple[dict, bool]:
-    """Ensure project has a well-formed variables dict.
+    """Ensure project has a well-formed canonical ``variables`` root.
 
-    Returns (project2, changed).
+    Returns ``(project2, changed)``.
     """
-    p = project if isinstance(project, dict) else {}
+    p = dict(project) if isinstance(project, dict) else {}
     changed = False
 
     vars0 = p.get("variables")
@@ -41,16 +41,16 @@ def ensure_variables(project: dict) -> Tuple[dict, bool]:
     if not isinstance(tog0, dict):
         changed = True
 
-    # Coerce values best-effort
     num2: Dict[str, float] = {}
-    for k, v in (num or {}).items():
+    for k, v in num.items():
         try:
             num2[str(k)] = float(v)
         except Exception:
             num2[str(k)] = 0.0
             changed = True
+
     tog2: Dict[str, bool] = {}
-    for k, v in (tog or {}).items():
+    for k, v in tog.items():
         try:
             tog2[str(k)] = bool(v)
         except Exception:
@@ -64,13 +64,12 @@ def ensure_variables(project: dict) -> Tuple[dict, bool]:
     if not changed and vars0 is vars_dict and num0 is num and tog0 is tog:
         return p, False
 
-    p2 = dict(p)
-    p2["variables"] = vars2
-    return p2, True
+    p["variables"] = vars2
+    return p, True
 
 
 def get_variables_state(project: dict) -> Dict[str, Any]:
-    """Return variables dict (best-effort) for signal bus."""
+    """Return the canonical variables dict (best-effort)."""
     try:
         v = (project or {}).get("variables") or {}
         return v if isinstance(v, dict) else {}

@@ -1,0 +1,15 @@
+Targeting
+
+Targeting determines where a layer's behavior renders.
+
+Mask:
+Filters pixels using a reusable mask definition.
+
+Zone:
+Defines a spatial region such as rect or other geometry.
+
+Group:
+Logical grouping of zones or masks for reuse.
+
+Workflow:
+Surface → Targeting → Layers → Behaviors → Operators → Hardware

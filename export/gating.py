@@ -8,12 +8,13 @@ the reason in both Export and Preview UI.
 """
 
 from __future__ import annotations
+from app.project_model import get_surface_spec
+from core.surface_compat import build_surface_geometry_dict, get_surface_mapping_values
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from export.export_eligibility import get_eligibility, ExportStatus
 
 from .budget import estimate_project_budget_for_target
-
 
 @dataclass(frozen=True)
 class GateResult:
@@ -22,18 +23,26 @@ class GateResult:
     errors: List[str]
     suggestions: List[str]
 
-
 def _suggest_from_limits(project: Dict[str, Any], target_meta: Dict[str, Any], errors: List[str], warnings: List[str]) -> List[str]:
     s: List[str] = []
 
-    # Pull some stable project facts
-    layout = (project or {}).get("layout") or {}
-    shape = str(layout.get("shape", "strip") or "strip").lower()
-    num_leds = int(layout.get("num_leds", 0) or 0)
-    mw = int(layout.get("matrix_w", 0) or 0)
-    mh = int(layout.get("matrix_h", 0) or 0)
-    if shape == "cells" and mw and mh:
-        num_leds = mw * mh
+    # Pull stable project facts from canonical surface truth only.
+    spec = get_surface_spec(project or {})
+    kind = str(getattr(spec, "kind", "strip") or "strip").strip().lower()
+    try:
+        num_leds = int(getattr(spec, "count", 0) or 0)
+    except Exception:
+        num_leds = 0
+    try:
+        w = int(getattr(spec, "width", 0) or 0)
+    except Exception:
+        w = 0
+    try:
+        h = int(getattr(spec, "height", 0) or 0)
+    except Exception:
+        h = 0
+    if kind == "cells" and w and h and not num_leds:
+        num_leds = w * h
 
     ram_limit = int((target_meta or {}).get("ram_limit_bytes", 0) or 0)
     flash_limit = int((target_meta or {}).get("flash_limit_bytes", 0) or 0)
@@ -64,7 +73,6 @@ def _suggest_from_limits(project: Dict[str, Any], target_meta: Dict[str, Any], e
             seen.add(item)
     return out
 
-
 def gate_project_for_target(project: Dict[str, Any], target_meta: Dict[str, Any]) -> GateResult:
     """Return warnings/errors (+ suggestions) for exporting project to target."""
     warnings: List[str] = []
@@ -76,7 +84,6 @@ def gate_project_for_target(project: Dict[str, Any], target_meta: Dict[str, Any]
             errors.append(n)
         else:
             warnings.append(n)
-
 
     # PostFX runtime gating (preview/export parity)
     pf = (project or {}).get("postfx") or {}
@@ -135,7 +142,7 @@ def gate_project_for_target(project: Dict[str, Any], target_meta: Dict[str, Any]
 
     return GateResult(ok=(not errors), warnings=warnings, errors=errors, suggestions=suggestions)
 
-# --- Step 1: Export Truth Enforcement ---
+# Export truth enforcement
 
 def ensure_exportable_behavior_key(behavior_key: str) -> None:
     """Raise RuntimeError if behavior is not explicitly exportable (fail-closed)."""
@@ -148,8 +155,29 @@ def ensure_exportable_project(project: dict) -> None:
     """Walk a project dict and fail loudly if any layer uses a blocked behavior."""
     layers = project.get("layers", []) or []
     for i, layer in enumerate(layers):
-        beh = layer.get("behavior") or layer.get("behavior_key") or layer.get("effect") or ""
+        beh = layer.get("behavior") or layer.get("behavior_key") or ""
         if isinstance(beh, dict):
             beh = beh.get("key") or beh.get("id") or ""
         if beh:
             ensure_exportable_behavior_key(str(beh))
+
+# Exporters should consume SurfaceSpec via:
+#   from app.project_model import get_surface_spec
+#   spec = get_surface_spec(project)
+# This prevents preview/export geometry divergence.
+
+# ------------------------------------------------------------------
+# All exporters must use SurfaceSpec for geometry truth
+# ------------------------------------------------------------------
+def _surface_geometry(project):
+    spec = _get_surface_spec(project) if "_get_surface_spec" in globals() else get_surface_spec(project)
+    if not spec:
+        raise RuntimeError("SurfaceSpec missing — export blocked.")
+    return build_surface_geometry_dict(spec, default_kind="strip", default_count=60)
+
+
+# ------------------------------------------------------------------
+# Legacy layout-based geometry access is deprecated.
+# Exporters must NOT read project.surface.shape/width/height directly.
+# Geometry authority = SurfaceSpec via get_surface_spec().
+# ------------------------------------------------------------------

@@ -1,200 +1,82 @@
 from __future__ import annotations
+
+from core.surface_compat import canonical_surface_config
 SHIPPED = True
 
-from typing import Any, Dict, List, Tuple, Optional
+from typing import List, Tuple
 import math
 import random
 
 from behaviors.registry import BehaviorDef, register
-from runtime.long_memory_v1 import LongMemory2D, LongMemory2DConfig
 
 RGB = Tuple[int, int, int]
-USES = ["mem_decay", "mem_inject", "mem_strip_width"]
 
-
-def _clamp8(x: float) -> int:
-    return 0 if x < 0 else (255 if x > 255 else int(x))
-
-
-def _dims(num_leds: int, params: Dict[str, Any]) -> Tuple[int, int]:
-    mw = int(params.get("_mw", 0) or 0)
-    mh = int(params.get("_mh", 0) or 0)
-    if mw > 1 and mh > 1 and mw * mh == int(num_leds):
-        return mw, mh
-    w = int(params.get("mem_strip_width", 32) or 32)
-    if w < 1:
-        w = 1
-    h = max(1, int(num_leds) // w)
-    if w * h < 1:
-        return max(1, int(num_leds)), 1
+def _dims(surface: dict, n: int) -> tuple[int, int]:
+    w = int((surface or {}).get("width") or n)
+    h = int((surface or {}).get("height") or 1)
+    if w * h != n:
+        w = max(1, min(w, n))
+        h = max(1, int(math.ceil(n / float(w))))
     return w, h
 
+def _palette(v: float) -> RGB:
+    v = 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
+    if v < 0.33:
+        t = v / 0.33
+        return (int(10 + 40 * t), int(0 + 60 * t), int(20 + 100 * t))
+    if v < 0.66:
+        t = (v - 0.33) / 0.33
+        return (int(50 + 150 * t), int(60 + 80 * t), int(120 - 70 * t))
+    t = (v - 0.66) / 0.34
+    return (int(200 + 55 * t), int(140 + 80 * t), int(50 * (1.0 - t)))
 
-def _arduino_emit(*, layout: dict, params: dict, ctx: dict) -> str:
-    # Firmware implementation is embedded in the core exporter (beh_id == 20).
-    # Exporter maps legacy params (mem_inject/mem_decay) into pf0/pf1.
+def _preview_emit(*, num_leds: int, params: dict, t: float, dt: float = 1.0 / 60.0, state: dict | None = None, surface: dict | None = None, layout: dict | None = None) -> List[RGB]:
+    n = max(1, int(num_leds))
+    state = state if isinstance(state, dict) else {}
+    heat = state.get("heat")
+    if not isinstance(heat, list) or len(heat) != n:
+        heat = [0.0] * n
+        state["heat"] = heat
+        state["seed"] = int(params.get("seed", 1337) or 1337)
+    rng = random.Random(int(state.get("seed", 1337)))
+    surface = surface if surface is not None else layout
+    surface_cfg = canonical_surface_config(surface)
+    w, h = _dims(surface_cfg, n)
+    decay = float(params.get("mem_decay", 0.985) or 0.985)
+    decay = 0.80 if decay < 0.80 else (0.9999 if decay > 0.9999 else decay)
+    inject = float(params.get("mem_inject", 0.35) or 0.35)
+    radius = float(params.get("radius", 0.18) or 0.18)
+    radius_px = max(1.0, radius * max(w, h))
+    theta = float(state.get("theta", 0.0)) + float(dt) * (0.2 + float(params.get("speed", 0.35) or 0.35))
+    state["theta"] = theta
+    cx = (w - 1) * (0.5 + 0.33 * math.sin(theta * 0.9))
+    cy = (h - 1) * (0.5 + 0.28 * math.cos(theta * 1.17))
+    if rng.random() < 0.015:
+        state["seed"] = int(state.get("seed", 1337)) + 1
+    for i in range(n):
+        heat[i] *= decay
+    for y in range(h):
+        for x in range(w):
+            ii = y * w + x
+            if ii >= n:
+                continue
+            d2 = (x - cx) ** 2 + (y - cy) ** 2
+            gain = math.exp(-d2 / (2.0 * radius_px * radius_px)) * inject
+            heat[ii] = 1.0 if heat[ii] + gain > 1.0 else heat[ii] + gain
+    return [_palette(v) for v in heat]
+
+def _arduino_emit(*, surface: dict | None = None, layout: dict | None = None, params: dict) -> str:
+    surface = surface if surface is not None else layout
+    surface_cfg = canonical_surface_config(surface)
     return ""
 
-
-def _half_life_from_decay(decay: float, dt_ref: float = 1.0/60.0) -> float:
-    """Convert legacy per-frame decay factor into an exponential half-life (seconds).
-
-    Legacy behavior applied: value *= decay each tick (assuming ~60fps).
-    We map that to exponential decay so LongMemory2D behaves similarly.
-    """
-    d = float(decay)
-    if d <= 0.0:
-        return 0.01
-    if d >= 0.999999:
-        return 1e9
-    # d = 2^(-dt_ref/hl) => hl = -dt_ref*ln(2)/ln(d)
-    import math
-    return max(0.01, (-dt_ref * math.log(2.0)) / math.log(d))
-
-
-class MemoryHeatmap:
-    """A 'memory' field: events accumulate and decay over time.
-
-    This is useful as a layer: it can store where motion/events happened.
-    If audio is available, energy can increase injection rate.
-    """
-
-    def reset(self, state: Dict[str, Any], *, params: Dict[str, Any]) -> None:
-        n = int(params.get("_num_leds", 256) or 256)
-        w, h = _dims(n, params)
-        seed = int(params.get("seed", 777) or 777) & 0xFFFFFFFF
-        rng = random.Random(seed)
-        state.clear()
-        state["w"] = int(w)
-        state["h"] = int(h)
-        mem = LongMemory2D(LongMemory2DConfig(width=w, height=h, half_life_s=_half_life_from_decay(float(params.get("mem_decay", 0.985) or 0.985))))
-        state["_mem"] = mem
-        state["heat"] = mem.buf  # alias for rendering/debug
-        state["rng_seed"] = seed
-        # a roaming injector point (like a cursor)
-        state["p"] = [rng.random() * (w - 1 if w > 1 else 1), rng.random() * (h - 1 if h > 1 else 1)]
-
-    def tick(self, state: Dict[str, Any], *, params: Dict[str, Any], dt: float, t: float, audio: Optional[dict] = None) -> None:
-        w = int(state.get("w", 1) or 1)
-        h = int(state.get("h", 1) or 1)
-
-        mem = state.get("_mem")
-        if not isinstance(mem, LongMemory2D) or int(getattr(mem, "w", 0) or 0) != w or int(getattr(mem, "h", 0) or 0) != h:
-            # (Re)create memory if missing or dims changed
-            decay_legacy = float(params.get("mem_decay", 0.985) or 0.985)
-            mem = LongMemory2D(LongMemory2DConfig(width=w, height=h, half_life_s=_half_life_from_decay(decay_legacy)))
-            state["_mem"] = mem
-            state["heat"] = mem.buf
-
-        # Update half-life if user changed mem_decay
-        decay_legacy = float(params.get("mem_decay", 0.985) or 0.985)
-        decay_legacy = 0.80 if decay_legacy < 0.80 else (0.9999 if decay_legacy > 0.9999 else decay_legacy)
-        hl = _half_life_from_decay(decay_legacy)
-        if abs(float(mem.cfg.half_life_s) - float(hl)) > 1e-6:
-            mem.cfg.half_life_s = float(hl)
-
-        # Apply decay (dt-based)
-        mem.step(float(dt))
-
-        inject = float(params.get("mem_inject", 0.25) or 0.25)
-        inject = 0.0 if inject < 0.0 else (2.0 if inject > 2.0 else inject)
-
-        # audio boosts injection subtly
-        if isinstance(audio, dict):
-            e = float(audio.get("energy", 0.0) or 0.0)
-            inject *= (1.0 + 1.5 * max(0.0, min(1.0, e)))
-
-        # move injector point in a lissajous-ish path
-        p = state.get("p")
-        if not isinstance(p, list) or len(p) < 2:
-            p = [0.0, 0.0]
-            state["p"] = p
-        px = float(p[0])
-        py = float(p[1])
-        px += math.cos(t * 0.9 + py * 0.03) * float(dt) * 8.0
-        py += math.sin(t * 1.2 + px * 0.03) * float(dt) * 8.0
-        # wrap
-        if w > 0:
-            px %= w
-        if h > 0:
-            py %= h
-        p[0], p[1] = px, py
-
-        # Reinforce at injector point
-        mem.reinforce_points([(px, py)], amount=inject * 0.2, radius=0.0, wrap=True)
-
-        # occasional random sparkles (memory of 'events')
-        # rate ~ 2/sec, scaled by inject
-        seed = int(state.get("rng_seed", 1) or 1) + int(t * 1000)
-        rng = random.Random(seed)
-        prob = float(dt) * 2.0 * min(2.0, max(0.2, inject))
-        if rng.random() < prob:
-            j = rng.randrange(0, w * h)
-            x = j % w
-            y = j // w
-            mem.reinforce_points([(x, y)], amount=0.6, radius=0.0, wrap=True)
-
-
-    def render(self, *, num_leds: int, params: Dict[str, Any], t: float, state: Dict[str, Any]) -> List[RGB]:
-        n = int(num_leds)
-        w = int(state.get("w", 1) or 1)
-        h = int(state.get("h", 1) or 1)
-        mem = state.get("_mem")
-        if isinstance(mem, LongMemory2D):
-            heat = mem.buf
-            state["heat"] = heat
-        else:
-            heat = state.get("heat")
-        if not isinstance(heat, list) or len(heat) != w * h:
-            heat = [0.0] * (w * h)
-            state["heat"] = heat
-
-        out: List[RGB] = [(0, 0, 0)] * n
-
-        # palette: black -> blue -> magenta -> warm white
-        for i in range(min(n, w * h)):
-            v = float(heat[i] or 0.0)
-            v = 0.0 if v < 0.0 else (1.0 if v > 1.0 else v)
-            r = _clamp8(255.0 * (v ** 2.0))
-            g = _clamp8(180.0 * (v ** 3.0))
-            b = _clamp8(255.0 * (v ** 0.7))
-            out[i] = (r, g, b)
-
-        # draw injector point bright
-        p = state.get("p")
-        if isinstance(p, list) and len(p) >= 2:
-            ix = int(round(float(p[0])))
-            iy = int(round(float(p[1])))
-            if ix < 0:
-                ix = 0
-            elif ix >= w:
-                ix = w - 1
-            if iy < 0:
-                iy = 0
-            elif iy >= h:
-                iy = h - 1
-            j = iy * w + ix
-            if 0 <= j < n:
-                out[j] = (255, 255, 255)
-
-        return out
-
-
-def _preview_emit(*, num_leds: int, params: dict, t: float, state: dict, dt: float, audio: Optional[dict] = None) -> List[RGB]:
-    fx = MemoryHeatmap()
-    if not state:
-        fx.reset(state, params=params)
-    fx.tick(state, params=params, dt=dt, t=t, audio=audio)
-    return fx.render(num_leds=num_leds, params=params, t=t, state=state)
-
-
 def register_memory_heatmap():
-    bd = BehaviorDef(
-        "memory_heatmap",
-        title="Memory Heatmap",
-        uses=USES,
-        preview_emit=_preview_emit,
-        arduino_emit=_arduino_emit,
+    return register(
+        BehaviorDef(
+            "memory_heatmap",
+            title="Memory Heatmap",
+            uses=["mem_decay", "mem_inject", "radius", "speed", "seed"],
+            preview_emit=_preview_emit,
+            arduino_emit=_arduino_emit,
+        )
     )
-    bd.stateful = True
-    return register(bd)

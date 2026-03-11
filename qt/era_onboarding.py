@@ -1,9 +1,21 @@
 from __future__ import annotations
 
+# --- diagnostics helper (no silent failure) ---
 try:
-    from PySide6 import QtWidgets, QtCore  # type: ignore
+    from runtime.diagnostics import GLOBAL_DIAGS as _DIAGS
 except Exception:  # pragma: no cover
-    from PyQt6 import QtWidgets, QtCore  # type: ignore
+    _DIAGS = None
+
+def _diag_exc(e: Exception, where: str):
+    try:
+        if _DIAGS is not None:
+            _DIAGS.exception(e, domain="UI", code="QT_UI_EXCEPTION", summary=where)
+    except Exception:
+        pass
+try:
+    from qt.qt_compat import QtWidgets, QtCore  # type: ignore
+except Exception:  # pragma: no cover
+    from qt.qt_compat import QtWidgets, QtCore  # type: ignore
 
 from qt.era_panel import EraPanel
 
@@ -11,8 +23,6 @@ from qt.era_panel import EraPanel
 _Signal = getattr(QtCore, 'Signal', None) or getattr(QtCore, 'pyqtSignal', None)
 if _Signal is None:  # pragma: no cover
     raise ImportError('QtCore Signal/pyqtSignal not found')
-
-
 
 class EraOnboardingWindow(QtWidgets.QMainWindow):
     """Full-screen Era onboarding mode.
@@ -40,8 +50,8 @@ class EraOnboardingWindow(QtWidgets.QMainWindow):
         except Exception:
             try:
                 scroll.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
-            except Exception:
-                pass
+            except Exception as e:
+                _diag_exc(e, "qt/era_onboarding.py")
 
         root = QtWidgets.QWidget()
         lay = QtWidgets.QVBoxLayout(root)
@@ -53,8 +63,8 @@ class EraOnboardingWindow(QtWidgets.QMainWindow):
         # Keep it resizable on all platforms (do not lock to a large minimum).
         try:
             self.setMinimumSize(640, 420)
-        except Exception:
-            pass
+        except Exception as e:
+            _diag_exc(e, "qt/era_onboarding.py")
 
     def _on_completed(self):
         self.completed.emit()
